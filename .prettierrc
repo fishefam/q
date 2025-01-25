@@ -1,0 +1,9 @@
+{
+  "endOfLine": "lf",
+  "htmlWhitespaceSensitivity": "ignore",
+  "quoteProps": "consistent",
+  "semi": false,
+  "singleQuote": true,
+  "plugins": ["prettier-plugin-tailwindcss"],
+  "trailingComma": "all"
+}
