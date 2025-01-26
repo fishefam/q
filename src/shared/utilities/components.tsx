@@ -1,16 +1,23 @@
 import type { RefObject } from 'react'
 
+import isElement from 'lodash/isElement'
 import { cloneElement, isValidElement } from 'react'
 import { createPortal } from 'react-dom'
 
-import { isReferenceObject } from '../utilities'
-import { select } from '../utilities/dom'
+import { isReferenceObject } from '.'
+import { select } from './dom'
 
 export function Portal({
   children,
   container,
 }: Properties<{
-  container: DocumentFragment | Element | RefObject<Element | null> | string
+  container:
+    | DocumentFragment
+    | Element
+    | null
+    | RefObject<Element | null>
+    | string
+    | undefined
 }>) {
   const target =
     typeof container === 'string'
@@ -18,7 +25,7 @@ export function Portal({
       : isReferenceObject(container)
         ? container.current
         : container
-  if (target) return createPortal(children, target)
+  if (target && isElement(target)) return createPortal(children, target)
 }
 
 export function PropertyInjector<T extends UnknownRecord>({

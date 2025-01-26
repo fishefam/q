@@ -17,18 +17,10 @@ export function createElement<
   const element = document.createElement(tag)
   const { attributes, className, id, innerHTML, parent, textContent } =
     options ?? {}
-  if (attributes) {
-    for (const [key, value] of Object.entries(attributes)) {
-      if (['number', 'string'].includes(typeof value)) {
+  if (attributes)
+    for (const [key, value] of Object.entries(attributes))
+      if (['number', 'string'].includes(typeof value) || key.startsWith('on'))
         element.setAttribute(key, value)
-      }
-      if (key.startsWith('on')) {
-        ;(element as unknown as Record<string, unknown>)[
-          key.toLocaleLowerCase()
-        ] = value
-      }
-    }
-  }
   if (id) element.id = id
   if (className) element.className = className
   if (textContent) element.textContent = textContent
