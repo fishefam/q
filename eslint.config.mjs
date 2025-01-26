@@ -24,7 +24,9 @@ const config = [
   },
   {
     rules: {
+      '@typescript-eslint/consistent-type-imports': 'error',
       'react/self-closing-comp': 'error',
+      'unicorn/no-nested-ternary': 'off',
     },
   },
   {
