@@ -1,4 +1,14 @@
+/* eslint-disable unicorn/prevent-abbreviations */
 import type React from 'react'
+
+declare global {
+  namespace NodeJS {
+    interface ProcessEnv {
+      DATABASE_URL: string
+      DATABASE_URL_UNPOOLED: string
+    }
+  }
+}
 
 declare global {
   type HOC = (element: React.JSX.Element) => React.JSX.Element
