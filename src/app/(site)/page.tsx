@@ -1,4 +1,4 @@
-import { getActions } from '@/features/auth'
+import { getActions } from '@/shared/auth'
 import Image from 'next/image'
 
 export default async function Page() {

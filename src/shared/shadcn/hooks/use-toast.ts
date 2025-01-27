@@ -9,7 +9,7 @@ import type {
 import * as React from 'react'
 
 const TOAST_LIMIT = 1
-const TOAST_REMOVE_DELAY = 1_000_000
+const TOAST_REMOVE_DELAY = 1000000
 
 type ToasterToast = {
   action?: ToastActionElement
@@ -76,12 +76,11 @@ const addToRemoveQueue = (toastId: string) => {
 
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case 'ADD_TOAST': {
+    case 'ADD_TOAST':
       return {
         ...state,
         toasts: [action.toast, ...state.toasts].slice(0, TOAST_LIMIT),
       }
-    }
 
     case 'DISMISS_TOAST': {
       const { toastId } = action
@@ -91,9 +90,9 @@ export const reducer = (state: State, action: Action): State => {
       if (toastId) {
         addToRemoveQueue(toastId)
       } else {
-        for (const toast of state.toasts) {
+        state.toasts.forEach((toast) => {
           addToRemoveQueue(toast.id)
-        }
+        })
       }
 
       return {
@@ -109,7 +108,7 @@ export const reducer = (state: State, action: Action): State => {
       }
     }
 
-    case 'REMOVE_TOAST': {
+    case 'REMOVE_TOAST':
       if (action.toastId === undefined) {
         return {
           ...state,
@@ -120,15 +119,13 @@ export const reducer = (state: State, action: Action): State => {
         ...state,
         toasts: state.toasts.filter((t) => t.id !== action.toastId),
       }
-    }
-    case 'UPDATE_TOAST': {
+    case 'UPDATE_TOAST':
       return {
         ...state,
         toasts: state.toasts.map((t) =>
           t.id === action.toast.id ? { ...t, ...action.toast } : t,
         ),
       }
-    }
   }
 }
 
@@ -140,24 +137,24 @@ type Toast = Omit<ToasterToast, 'id'>
 
 function dispatch(action: Action) {
   memoryState = reducer(memoryState, action)
-  for (const listener of listeners) {
+  listeners.forEach((listener) => {
     listener(memoryState)
-  }
+  })
 }
 
-function toast({ ...properties }: Toast) {
+function toast({ ...props }: Toast) {
   const id = genId()
 
-  const update = (properties_: ToasterToast) =>
+  const update = (props: ToasterToast) =>
     dispatch({
-      toast: { ...properties_, id },
+      toast: { ...props, id },
       type: 'UPDATE_TOAST',
     })
   const dismiss = () => dispatch({ toastId: id, type: 'DISMISS_TOAST' })
 
   dispatch({
     toast: {
-      ...properties,
+      ...props,
       id,
       onOpenChange: (open) => {
         if (!open) dismiss()
@@ -181,7 +178,7 @@ function useToast() {
     listeners.push(setState)
     return () => {
       const index = listeners.indexOf(setState)
-      if (index !== -1) {
+      if (index > -1) {
         listeners.splice(index, 1)
       }
     }

@@ -8,15 +8,15 @@ import * as React from 'react'
 const InputOTP = React.forwardRef<
   React.ElementRef<typeof OTPInput>,
   React.ComponentPropsWithoutRef<typeof OTPInput>
->(({ className, containerClassName, ...properties }, reference) => (
+>(({ className, containerClassName, ...props }, ref) => (
   <OTPInput
     className={cn('disabled:cursor-not-allowed', className)}
     containerClassName={cn(
       'flex items-center gap-2 has-[:disabled]:opacity-50',
       containerClassName,
     )}
-    ref={reference}
-    {...properties}
+    ref={ref}
+    {...props}
   />
 ))
 InputOTP.displayName = 'InputOTP'
@@ -24,19 +24,15 @@ InputOTP.displayName = 'InputOTP'
 const InputOTPGroup = React.forwardRef<
   React.ElementRef<'div'>,
   React.ComponentPropsWithoutRef<'div'>
->(({ className, ...properties }, reference) => (
-  <div
-    className={cn('flex items-center', className)}
-    ref={reference}
-    {...properties}
-  />
+>(({ className, ...props }, ref) => (
+  <div className={cn('flex items-center', className)} ref={ref} {...props} />
 ))
 InputOTPGroup.displayName = 'InputOTPGroup'
 
 const InputOTPSlot = React.forwardRef<
   React.ElementRef<'div'>,
   { index: number } & React.ComponentPropsWithoutRef<'div'>
->(({ className, index, ...properties }, reference) => {
+>(({ className, index, ...props }, ref) => {
   const inputOTPContext = React.useContext(OTPInputContext)
   const { char, hasFakeCaret, isActive } = inputOTPContext.slots[index]
 
@@ -47,8 +43,8 @@ const InputOTPSlot = React.forwardRef<
         isActive && 'z-10 ring-1 ring-ring',
         className,
       )}
-      ref={reference}
-      {...properties}
+      ref={ref}
+      {...props}
     >
       {char}
       {hasFakeCaret && (
@@ -64,8 +60,8 @@ InputOTPSlot.displayName = 'InputOTPSlot'
 const InputOTPSeparator = React.forwardRef<
   React.ElementRef<'div'>,
   React.ComponentPropsWithoutRef<'div'>
->(({ ...properties }, reference) => (
-  <div ref={reference} role="separator" {...properties}>
+>(({ ...props }, ref) => (
+  <div ref={ref} role="separator" {...props}>
     <Minus />
   </div>
 ))

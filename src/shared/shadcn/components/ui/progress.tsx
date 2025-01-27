@@ -7,14 +7,14 @@ import * as React from 'react'
 const Progress = React.forwardRef<
   React.ElementRef<typeof ProgressPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root>
->(({ className, value, ...properties }, reference) => (
+>(({ className, value, ...props }, ref) => (
   <ProgressPrimitive.Root
     className={cn(
       'relative h-2 w-full overflow-hidden rounded-full bg-primary/20',
       className,
     )}
-    ref={reference}
-    {...properties}
+    ref={ref}
+    {...props}
   >
     <ProgressPrimitive.Indicator
       className="size-full flex-1 bg-primary transition-all"

@@ -9,7 +9,7 @@
     "lint": "next lint --fix",
     "preview": "rimraf .next && next build && next start",
     "start": "next start",
-    "supabase": "cd src/features/auth/providers && supabase"
+    "supabase": "cd src/shared/auth/providers && supabase"
   },
   "dependencies": {
     "@atlaskit/pragmatic-drag-and-drop": "^1.4.0",
@@ -104,5 +104,8 @@
     "pnpm": "bun only",
     "yarn": "bun only"
   },
-  "engineStrict": true
+  "engineStrict": true,
+  "resolutions": {
+    "whatwg-url": "latest"
+  }
 }

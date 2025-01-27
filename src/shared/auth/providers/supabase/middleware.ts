@@ -2,6 +2,8 @@ import { createServerClient } from '@supabase/ssr'
 import { type NextRequest, NextResponse } from 'next/server'
 
 export async function updateSession(request: NextRequest) {
+  if (!request.nextUrl.pathname.includes('cms')) return NextResponse.next()
+
   let supabaseResponse = NextResponse.next({
     request,
   })

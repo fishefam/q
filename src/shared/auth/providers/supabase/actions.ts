@@ -1,11 +1,12 @@
 'use server'
 
-import { createClient } from '@/features/auth/providers/supabase/client'
 import has from 'lodash/has'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import isEmail from 'validator/es/lib/isEmail'
 import isStrongPassword from 'validator/es/lib/isStrongPassword'
+
+import { createClient } from './client'
 
 export async function login(formData: FormData) {
   const supabase = await createClient()
