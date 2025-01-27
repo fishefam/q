@@ -2,7 +2,7 @@
 
 import type { ChangeEventHandler } from 'react'
 
-import { getActions } from '@/shared/auth'
+import { getAuthActions } from '@/shared/auth'
 import { Button } from '@/shared/shadcn/components/ui/button'
 import {
   Card,
@@ -31,7 +31,10 @@ export function LoginForm({
   const [password, setPassword] = useState('')
   const [emailError, setEmailError] = useState<EmailError>()
   const [passwordError, setPasswordError] = useState<string>()
-  const [actionError, dispatch] = useActionState(getActions()!.login, undefined)
+  const [actionError, dispatch] = useActionState(
+    getAuthActions()?.login ?? ((() => {}) as never),
+    undefined,
+  )
 
   const handleEmailInput: ChangeEventHandler<HTMLInputElement> = ({
     currentTarget,
@@ -60,7 +63,7 @@ export function LoginForm({
     dispatch(formData)
   }
 
-  useEffect(() => setPasswordError(actionError?.login), [actionError])
+  useEffect(() => setPasswordError(actionError?.action), [actionError])
 
   return (
     <div className={cn('flex flex-col gap-6', className)} {...properties}>

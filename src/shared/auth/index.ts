@@ -1,15 +1,23 @@
-import * as supabase from './providers/supabase/actions'
+import * as supabaseActions from './providers/supabase/actions'
+import * as supabaseMiddleware from './providers/supabase/middleware'
 
-export enum AuthError {
-  InvalidCredentials = 'Wrong email or password',
+const PROVIDERS = {
+  supabase: {
+    actions: supabaseActions,
+    middleware: supabaseMiddleware.middleware,
+  },
 }
 
-export function getActions() {
-  const providers = {
-    supabase,
-  }
+export function getAuthActions() {
   const provider = process.env.NEXT_PUBLIC_AUTH_PROVIDER as
-    | keyof typeof providers
+    | keyof typeof PROVIDERS
     | undefined
-  if (provider) return providers[provider]
+  if (provider) return PROVIDERS[provider].actions
+}
+
+export function getAuthMiddleware() {
+  const provider = process.env.NEXT_PUBLIC_AUTH_PROVIDER as
+    | keyof typeof PROVIDERS
+    | undefined
+  if (provider) return PROVIDERS[provider]?.middleware
 }

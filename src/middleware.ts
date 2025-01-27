@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server'
 
-import { updateSession } from './shared/auth/providers/supabase/middleware'
+import { getAuthMiddleware } from './shared/auth'
 
 export const config = {
   matcher: [
@@ -9,6 +9,10 @@ export const config = {
 }
 
 export function middleware(request: NextRequest) {
-  if (process.env.NEXT_PUBLIC_AUTH_PROVIDER) return updateSession(request)
+  const withAuth = getAuthMiddleware()
+
+  if (process.env.NEXT_PUBLIC_AUTH_PROVIDER && withAuth)
+    return withAuth(request)
+
   return NextResponse.next()
 }

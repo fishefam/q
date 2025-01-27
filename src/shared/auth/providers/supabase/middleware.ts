@@ -1,14 +1,12 @@
 import { createServerClient } from '@supabase/ssr'
 import { type NextRequest, NextResponse } from 'next/server'
 
-export async function updateSession(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
   if (!pathname.includes('cms')) return NextResponse.next()
 
-  let supabaseResponse = NextResponse.next({
-    request,
-  })
+  let supabaseResponse = NextResponse.next({ request })
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -38,16 +36,22 @@ export async function updateSession(request: NextRequest) {
 
   // IMPORTANT: DO NOT REMOVE auth.getUser()
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  const { data } = await supabase.auth.getUser()
+  const { user } = data
+
+  if (user && pathname.startsWith('/cms/login')) {
+    const url = request.nextUrl.clone()
+    url.pathname = '/cms'
+    return NextResponse.redirect(url)
+  }
 
   if (
     !user &&
-    !pathname.startsWith('/cms/login') &&
+    ['login', 'resetpassword', 'signup'].every(
+      (value) => !pathname.includes(value),
+    ) &&
     pathname.startsWith('/cms')
   ) {
-    // no user, potentially respond by redirecting the user to the login page
     const url = request.nextUrl.clone()
     url.pathname = '/cms/login'
     return NextResponse.redirect(url)

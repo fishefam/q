@@ -1,4 +1,5 @@
 /* eslint-disable unicorn/prevent-abbreviations */
+import type { AuthErrorMessage } from '@/shared/auth/utilities'
 import type React from 'react'
 
 declare global {
@@ -15,6 +16,10 @@ declare global {
 }
 
 declare global {
+  type AuthData = { redirectTo?: Path } & Record<'email' | 'password', string>
+
+  type AuthError = Partial<Record<'action' | keyof AuthData, AuthErrorMessage>>
+
   type HOC = (element: React.JSX.Element) => React.JSX.Element
 
   type HTMLAttributes = React.HTMLAttributes<HTMLElement> &
