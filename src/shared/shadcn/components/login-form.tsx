@@ -2,7 +2,7 @@
 
 import type { ChangeEventHandler } from 'react'
 
-import { getActions } from '@/features/auth'
+import { getActions } from '@/shared/auth'
 import { Button } from '@/shared/shadcn/components/ui/button'
 import {
   Card,

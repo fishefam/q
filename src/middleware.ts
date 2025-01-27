@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server'
 
-import { updateSession } from './features/auth/providers/supabase/middleware'
+import { updateSession } from './shared/auth/providers/supabase/middleware'
 
 export const config = {
   matcher: [
