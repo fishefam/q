@@ -4,8 +4,12 @@ import type React from 'react'
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
+      BLOB_TOKEN: string
+      BLOB_URL: string
       DATABASE_URL: string
-      DATABASE_URL_UNPOOLED: string
+      NEXT_PUBLIC_AUTH_PROVIDER: string | undefined
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: string | undefined
+      NEXT_PUBLIC_SUPABASE_URL: string | undefined
     }
   }
 }

@@ -1,11 +1,10 @@
 'use client'
 
-import * as React from 'react'
+import { toggleVariants } from '@/shared/shadcn/components/ui/toggle'
+import { cn } from '@/shared/shadcn/lib/utils'
 import * as ToggleGroupPrimitive from '@radix-ui/react-toggle-group'
 import { type VariantProps } from 'class-variance-authority'
-
-import { cn } from '@/shared/shadcn/lib/utils'
-import { toggleVariants } from '@/shared/shadcn/components/ui/toggle'
+import * as React from 'react'
 
 const ToggleGroupContext = React.createContext<
   VariantProps<typeof toggleVariants>
@@ -18,13 +17,13 @@ const ToggleGroup = React.forwardRef<
   React.ElementRef<typeof ToggleGroupPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof ToggleGroupPrimitive.Root> &
     VariantProps<typeof toggleVariants>
->(({ className, variant, size, children, ...props }, ref) => (
+>(({ children, className, size, variant, ...properties }, reference) => (
   <ToggleGroupPrimitive.Root
-    ref={ref}
     className={cn('flex items-center justify-center gap-1', className)}
-    {...props}
+    ref={reference}
+    {...properties}
   >
-    <ToggleGroupContext.Provider value={{ variant, size }}>
+    <ToggleGroupContext.Provider value={{ size, variant }}>
       {children}
     </ToggleGroupContext.Provider>
   </ToggleGroupPrimitive.Root>
@@ -36,20 +35,20 @@ const ToggleGroupItem = React.forwardRef<
   React.ElementRef<typeof ToggleGroupPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof ToggleGroupPrimitive.Item> &
     VariantProps<typeof toggleVariants>
->(({ className, children, variant, size, ...props }, ref) => {
+>(({ children, className, size, variant, ...properties }, reference) => {
   const context = React.useContext(ToggleGroupContext)
 
   return (
     <ToggleGroupPrimitive.Item
-      ref={ref}
       className={cn(
         toggleVariants({
-          variant: context.variant || variant,
           size: context.size || size,
+          variant: context.variant || variant,
         }),
         className,
       )}
-      {...props}
+      ref={reference}
+      {...properties}
     >
       {children}
     </ToggleGroupPrimitive.Item>

@@ -20,9 +20,6 @@ const config = [
   perfectionist.configs['recommended-alphabetical'],
   unicorn.configs['flat/recommended'],
   {
-    ignores: ['src/shared/shadcn'],
-  },
-  {
     rules: {
       '@typescript-eslint/consistent-type-imports': 'error',
       'react/self-closing-comp': 'error',
@@ -43,6 +40,17 @@ const config = [
           varsIgnorePattern: '^_',
         },
       ],
+    },
+  },
+  {
+    files: ['src/shared/shadcn/**'],
+    rules: {
+      ...Object.fromEntries(
+        Object.keys(unicorn.rules).map((rule) => [`unicorn/${rule}`, 'off']),
+      ),
+      '@typescript-eslint/no-explicit-any': 'off',
+      'tailwindcss/no-custom-classname': 'off',
+      'unused-imports/no-unused-vars': 'off',
     },
   },
 ]

@@ -1,8 +1,8 @@
 import { Client } from 'pg'
 
-export default async function Page() {
-  const client = new Client({ connectionString: process.env.DATABASE_URL })
-  await client.connect()
-  console.log(client)
+export default async function SignIn() {
+  const postgres = new Client({ connectionString: process.env.DATABASE_URL })
+  await postgres.connect()
+  console.log(postgres)
   return <>Hello</>
 }
