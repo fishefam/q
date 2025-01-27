@@ -8,16 +8,14 @@ const PROVIDERS = {
   },
 }
 
+const provider = process.env.NEXT_PUBLIC_AUTH_PROVIDER as
+  | keyof typeof PROVIDERS
+  | undefined
+
 export function getAuthActions() {
-  const provider = process.env.NEXT_PUBLIC_AUTH_PROVIDER as
-    | keyof typeof PROVIDERS
-    | undefined
   if (provider) return PROVIDERS[provider].actions
 }
 
 export function getAuthMiddleware() {
-  const provider = process.env.NEXT_PUBLIC_AUTH_PROVIDER as
-    | keyof typeof PROVIDERS
-    | undefined
   if (provider) return PROVIDERS[provider]?.middleware
 }
