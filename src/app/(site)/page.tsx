@@ -11,7 +11,7 @@ export default function Page() {
         className="size-auto"
         height={500}
         priority
-        src="https://images.unsplash.com/photo-1736077722346-31ba59414728"
+        src="https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg"
         width={500}
       />
       <button onClick={() => getAuthActions()?.logout('/asdf')}>
