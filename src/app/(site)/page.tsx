@@ -1,6 +1,5 @@
 'use client'
 
-import { getAuthActions } from '@/shared/auth'
 import Image from 'next/image'
 
 export default function Page() {
@@ -14,9 +13,6 @@ export default function Page() {
         src="https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg"
         width={500}
       />
-      <button onClick={() => getAuthActions()?.logout('/asdf')}>
-        Sign Out
-      </button>
     </>
   )
 }
