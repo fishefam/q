@@ -6,24 +6,34 @@ import { redirect } from 'next/navigation'
 import isEmail from 'validator/es/lib/isEmail'
 import isStrongPassword from 'validator/es/lib/isStrongPassword'
 
+import { AuthError } from '../..'
 import { createClient } from './client'
 
-export async function login(formData: FormData) {
+type Data = Record<'email' | 'password', string>
+type Error_ = { login?: string } & Partial<Data>
+
+export async function login(_: Error_ | undefined, formData: FormData) {
   const supabase = await createClient()
-  const [, data] = getData(formData)
+  const [error, data] = getData(formData)
 
   if (data) {
-    await supabase.auth.signInWithPassword(data)
+    const result = await supabase.auth.signInWithPassword(data)
+
+    if (result.error)
+      return { login: AuthError.InvalidCredentials } satisfies Error_
+
     revalidatePath('/', 'layout')
     redirect('/')
   }
+
+  return error
 }
 
-export async function logout() {
+export async function logout(redirectTo?: Path) {
   const supabase = await createClient()
   await supabase.auth.signOut()
-  revalidatePath('/login', 'layout')
-  redirect('/login')
+  revalidatePath(redirectTo ?? '/cms/login', 'layout')
+  redirect(redirectTo ?? '/cms/login')
 }
 
 export async function signup(formData: FormData) {
@@ -39,17 +49,16 @@ export async function signup(formData: FormData) {
 
 function getData(
   formData: FormData,
-): [
-  { email?: string; password?: string } | undefined,
-  { email: string; password: string } | undefined,
-] {
+  checkStrongPassword = false,
+): [Error_ | undefined, Data | undefined] {
   const data = {
     email: formData.get('email')?.toString() ?? '',
     password: formData.get('password')?.toString() ?? '',
   }
   const error: { email?: string; password?: string } = {}
   if (!isEmail(data.email ?? '')) error.email = 'Invalid email'
-  if (!isStrongPassword(data.password ?? '')) error.password = 'Weak password'
+  if (checkStrongPassword && !isStrongPassword(data.password ?? ''))
+    error.password = 'Weak password'
   if (has(error, 'email') || has(error, 'password')) return [error, undefined]
   return [undefined, data]
 }

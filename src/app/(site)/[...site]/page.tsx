@@ -8,9 +8,7 @@ export default function Page() {
     <>
       <Image
         alt="image"
-        className="size-auto"
         height={500}
-        priority
         src="https://images.unsplash.com/photo-1736077722346-31ba59414728"
         width={500}
       />

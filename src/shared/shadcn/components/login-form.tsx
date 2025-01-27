@@ -14,9 +14,14 @@ import {
 import { Input } from '@/shared/shadcn/components/ui/input'
 import { Label } from '@/shared/shadcn/components/ui/label'
 import { cn } from '@/shared/shadcn/lib/utils'
-import { useState } from 'react'
+import { Render } from '@/shared/utilities/components'
+import { useActionState, useEffect, useState } from 'react'
 import isEmail from 'validator/es/lib/isEmail'
-import isStrongPassword from 'validator/es/lib/isStrongPassword'
+
+enum EmailError {
+  Empty = 'Required',
+  Invalid = 'Invalid email',
+}
 
 export function LoginForm({
   className,
@@ -24,26 +29,38 @@ export function LoginForm({
 }: React.ComponentPropsWithoutRef<'div'>) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [_emailError, setEmailError] = useState<string>()
-  const [_passwordError, setPasswordError] = useState<string>()
+  const [emailError, setEmailError] = useState<EmailError>()
+  const [passwordError, setPasswordError] = useState<string>()
+  const [actionError, dispatch] = useActionState(getActions()!.login, undefined)
 
   const handleEmailInput: ChangeEventHandler<HTMLInputElement> = ({
     currentTarget,
   }) => {
     const { value } = currentTarget
-    if (!isEmail(value)) setEmailError('Invalid Email')
-    if (isEmail(value)) setEmailError('')
+    setEmailError(
+      isEmail(value)
+        ? undefined
+        : value === ''
+          ? EmailError.Empty
+          : EmailError.Invalid,
+    )
+    setPasswordError(undefined)
     setEmail(value)
   }
 
   const handlePasswordInput: ChangeEventHandler<HTMLInputElement> = ({
     currentTarget,
   }) => {
-    const { value } = currentTarget
-    if (!isStrongPassword(value)) setPasswordError('Weak Password')
-    if (isStrongPassword(value)) setPasswordError('')
-    setPassword(value)
+    setPasswordError(undefined)
+    setPassword(currentTarget.value)
   }
+
+  const action = (formData: FormData) => {
+    if (emailError || password.length === 0) return
+    dispatch(formData)
+  }
+
+  useEffect(() => setPasswordError(actionError?.login), [actionError])
 
   return (
     <div className={cn('flex flex-col gap-6', className)} {...properties}>
@@ -55,16 +72,21 @@ export function LoginForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form action={getActions()?.login}>
+          <form action={action}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
                   name="email"
                   onChange={handleEmailInput}
-                  placeholder="m@example.com"
+                  placeholder="john.doe@example.com"
                   value={email}
                 />
+                <Render if={!!emailError && emailError.length > 0}>
+                  <div className="min-h-4 text-xs text-red-500">
+                    {emailError}
+                  </div>
+                </Render>
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center">
@@ -82,12 +104,14 @@ export function LoginForm({
                   type="password"
                   value={password}
                 />
+                <div className="min-h-4 text-xs text-red-500">
+                  <Render if={!!passwordError && passwordError.length > 0}>
+                    {passwordError}
+                  </Render>
+                </div>
               </div>
               <Button className="w-full" type="submit">
                 Login
-              </Button>
-              <Button className="w-full" variant="outline">
-                Login with Google
               </Button>
             </div>
             <div className="mt-4 text-center text-sm">

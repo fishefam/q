@@ -2,7 +2,9 @@ import { createServerClient } from '@supabase/ssr'
 import { type NextRequest, NextResponse } from 'next/server'
 
 export async function updateSession(request: NextRequest) {
-  if (!request.nextUrl.pathname.includes('cms')) return NextResponse.next()
+  const { pathname } = request.nextUrl
+
+  if (!pathname.includes('cms')) return NextResponse.next()
 
   let supabaseResponse = NextResponse.next({
     request,
@@ -42,12 +44,12 @@ export async function updateSession(request: NextRequest) {
 
   if (
     !user &&
-    !request.nextUrl.pathname.startsWith('/login') &&
-    !request.nextUrl.pathname.startsWith('/auth')
+    !pathname.startsWith('/cms/login') &&
+    pathname.startsWith('/cms')
   ) {
     // no user, potentially respond by redirecting the user to the login page
     const url = request.nextUrl.clone()
-    url.pathname = '/login'
+    url.pathname = '/cms/login'
     return NextResponse.redirect(url)
   }
 

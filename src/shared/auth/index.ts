@@ -1,5 +1,9 @@
 import * as supabase from './providers/supabase/actions'
 
+export enum AuthError {
+  InvalidCredentials = 'Wrong email or password',
+}
+
 export function getActions() {
   const providers = {
     supabase,

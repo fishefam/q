@@ -32,6 +32,8 @@ declare global {
     searchParams: Promise<Partial<S>>
   }
 
+  type Path = `/${string}`
+
   type Properties<T = UnknownRecord> = {
     children?: ReactNode
     className?: string
