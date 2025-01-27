@@ -1,4 +1,4 @@
-import type { RefObject } from 'react'
+import type { JSX, RefObject } from 'react'
 
 import isElement from 'lodash/isElement'
 import { cloneElement, isValidElement } from 'react'
@@ -41,4 +41,17 @@ export function PropertyInjector<T extends UnknownRecord>({
 
 export function Render({ children, if: _if }: Properties<{ if: boolean }>) {
   return _if ? children : undefined
+}
+
+export function Wrap({
+  children,
+  if: if_ = true,
+  Wrapper,
+}: Properties<{
+  if?: boolean
+  Wrapper: (_: { children: ReactNode }) => JSX.Element
+}>) {
+  let element = children
+  if (if_) element = <Wrapper>{element}</Wrapper>
+  return element
 }
