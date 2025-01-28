@@ -1,3 +1,5 @@
+import { LoremIpsum } from 'lorem-ipsum'
+
 export default function Page() {
-  return <>View</>
+  return <>{new LoremIpsum().generateParagraphs(100)}</>
 }

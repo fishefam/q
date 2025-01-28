@@ -15,10 +15,15 @@ import {
   MenubarTrigger,
 } from '@/shared/shadcn/components/ui/menubar'
 import { Toggle } from '@/shared/shadcn/components/ui/toggle'
-import { MonitorSmartphone } from 'lucide-react'
+import { MonitorSmartphone, Sidebar } from 'lucide-react'
 
 export function FloatingMenu() {
-  const { isResponsiveView, setIsResponsiveView } = useCMSControlContext()
+  const {
+    isResponsiveView,
+    isSidebarVisible,
+    setIsResponsiveView,
+    setIsSidebarVisible,
+  } = useCMSControlContext()
 
   return (
     <Menubar
@@ -32,6 +37,7 @@ export function FloatingMenu() {
       >
         <MonitorSmartphone />
       </Toggle>
+
       <MenubarMenu>
         <MenubarTrigger>Edit</MenubarTrigger>
         <MenubarContent>
@@ -92,6 +98,14 @@ export function FloatingMenu() {
           <MenubarItem inset>Add Profile...</MenubarItem>
         </MenubarContent>
       </MenubarMenu>
+
+      <Toggle
+        aria-label="Toggle side bar"
+        onPressedChange={setIsSidebarVisible}
+        pressed={isSidebarVisible}
+      >
+        <Sidebar />
+      </Toggle>
     </Menubar>
   )
 }
