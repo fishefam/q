@@ -26,6 +26,7 @@ export function Portal({
         ? container.current
         : container
   if (target && isElement(target)) return createPortal(children, target)
+  return children
 }
 
 export function PropertyInjector<T extends UnknownRecord>({
@@ -46,12 +47,13 @@ export function Render({ children, if: _if }: Properties<{ if: boolean }>) {
 export function Wrap({
   children,
   if: if_ = true,
-  Wrapper,
+  wrapper,
 }: Properties<{
   if?: boolean
-  Wrapper: (_: { children: ReactNode }) => JSX.Element
+  wrapper: (_: { children: ReactNode }) => JSX.Element
 }>) {
   let element = children
+  const Wrapper = wrapper
   if (if_) element = <Wrapper>{element}</Wrapper>
   return element
 }

@@ -1,16 +1,18 @@
+'use client'
+
+import { useCMSControlContext } from '@/shared/components/contexts/cms-control'
 import { cn } from '@/shared/shadcn/lib/utils'
 import { Wrap } from '@/shared/utilities/components'
 
-export function View({ isResponsiveView }: { isResponsiveView: boolean }) {
+import { Wrapper } from './wrapper'
+
+export function View() {
+  const { isResponsiveView } = useCMSControlContext()
   return (
-    <div className={cn('h-screen flex-1', isResponsiveView && 'p-4')}>
-      <Wrap
-        if={isResponsiveView}
-        Wrapper={({ children }) => <div className="size-full">{children}</div>}
-      >
+    <div className={cn('size-full', isResponsiveView && 'p-4')}>
+      <Wrap if={isResponsiveView} wrapper={Wrapper}>
         <iframe
           className={cn('size-full', isResponsiveView && 'rounded-lg border')}
-          src="/cms/view"
         />
       </Wrap>
     </div>

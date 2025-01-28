@@ -1,3 +1,4 @@
+import { useCMSControlContext } from '@/shared/components/contexts/cms-control'
 import {
   Menubar,
   MenubarCheckboxItem,
@@ -16,15 +17,14 @@ import {
 import { Toggle } from '@/shared/shadcn/components/ui/toggle'
 import { MonitorSmartphone } from 'lucide-react'
 
-export function FloatingMenu({
-  isResponsiveView,
-  setIsResponsiveView,
-}: {
-  isResponsiveView: boolean
-  setIsResponsiveView: SetState<boolean>
-}) {
+export function FloatingMenu() {
+  const { isResponsiveView, setIsResponsiveView } = useCMSControlContext()
+
   return (
-    <Menubar className="absolute bottom-5 left-1/2 min-h-12 w-fit -translate-x-1/2">
+    <Menubar
+      className="absolute bottom-5 left-1/2 min-h-12 w-fit -translate-x-1/2 select-none"
+      draggable={false}
+    >
       <Toggle
         aria-label="Toggle responsive view"
         onPressedChange={setIsResponsiveView}
