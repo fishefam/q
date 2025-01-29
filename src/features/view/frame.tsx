@@ -5,7 +5,7 @@ import { cn } from '@/shared/shadcn/lib/utils'
 import { getStyleSheets } from '@/shared/utilities/dom'
 import has from 'lodash/has'
 import isFunction from 'lodash/isFunction'
-import { useEffect, useRef, useState } from 'react'
+import { memo, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 
 type Children = ContextReactNode | ContextReactNode[] | ReactNode
@@ -13,11 +13,15 @@ type ContextReactNode =
   | ((parameters: { document: Document; window: Window }) => ReactNode)
   | ReactNode
 
-export function Frame({ children }: { children: Children }) {
+export const ViewFrame = memo(Frame)
+
+function Frame({ children }: { children: Children }) {
   const { isResponsiveView } = useCMSControlContext()
   const { body, head, reference } = useFrame()
   const { bodyElements, headElements } = getElements(children)
   const styleSheets = useStyleSheets()
+
+  const { contentDocument, contentWindow } = reference.current ?? {}
 
   return (
     <iframe
@@ -44,10 +48,7 @@ export function Frame({ children }: { children: Children }) {
         ? bodyElements.map((element) =>
             createPortal(
               isFunction(element)
-                ? element({
-                    document: reference.current?.contentDocument,
-                    window: reference.current?.contentWindow,
-                  })
+                ? element({ document: contentDocument, window: contentWindow })
                 : element,
               body,
             ),
@@ -81,12 +82,8 @@ function useFrame() {
 }
 
 function useStyleSheets() {
-  const [styleSheets, setStyleSheets] = useState<
-    {
-      css: string
-      href?: string
-    }[]
-  >()
+  const [styleSheets, setStyleSheets] =
+    useState<{ css: string; href?: string }[]>()
   useEffect(() => setStyleSheets(getStyleSheets()), [])
   return styleSheets
 }

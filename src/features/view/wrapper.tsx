@@ -21,7 +21,11 @@ export function Wrapper({
 
   return (
     <div
-      className="relative mx-auto size-full max-w-full overflow-x-clip rounded-lg"
+      className={cn(
+        isResponsiveView &&
+          'relative mx-auto size-full max-w-full overflow-x-clip rounded-lg',
+        !isResponsiveView && 'contents',
+      )}
       style={{ width: breakpoint?.value ? breakpoint.value + 17 : width }}
     >
       {children}

@@ -16,7 +16,7 @@ type Set<T extends Exclude<keyof Context, `set${string}`>> = SetState<
 const Context = createContext({} as Context)
 
 export function CMSControlProvider({ children }: Properties) {
-  const [isResponsiveView, setIsResponsiveView] = useState(true)
+  const [isResponsiveView, setIsResponsiveView] = useState(false)
   const [isSidebarVisible, setIsSidebarVisible] = useState(true)
 
   const value = {

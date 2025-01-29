@@ -10,9 +10,19 @@ export function useLog(...messages: unknown[]) {
   }, [...messages])
 }
 
-export function useResizeObserver<T extends HTMLElement = HTMLDivElement>(
+export function usePrevious<T>(value: T) {
+  const reference = useRef<T>(undefined)
+  useEffect(() => void (reference.current = value), [value])
+  return reference.current
+}
+
+export function useResizeObserver<T extends HTMLElement = HTMLDivElement>({
+  disabled,
   wait = 150,
-) {
+}: {
+  disabled?: boolean
+  wait?: number
+}) {
   const [rect, setRect] = useState<DOMRect>()
   const reference = useRef<null | T>(null)
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -25,11 +35,11 @@ export function useResizeObserver<T extends HTMLElement = HTMLDivElement>(
     const element = reference.current
     if (!element) return
     const observer = new ResizeObserver((entries) =>
-      throttledSetRect(entries.at(0)?.contentRect),
+      disabled === true ? 0 : throttledSetRect(entries.at(0)?.contentRect),
     )
     observer.observe(element)
     return () => observer.disconnect()
-  }, [throttledSetRect])
+  }, [disabled, throttledSetRect])
 
   return { rect, reference }
 }
