@@ -43,6 +43,10 @@ const config = [
     },
   },
   {
+    files: ['src/shared/react-resizable-panels/**'],
+    rules: { 'unicorn/filename-case': 'off' },
+  },
+  {
     files: ['src/shared/shadcn/**'],
     rules: {
       ...Object.fromEntries(

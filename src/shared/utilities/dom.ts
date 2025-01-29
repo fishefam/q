@@ -30,6 +30,14 @@ export function createElement<
   return element
 }
 
+export function getStyleSheets() {
+  const styleSheets = [...document.styleSheets].map(({ cssRules, href }) => ({
+    css: [...cssRules].map(({ cssText }) => cssText).join(''),
+    href: href ?? undefined,
+  }))
+  return [...new Set(styleSheets)]
+}
+
 export function select<T extends HTMLElement>(selector: string) {
   return document.querySelector<T>(selector)
 }

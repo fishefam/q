@@ -1,6 +1,5 @@
 'use client'
 
-import '@atlaskit/css-reset'
 import { FloatingMenu } from '@/features/floating-menu'
 import { View } from '@/features/view'
 import { useCMSControlContext } from '@/shared/components/contexts/cms-control'

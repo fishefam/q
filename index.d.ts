@@ -20,6 +20,8 @@ declare global {
 
   type AuthError = Partial<Record<'action' | keyof AuthData, AuthErrorMessage>>
 
+  type GlobalThis = typeof globalThis
+
   type HOC = (element: React.JSX.Element) => React.JSX.Element
 
   type HTMLAttributes = React.HTMLAttributes<HTMLElement> &
