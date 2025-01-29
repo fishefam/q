@@ -27,7 +27,7 @@ export function FloatingMenu() {
 
   return (
     <Menubar
-      className="absolute bottom-5 left-1/2 min-h-12 w-fit -translate-x-1/2 select-none"
+      className="absolute bottom-5 left-1/2 z-10 min-h-12 w-fit -translate-x-1/2 select-none"
       draggable={false}
     >
       <Toggle
