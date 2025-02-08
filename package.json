@@ -14,7 +14,7 @@
     "prepare": "husky",
     "preview": "rimraf .next && next build && next start",
     "start": "next start",
-    "init": "supabase init && supabase start"
+    "setup": "supabase init && supabase start"
   },
   "resolutions": {
     "whatwg-url": "^14.1.0"
