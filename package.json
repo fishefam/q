@@ -5,14 +5,16 @@
   "scripts": {
     "build": "next build",
     "cleanslate": "git reset --hard && git clean -xdf",
+    "dbgen": "dotenv -- npm run dbgen_",
+    "dbgen_": "pg-to-ts generate -c $DATABASE_URL -o src/shared/database/types/db.ts",
     "dev": "rimraf .next && next dev --turbopack",
     "format": "prettier . --write",
     "lint": "next lint --fix",
     "migrate": "node-pg-migrate",
+    "prepare": "husky",
     "preview": "rimraf .next && next build && next start",
     "start": "next start",
-    "supabase": "supabase",
-    "gendb": "pg-to-ts generate -c postgresql://postgres:postgres@127.0.0.1:54322/postgres -o src/shared/database/types/db.ts"
+    "init": "supabase init && supabase start"
   },
   "resolutions": {
     "whatwg-url": "^14.1.0"
@@ -88,6 +90,7 @@
     "@types/react-dom": "^19.0.3",
     "@types/validator": "^13.12.2",
     "dotenv": "^16.4.7",
+    "dotenv-cli": "^8.0.0",
     "eslint": "^9.20.0",
     "eslint-config-next": "^15.1.6",
     "eslint-plugin-import": "^2.31.0",
