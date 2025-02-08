@@ -6,15 +6,16 @@
     "build": "next build",
     "cleanslate": "git reset --hard && git clean -xdf",
     "dbgen": "dotenv -- npm run dbgen_",
-    "dbgen_": "pg-to-ts generate -c $DATABASE_URL -o src/shared/database/types/db.ts",
+    "dbgen_": "pg-to-ts generate -c $DATABASE_URL -o src/shared/database/types/db.ts --ignore pgmigrations",
     "dev": "rimraf .next && next dev --turbopack",
     "format": "prettier . --write",
     "lint": "next lint --fix",
     "migrate": "node-pg-migrate",
     "prepare": "husky",
     "preview": "rimraf .next && next build && next start",
+    "setup-local": "printf \"n\n\" | supabase init --force && supabase start && node env.config.mjs",
     "start": "next start",
-    "setup-local": "printf \"n\n\" | supabase init --force && supabase start"
+    "supabase": "supabase"
   },
   "resolutions": {
     "whatwg-url": "^14.1.0"
