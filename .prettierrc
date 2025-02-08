@@ -1,0 +1,10 @@
+{
+  "trailingComma": "all",
+  "quoteProps": "consistent",
+  "singleQuote": true,
+  "semi": false,
+  "endOfLine": "lf",
+  "htmlWhitespaceSensitivity": "ignore",
+  "tailwindStylesheet": "./src/app/globals.css",
+  "plugins": ["prettier-plugin-tailwindcss"]
+}

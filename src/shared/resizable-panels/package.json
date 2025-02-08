@@ -1,0 +1,13 @@
+{
+  "imports": {
+    "#is-development": {
+      "development": "./src/env-conditions/development.ts",
+      "default": "./src/env-conditions/production.ts"
+    },
+    "#is-browser": {
+      "browser": "./src/env-conditions/browser.ts",
+      "node": "./src/env-conditions/node.ts",
+      "default": "./src/env-conditions/unknown.ts"
+    }
+  }
+}
