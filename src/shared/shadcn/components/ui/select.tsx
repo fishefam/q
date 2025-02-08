@@ -6,16 +6,16 @@ import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from 'lucide-react'
 import * as React from 'react'
 
 function Select({
-  ...properties
+  ...props
 }: React.ComponentProps<typeof SelectPrimitive.Root>) {
-  return <SelectPrimitive.Root data-slot="select" {...properties} />
+  return <SelectPrimitive.Root data-slot="select" {...props} />
 }
 
 function SelectContent({
   children,
   className,
   position = 'popper',
-  ...properties
+  ...props
 }: React.ComponentProps<typeof SelectPrimitive.Content>) {
   return (
     <SelectPrimitive.Portal>
@@ -28,7 +28,7 @@ function SelectContent({
         )}
         data-slot="select-content"
         position={position}
-        {...properties}
+        {...props}
       >
         <SelectScrollUpButton />
         <SelectPrimitive.Viewport
@@ -47,15 +47,15 @@ function SelectContent({
 }
 
 function SelectGroup({
-  ...properties
+  ...props
 }: React.ComponentProps<typeof SelectPrimitive.Group>) {
-  return <SelectPrimitive.Group data-slot="select-group" {...properties} />
+  return <SelectPrimitive.Group data-slot="select-group" {...props} />
 }
 
 function SelectItem({
   children,
   className,
-  ...properties
+  ...props
 }: React.ComponentProps<typeof SelectPrimitive.Item>) {
   return (
     <SelectPrimitive.Item
@@ -64,7 +64,7 @@ function SelectItem({
         className,
       )}
       data-slot="select-item"
-      {...properties}
+      {...props}
     >
       <span className="absolute right-2 flex size-3.5 items-center justify-center">
         <SelectPrimitive.ItemIndicator>
@@ -78,20 +78,20 @@ function SelectItem({
 
 function SelectLabel({
   className,
-  ...properties
+  ...props
 }: React.ComponentProps<typeof SelectPrimitive.Label>) {
   return (
     <SelectPrimitive.Label
       className={cn('px-2 py-1.5 text-sm font-semibold', className)}
       data-slot="select-label"
-      {...properties}
+      {...props}
     />
   )
 }
 
 function SelectScrollDownButton({
   className,
-  ...properties
+  ...props
 }: React.ComponentProps<typeof SelectPrimitive.ScrollDownButton>) {
   return (
     <SelectPrimitive.ScrollDownButton
@@ -100,7 +100,7 @@ function SelectScrollDownButton({
         className,
       )}
       data-slot="select-scroll-down-button"
-      {...properties}
+      {...props}
     >
       <ChevronDownIcon className="size-4" />
     </SelectPrimitive.ScrollDownButton>
@@ -109,7 +109,7 @@ function SelectScrollDownButton({
 
 function SelectScrollUpButton({
   className,
-  ...properties
+  ...props
 }: React.ComponentProps<typeof SelectPrimitive.ScrollUpButton>) {
   return (
     <SelectPrimitive.ScrollUpButton
@@ -118,7 +118,7 @@ function SelectScrollUpButton({
         className,
       )}
       data-slot="select-scroll-up-button"
-      {...properties}
+      {...props}
     >
       <ChevronUpIcon className="size-4" />
     </SelectPrimitive.ScrollUpButton>
@@ -127,13 +127,13 @@ function SelectScrollUpButton({
 
 function SelectSeparator({
   className,
-  ...properties
+  ...props
 }: React.ComponentProps<typeof SelectPrimitive.Separator>) {
   return (
     <SelectPrimitive.Separator
       className={cn('pointer-events-none -mx-1 my-1 h-px bg-border', className)}
       data-slot="select-separator"
-      {...properties}
+      {...props}
     />
   )
 }
@@ -141,7 +141,7 @@ function SelectSeparator({
 function SelectTrigger({
   children,
   className,
-  ...properties
+  ...props
 }: React.ComponentProps<typeof SelectPrimitive.Trigger>) {
   return (
     <SelectPrimitive.Trigger
@@ -150,7 +150,7 @@ function SelectTrigger({
         className,
       )}
       data-slot="select-trigger"
-      {...properties}
+      {...props}
     >
       {children}
       <SelectPrimitive.Icon asChild>
@@ -161,9 +161,9 @@ function SelectTrigger({
 }
 
 function SelectValue({
-  ...properties
+  ...props
 }: React.ComponentProps<typeof SelectPrimitive.Value>) {
-  return <SelectPrimitive.Value data-slot="select-value" {...properties} />
+  return <SelectPrimitive.Value data-slot="select-value" {...props} />
 }
 
 export {

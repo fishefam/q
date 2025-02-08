@@ -6,21 +6,21 @@ import { ChevronDownIcon } from 'lucide-react'
 import * as React from 'react'
 
 function Accordion({
-  ...properties
+  ...props
 }: React.ComponentProps<typeof AccordionPrimitive.Root>) {
-  return <AccordionPrimitive.Root data-slot="accordion" {...properties} />
+  return <AccordionPrimitive.Root data-slot="accordion" {...props} />
 }
 
 function AccordionContent({
   children,
   className,
-  ...properties
+  ...props
 }: React.ComponentProps<typeof AccordionPrimitive.Content>) {
   return (
     <AccordionPrimitive.Content
       className="overflow-hidden text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
       data-slot="accordion-content"
-      {...properties}
+      {...props}
     >
       <div className={cn('pt-0 pb-4', className)}>{children}</div>
     </AccordionPrimitive.Content>
@@ -29,13 +29,13 @@ function AccordionContent({
 
 function AccordionItem({
   className,
-  ...properties
+  ...props
 }: React.ComponentProps<typeof AccordionPrimitive.Item>) {
   return (
     <AccordionPrimitive.Item
       className={cn('border-b last:border-b-0', className)}
       data-slot="accordion-item"
-      {...properties}
+      {...props}
     />
   )
 }
@@ -43,7 +43,7 @@ function AccordionItem({
 function AccordionTrigger({
   children,
   className,
-  ...properties
+  ...props
 }: React.ComponentProps<typeof AccordionPrimitive.Trigger>) {
   return (
     <AccordionPrimitive.Header className="flex">
@@ -53,7 +53,7 @@ function AccordionTrigger({
           className,
         )}
         data-slot="accordion-trigger"
-        {...properties}
+        {...props}
       >
         {children}
         <ChevronDownIcon className="pointer-events-none size-4 shrink-0 translate-y-0.5 text-muted-foreground transition-transform duration-200" />

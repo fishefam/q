@@ -7,20 +7,20 @@ import * as React from 'react'
 
 function RadioGroup({
   className,
-  ...properties
+  ...props
 }: React.ComponentProps<typeof RadioGroupPrimitive.Root>) {
   return (
     <RadioGroupPrimitive.Root
       className={cn('grid gap-3', className)}
       data-slot="radio-group"
-      {...properties}
+      {...props}
     />
   )
 }
 
 function RadioGroupItem({
   className,
-  ...properties
+  ...props
 }: React.ComponentProps<typeof RadioGroupPrimitive.Item>) {
   return (
     <RadioGroupPrimitive.Item
@@ -29,7 +29,7 @@ function RadioGroupItem({
         className,
       )}
       data-slot="radio-group-item"
-      {...properties}
+      {...props}
     >
       <RadioGroupPrimitive.Indicator
         className="relative flex items-center justify-center"

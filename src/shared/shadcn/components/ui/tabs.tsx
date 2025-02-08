@@ -6,20 +6,20 @@ import * as React from 'react'
 
 function Tabs({
   className,
-  ...properties
+  ...props
 }: React.ComponentProps<typeof TabsPrimitive.Root>) {
   return (
     <TabsPrimitive.Root
       className={cn('flex flex-col gap-2', className)}
       data-slot="tabs"
-      {...properties}
+      {...props}
     />
   )
 }
 
 function TabsContent({
   className,
-  ...properties
+  ...props
 }: React.ComponentProps<typeof TabsPrimitive.Content>) {
   return (
     <TabsPrimitive.Content
@@ -28,14 +28,14 @@ function TabsContent({
         className,
       )}
       data-slot="tabs-content"
-      {...properties}
+      {...props}
     />
   )
 }
 
 function TabsList({
   className,
-  ...properties
+  ...props
 }: React.ComponentProps<typeof TabsPrimitive.List>) {
   return (
     <TabsPrimitive.List
@@ -44,14 +44,14 @@ function TabsList({
         className,
       )}
       data-slot="tabs-list"
-      {...properties}
+      {...props}
     />
   )
 }
 
 function TabsTrigger({
   className,
-  ...properties
+  ...props
 }: React.ComponentProps<typeof TabsPrimitive.Trigger>) {
   return (
     <TabsPrimitive.Trigger
@@ -60,7 +60,7 @@ function TabsTrigger({
         className,
       )}
       data-slot="tabs-trigger"
-      {...properties}
+      {...props}
     />
   )
 }

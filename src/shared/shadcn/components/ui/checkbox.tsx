@@ -7,7 +7,7 @@ import * as React from 'react'
 
 function Checkbox({
   className,
-  ...properties
+  ...props
 }: React.ComponentProps<typeof CheckboxPrimitive.Root>) {
   return (
     <CheckboxPrimitive.Root
@@ -16,7 +16,7 @@ function Checkbox({
         className,
       )}
       data-slot="checkbox"
-      {...properties}
+      {...props}
     >
       <CheckboxPrimitive.Indicator
         className="flex items-center justify-center text-current"

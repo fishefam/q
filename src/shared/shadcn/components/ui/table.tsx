@@ -3,45 +3,42 @@
 import { cn } from '@/shared/shadcn/lib/utils'
 import * as React from 'react'
 
-function Table({ className, ...properties }: React.ComponentProps<'table'>) {
+function Table({ className, ...props }: React.ComponentProps<'table'>) {
   return (
     <div className="relative w-full overflow-auto">
       <table
         className={cn('w-full caption-bottom text-sm', className)}
         data-slot="table"
-        {...properties}
+        {...props}
       />
     </div>
   )
 }
 
-function TableBody({
-  className,
-  ...properties
-}: React.ComponentProps<'tbody'>) {
+function TableBody({ className, ...props }: React.ComponentProps<'tbody'>) {
   return (
     <tbody
       className={cn('[&_tr:last-child]:border-0', className)}
       data-slot="table-body"
-      {...properties}
+      {...props}
     />
   )
 }
 
 function TableCaption({
   className,
-  ...properties
+  ...props
 }: React.ComponentProps<'caption'>) {
   return (
     <caption
       className={cn('mt-4 text-sm text-muted-foreground', className)}
       data-slot="table-caption"
-      {...properties}
+      {...props}
     />
   )
 }
 
-function TableCell({ className, ...properties }: React.ComponentProps<'td'>) {
+function TableCell({ className, ...props }: React.ComponentProps<'td'>) {
   return (
     <td
       className={cn(
@@ -49,15 +46,12 @@ function TableCell({ className, ...properties }: React.ComponentProps<'td'>) {
         className,
       )}
       data-slot="table-cell"
-      {...properties}
+      {...props}
     />
   )
 }
 
-function TableFooter({
-  className,
-  ...properties
-}: React.ComponentProps<'tfoot'>) {
+function TableFooter({ className, ...props }: React.ComponentProps<'tfoot'>) {
   return (
     <tfoot
       className={cn(
@@ -65,12 +59,12 @@ function TableFooter({
         className,
       )}
       data-slot="table-footer"
-      {...properties}
+      {...props}
     />
   )
 }
 
-function TableHead({ className, ...properties }: React.ComponentProps<'th'>) {
+function TableHead({ className, ...props }: React.ComponentProps<'th'>) {
   return (
     <th
       className={cn(
@@ -78,25 +72,22 @@ function TableHead({ className, ...properties }: React.ComponentProps<'th'>) {
         className,
       )}
       data-slot="table-head"
-      {...properties}
+      {...props}
     />
   )
 }
 
-function TableHeader({
-  className,
-  ...properties
-}: React.ComponentProps<'thead'>) {
+function TableHeader({ className, ...props }: React.ComponentProps<'thead'>) {
   return (
     <thead
       className={cn('[&_tr]:border-b', className)}
       data-slot="table-header"
-      {...properties}
+      {...props}
     />
   )
 }
 
-function TableRow({ className, ...properties }: React.ComponentProps<'tr'>) {
+function TableRow({ className, ...props }: React.ComponentProps<'tr'>) {
   return (
     <tr
       className={cn(
@@ -104,7 +95,7 @@ function TableRow({ className, ...properties }: React.ComponentProps<'tr'>) {
         className,
       )}
       data-slot="table-row"
-      {...properties}
+      {...props}
     />
   )
 }

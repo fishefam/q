@@ -6,7 +6,7 @@ import * as React from 'react'
 
 function Switch({
   className,
-  ...properties
+  ...props
 }: React.ComponentProps<typeof SwitchPrimitive.Root>) {
   return (
     <SwitchPrimitive.Root
@@ -15,7 +15,7 @@ function Switch({
         className,
       )}
       data-slot="switch"
-      {...properties}
+      {...props}
     >
       <SwitchPrimitive.Thumb
         className={cn(

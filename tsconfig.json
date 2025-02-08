@@ -10,8 +10,10 @@
     "moduleResolution": "bundler",
     "noEmit": true,
     "paths": {
-      "@/*": ["./src/*"],
-      "react-resizable-panels": ["./src/shared/resizable-panels/src"]
+      "react-resizable-panels": ["./src/shared/resizable-panels/src"],
+      "shadcn-blocks/*": ["./src/shared/shadcn/components/*"],
+      "shadcn/*": ["./src/shared/shadcn/components/ui/*"],
+      "@/*": ["./src/*"]
     },
     "plugins": [{ "name": "next" }],
     "resolveJsonModule": true,

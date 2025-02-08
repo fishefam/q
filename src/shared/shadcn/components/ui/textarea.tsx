@@ -1,10 +1,7 @@
 import { cn } from '@/shared/shadcn/lib/utils'
 import * as React from 'react'
 
-function Textarea({
-  className,
-  ...properties
-}: React.ComponentProps<'textarea'>) {
+function Textarea({ className, ...props }: React.ComponentProps<'textarea'>) {
   return (
     <textarea
       className={cn(
@@ -12,7 +9,7 @@ function Textarea({
         className,
       )}
       data-slot="textarea"
-      {...properties}
+      {...props}
     />
   )
 }

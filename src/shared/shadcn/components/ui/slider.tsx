@@ -10,7 +10,7 @@ function Slider({
   max = 100,
   min = 0,
   value,
-  ...properties
+  ...props
 }: React.ComponentProps<typeof SliderPrimitive.Root>) {
   const _values = React.useMemo(
     () =>
@@ -33,7 +33,7 @@ function Slider({
       max={max}
       min={min}
       value={value}
-      {...properties}
+      {...props}
     >
       <SliderPrimitive.Track
         className={cn(

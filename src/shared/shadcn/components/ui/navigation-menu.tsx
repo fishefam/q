@@ -10,7 +10,7 @@ function NavigationMenu({
   children,
   className,
   viewport = true,
-  ...properties
+  ...props
 }: {
   viewport?: boolean
 } & React.ComponentProps<typeof NavigationMenuPrimitive.Root>) {
@@ -22,7 +22,7 @@ function NavigationMenu({
       )}
       data-slot="navigation-menu"
       data-viewport={viewport}
-      {...properties}
+      {...props}
     >
       {children}
       {viewport && <NavigationMenuViewport />}
@@ -32,20 +32,20 @@ function NavigationMenu({
 
 function NavigationMenuItem({
   className,
-  ...properties
+  ...props
 }: React.ComponentProps<typeof NavigationMenuPrimitive.Item>) {
   return (
     <NavigationMenuPrimitive.Item
       className={cn('relative', className)}
       data-slot="navigation-menu-item"
-      {...properties}
+      {...props}
     />
   )
 }
 
 function NavigationMenuList({
   className,
-  ...properties
+  ...props
 }: React.ComponentProps<typeof NavigationMenuPrimitive.List>) {
   return (
     <NavigationMenuPrimitive.List
@@ -54,7 +54,7 @@ function NavigationMenuList({
         className,
       )}
       data-slot="navigation-menu-list"
-      {...properties}
+      {...props}
     />
   )
 }
@@ -65,7 +65,7 @@ const navigationMenuTriggerStyle = cva(
 
 function NavigationMenuContent({
   className,
-  ...properties
+  ...props
 }: React.ComponentProps<typeof NavigationMenuPrimitive.Content>) {
   return (
     <NavigationMenuPrimitive.Content
@@ -75,14 +75,14 @@ function NavigationMenuContent({
         className,
       )}
       data-slot="navigation-menu-content"
-      {...properties}
+      {...props}
     />
   )
 }
 
 function NavigationMenuIndicator({
   className,
-  ...properties
+  ...props
 }: React.ComponentProps<typeof NavigationMenuPrimitive.Indicator>) {
   return (
     <NavigationMenuPrimitive.Indicator
@@ -91,7 +91,7 @@ function NavigationMenuIndicator({
         className,
       )}
       data-slot="navigation-menu-indicator"
-      {...properties}
+      {...props}
     >
       <div className="relative top-[60%] h-2 w-2 rotate-45 rounded-tl-sm bg-border shadow-md" />
     </NavigationMenuPrimitive.Indicator>
@@ -100,7 +100,7 @@ function NavigationMenuIndicator({
 
 function NavigationMenuLink({
   className,
-  ...properties
+  ...props
 }: React.ComponentProps<typeof NavigationMenuPrimitive.Link>) {
   return (
     <NavigationMenuPrimitive.Link
@@ -109,7 +109,7 @@ function NavigationMenuLink({
         className,
       )}
       data-slot="navigation-menu-link"
-      {...properties}
+      {...props}
     />
   )
 }
@@ -117,13 +117,13 @@ function NavigationMenuLink({
 function NavigationMenuTrigger({
   children,
   className,
-  ...properties
+  ...props
 }: React.ComponentProps<typeof NavigationMenuPrimitive.Trigger>) {
   return (
     <NavigationMenuPrimitive.Trigger
       className={cn(navigationMenuTriggerStyle(), 'group', className)}
       data-slot="navigation-menu-trigger"
-      {...properties}
+      {...props}
     >
       {children}{' '}
       <ChevronDownIcon
@@ -136,7 +136,7 @@ function NavigationMenuTrigger({
 
 function NavigationMenuViewport({
   className,
-  ...properties
+  ...props
 }: React.ComponentProps<typeof NavigationMenuPrimitive.Viewport>) {
   return (
     <div
@@ -150,7 +150,7 @@ function NavigationMenuViewport({
           className,
         )}
         data-slot="navigation-menu-viewport"
-        {...properties}
+        {...props}
       />
     </div>
   )

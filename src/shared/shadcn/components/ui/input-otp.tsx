@@ -8,7 +8,7 @@ import * as React from 'react'
 function InputOTP({
   className,
   containerClassName,
-  ...properties
+  ...props
 }: {
   containerClassName?: string
 } & React.ComponentProps<typeof OTPInput>) {
@@ -20,27 +20,24 @@ function InputOTP({
         containerClassName,
       )}
       data-slot="input-otp"
-      {...properties}
+      {...props}
     />
   )
 }
 
-function InputOTPGroup({
-  className,
-  ...properties
-}: React.ComponentProps<'div'>) {
+function InputOTPGroup({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
       className={cn('flex items-center', className)}
       data-slot="input-otp-group"
-      {...properties}
+      {...props}
     />
   )
 }
 
-function InputOTPSeparator({ ...properties }: React.ComponentProps<'div'>) {
+function InputOTPSeparator({ ...props }: React.ComponentProps<'div'>) {
   return (
-    <div data-slot="input-otp-separator" role="separator" {...properties}>
+    <div data-slot="input-otp-separator" role="separator" {...props}>
       <MinusIcon />
     </div>
   )
@@ -49,7 +46,7 @@ function InputOTPSeparator({ ...properties }: React.ComponentProps<'div'>) {
 function InputOTPSlot({
   className,
   index,
-  ...properties
+  ...props
 }: {
   index: number
 } & React.ComponentProps<'div'>) {
@@ -64,7 +61,7 @@ function InputOTPSlot({
       )}
       data-active={isActive}
       data-slot="input-otp-slot"
-      {...properties}
+      {...props}
     >
       {char}
       {hasFakeCaret && (

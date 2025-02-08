@@ -6,7 +6,7 @@ import * as React from 'react'
 
 function Avatar({
   className,
-  ...properties
+  ...props
 }: React.ComponentProps<typeof AvatarPrimitive.Root>) {
   return (
     <AvatarPrimitive.Root
@@ -15,14 +15,14 @@ function Avatar({
         className,
       )}
       data-slot="avatar"
-      {...properties}
+      {...props}
     />
   )
 }
 
 function AvatarFallback({
   className,
-  ...properties
+  ...props
 }: React.ComponentProps<typeof AvatarPrimitive.Fallback>) {
   return (
     <AvatarPrimitive.Fallback
@@ -31,20 +31,20 @@ function AvatarFallback({
         className,
       )}
       data-slot="avatar-fallback"
-      {...properties}
+      {...props}
     />
   )
 }
 
 function AvatarImage({
   className,
-  ...properties
+  ...props
 }: React.ComponentProps<typeof AvatarPrimitive.Image>) {
   return (
     <AvatarPrimitive.Image
       className={cn('aspect-square size-full', className)}
       data-slot="avatar-image"
-      {...properties}
+      {...props}
     />
   )
 }

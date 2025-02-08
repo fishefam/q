@@ -7,7 +7,7 @@ import * as React from 'react'
 function Progress({
   className,
   value,
-  ...properties
+  ...props
 }: React.ComponentProps<typeof ProgressPrimitive.Root>) {
   return (
     <ProgressPrimitive.Root
@@ -16,7 +16,7 @@ function Progress({
         className,
       )}
       data-slot="progress"
-      {...properties}
+      {...props}
     >
       <ProgressPrimitive.Indicator
         className="h-full w-full flex-1 bg-primary transition-all"

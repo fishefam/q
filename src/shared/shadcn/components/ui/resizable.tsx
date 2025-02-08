@@ -8,7 +8,7 @@ import * as ResizablePrimitive from 'react-resizable-panels'
 function ResizableHandle({
   className,
   withHandle,
-  ...properties
+  ...props
 }: {
   withHandle?: boolean
 } & React.ComponentProps<typeof ResizablePrimitive.PanelResizeHandle>) {
@@ -19,7 +19,7 @@ function ResizableHandle({
         className,
       )}
       data-slot="resizable-handle"
-      {...properties}
+      {...props}
     >
       {withHandle && (
         <div className="z-10 flex h-4 w-3 items-center justify-center rounded-xs border bg-border">
@@ -31,16 +31,14 @@ function ResizableHandle({
 }
 
 function ResizablePanel({
-  ...properties
+  ...props
 }: React.ComponentProps<typeof ResizablePrimitive.Panel>) {
-  return (
-    <ResizablePrimitive.Panel data-slot="resizable-panel" {...properties} />
-  )
+  return <ResizablePrimitive.Panel data-slot="resizable-panel" {...props} />
 }
 
 function ResizablePanelGroup({
   className,
-  ...properties
+  ...props
 }: React.ComponentProps<typeof ResizablePrimitive.PanelGroup>) {
   return (
     <ResizablePrimitive.PanelGroup
@@ -49,7 +47,7 @@ function ResizablePanelGroup({
         className,
       )}
       data-slot="resizable-panel-group"
-      {...properties}
+      {...props}
     />
   )
 }

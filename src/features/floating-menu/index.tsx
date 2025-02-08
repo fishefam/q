@@ -20,9 +20,9 @@ import { MonitorSmartphone, Sidebar } from 'lucide-react'
 export function FloatingMenu() {
   const {
     isResponsiveView,
-    isSidebarVisible,
+    isSidebarOpen,
     setIsResponsiveView,
-    setIsSidebarVisible,
+    setIsSidebarOpen,
   } = useCMSControlContext()
 
   return (
@@ -101,8 +101,8 @@ export function FloatingMenu() {
 
       <Toggle
         aria-label="Toggle side bar"
-        onPressedChange={setIsSidebarVisible}
-        pressed={isSidebarVisible}
+        onPressedChange={setIsSidebarOpen}
+        pressed={isSidebarOpen}
       >
         <Sidebar />
       </Toggle>

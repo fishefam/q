@@ -1,11 +1,11 @@
 'use client'
 
-import type { ToasterProps } from 'sonner'
+import type { ToasterProps } from 'sonner';
 
 import { useTheme } from 'next-themes'
 import { Toaster as Sonner } from 'sonner'
 
-const Toaster = ({ ...properties }: ToasterProps) => {
+const Toaster = ({ ...props }: ToasterProps) => {
   const { theme = 'system' } = useTheme()
 
   return (
@@ -23,7 +23,7 @@ const Toaster = ({ ...properties }: ToasterProps) => {
             'group toast group-[.toaster]:bg-background group-[.toaster]:text-foreground group-[.toaster]:border-border group-[.toaster]:shadow-lg',
         },
       }}
-      {...properties}
+      {...props}
     />
   )
 }

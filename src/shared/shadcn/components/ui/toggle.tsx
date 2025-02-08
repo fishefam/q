@@ -31,14 +31,14 @@ function Toggle({
   className,
   size,
   variant,
-  ...properties
+  ...props
 }: React.ComponentProps<typeof TogglePrimitive.Root> &
   VariantProps<typeof toggleVariants>) {
   return (
     <TogglePrimitive.Root
       className={cn(toggleVariants({ className, size, variant }))}
       data-slot="toggle"
-      {...properties}
+      {...props}
     />
   )
 }

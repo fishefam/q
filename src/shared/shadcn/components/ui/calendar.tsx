@@ -10,7 +10,7 @@ function Calendar({
   className,
   classNames,
   showOutsideDays = true,
-  ...properties
+  ...props
 }: React.ComponentProps<typeof DayPicker>) {
   return (
     <DayPicker
@@ -20,7 +20,7 @@ function Calendar({
         caption_label: 'text-sm font-medium',
         cell: cn(
           'relative p-0 text-center text-sm focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-accent [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected].day-range-end)]:rounded-r-md',
-          properties.mode === 'range'
+          props.mode === 'range'
             ? '[&:has(>.day-range-end)]:rounded-r-md [&:has(>.day-range-start)]:rounded-l-md first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md'
             : '[&:has([aria-selected])]:rounded-md',
         ),
@@ -56,17 +56,15 @@ function Calendar({
         ...classNames,
       }}
       components={{
-        NextMonthButton: ({ className, ...properties_ }) => (
-          // @ts-expect-error old types
-          <ChevronRight className={cn('size-4', className)} {...properties_} />
+        IconLeft: ({ className, ...props }) => (
+          <ChevronLeft className={cn('size-4', className)} {...props} />
         ),
-        PreviousMonthButton: ({ className, ...properties_ }) => (
-          // @ts-expect-error old types
-          <ChevronLeft className={cn('size-4', className)} {...properties_} />
+        IconRight: ({ className, ...props }) => (
+          <ChevronRight className={cn('size-4', className)} {...props} />
         ),
       }}
       showOutsideDays={showOutsideDays}
-      {...properties}
+      {...props}
     />
   )
 }

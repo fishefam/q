@@ -8,7 +8,7 @@ function Separator({
   className,
   decorative = true,
   orientation = 'horizontal',
-  ...properties
+  ...props
 }: React.ComponentProps<typeof SeparatorPrimitive.Root>) {
   return (
     <SeparatorPrimitive.Root
@@ -19,7 +19,7 @@ function Separator({
       data-slot="separator-root"
       decorative={decorative}
       orientation={orientation}
-      {...properties}
+      {...props}
     />
   )
 }
