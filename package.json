@@ -8,6 +8,7 @@
     "dev": "rimraf .next && next dev --turbopack",
     "format": "prettier . --write",
     "lint": "next lint --fix",
+    "migrate": "node-pg-migrate",
     "preview": "rimraf .next && next build && next start",
     "start": "next start",
     "supabase": "supabase"
@@ -103,8 +104,8 @@
   },
   "engines": {
     "node": "22",
-    "yarn": "not allowed",
-    "pnpm": "not allowed"
+    "pnpm": "not allowed",
+    "yarn": "not allowed"
   },
   "engineStrict": true
 }
