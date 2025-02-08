@@ -44,3 +44,6 @@ next-env.d.ts
 pnpm-lock.*
 yarn.lock
 bun.lock*
+
+# supabase
+supabase

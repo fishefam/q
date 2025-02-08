@@ -11,7 +11,8 @@
     "migrate": "node-pg-migrate",
     "preview": "rimraf .next && next build && next start",
     "start": "next start",
-    "supabase": "supabase"
+    "supabase": "supabase",
+    "gendb": "pg-to-ts generate -c postgresql://postgres:postgres@127.0.0.1:54322/postgres -o src/shared/database/types/db.ts"
   },
   "resolutions": {
     "whatwg-url": "^14.1.0"
@@ -86,6 +87,7 @@
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
     "@types/validator": "^13.12.2",
+    "dotenv": "^16.4.7",
     "eslint": "^9.20.0",
     "eslint-config-next": "^15.1.6",
     "eslint-plugin-import": "^2.31.0",
@@ -95,6 +97,7 @@
     "husky": "^9.1.7",
     "lint-staged": "^15.4.3",
     "node-pg-migrate": "^7.9.1",
+    "pg-to-ts": "^4.1.1",
     "prettier": "^3.4.2",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "rimraf": "^6.0.1",
