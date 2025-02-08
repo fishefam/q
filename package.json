@@ -14,7 +14,7 @@
     "prepare": "husky",
     "preview": "rimraf .next && next build && next start",
     "start": "next start",
-    "setup": "supabase init && supabase start"
+    "setup": "supabase init --force --with-vscode-settings && supabase start"
   },
   "resolutions": {
     "whatwg-url": "^14.1.0"
