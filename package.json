@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "build": "next build",
+    "check-updates": "npx npm-check-updates",
     "cleanslate": "git reset --hard && git clean -xdf",
     "dbgen": "dotenv -- npm run dbgen_",
     "dbgen_": "pg-to-ts generate -c $DATABASE_URL -o database.ts",
@@ -103,7 +104,7 @@
     "lint-staged": "^15.4.3",
     "node-pg-migrate": "^7.9.1",
     "pg-to-ts": "^4.1.1",
-    "prettier": "^3.4.2",
+    "prettier": "^3.5.0",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "rimraf": "^6.0.1",
     "supabase": "^2.9.6",
