@@ -9,7 +9,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarRail,
 } from '@/shared/shadcn/components/ui/sidebar'
 import { VersionSwitcher } from '@/shared/shadcn/components/version-switcher'
 import * as React from 'react'
@@ -177,7 +176,6 @@ export function AppSidebar({
           </SidebarGroup>
         ))}
       </SidebarContent>
-      <SidebarRail />
     </Sidebar>
   )
 }
