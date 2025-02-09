@@ -23,6 +23,7 @@ const eslintConfig = [
   {
     ignores: [
       '*.config.*',
+      'modules.d.ts',
       'src/app/**/*',
       'src/shared/resizable-panels/**/*',
       'src/shared/shadcn/**/*',

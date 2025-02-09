@@ -31,6 +31,7 @@ export function up(pgm) {
       type: 'text',
     },
     is_active: { default: true, notNull: true, type: 'boolean' },
+    language: { notNull: true, references: 'language(id)', type: 'text' },
     modified_at: { default: now, type: 'timestamp' },
     modified_by: { type: 'text' },
     module_url: { type: 'text' },

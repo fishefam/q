@@ -101,6 +101,7 @@
     "eslint-plugin-unicorn": "^56.0.1",
     "eslint-plugin-unused-imports": "^4.1.4",
     "husky": "^9.1.7",
+    "language-list": "^0.0.3",
     "lint-staged": "^15.4.3",
     "node-pg-migrate": "^7.9.1",
     "pg-to-ts": "^4.1.1",

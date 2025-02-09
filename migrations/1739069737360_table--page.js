@@ -32,6 +32,7 @@ export function up(pgm) {
       type: 'text',
     },
     is_active: { default: true, notNull: true, type: 'boolean' },
+    language: { references: 'language(id)', type: 'text' },
     modified_at: { default: now, type: 'timestamp' },
     modified_by: { type: 'text' },
     name: { comment: 'Friendly name to represent page in CMS', type: 'text' },
