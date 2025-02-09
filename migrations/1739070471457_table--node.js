@@ -74,7 +74,7 @@ export function up(pgm) {
 
   pgm.sql(`
     CREATE TRIGGER ${incrementVersionTrigger}
-    BEFORE INSERT ON node
+    BEFORE INSERT ON ${table}
     FOR EACH ROW
     EXECUTE FUNCTION ${incrementVersionFunction}();
   `)
