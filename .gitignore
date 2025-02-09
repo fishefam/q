@@ -47,5 +47,3 @@ bun.lock*
 
 # supabase
 supabase
-
-!.husky/_/
