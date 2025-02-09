@@ -29,10 +29,11 @@ export function up(pgm) {
   pgm.createTable(table, {
     code: { notNull: true, type: 'text', unique: true },
     id: { default: pgm.func('nanoid(10)'), primaryKey: true, type: 'text' },
+    is_active: { default: true, notNull: true, type: 'boolean' },
     language: { notNull: true, type: 'text', unique: true },
   })
   pgm.sql(`
-    INSERT INTO ${table} (id, code, language) VALUES
-    ${languagesWithCodes.map(({ code, language }) => `('${nanoid(10)}','${code}', '${language}')`)}
+    INSERT INTO ${table} (id, code, language, is_active) VALUES
+    ${languagesWithCodes.map(({ code, language }) => `('${nanoid(10)}','${code}', '${language}', ${code === 'en' ? true : false})`)}
   `)
 }

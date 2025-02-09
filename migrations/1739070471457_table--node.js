@@ -26,7 +26,7 @@ export function up(pgm) {
     css: { type: 'text' },
     id: {
       default: pgm.func('nanoid()'),
-      notNull: true,
+      onDelete: 'CASCADE',
       primaryKey: true,
       type: 'text',
     },
@@ -37,11 +37,15 @@ export function up(pgm) {
     module_url: { type: 'text' },
     mount_id: { references: `${table}(id)`, type: 'text' },
     name: { comment: 'Friendly name to represent node in CMS', type: 'text' },
-    order: { notNull: true, type: 'int' },
+    order: { default: 0, notNull: true, type: 'int' },
     page_id: { notNull: true, references: 'page(id)', type: 'text' },
     require_auth: { default: false, notNull: true, type: 'boolean' },
-    tag_name: { type: 'text' },
-    tags: { comment: 'hashtag tags for node', default: '{}', type: 'text[]' },
-    text: { type: 'text' },
+    tag_name: { default: 'div', notNull: true, type: 'text' },
+    tags: {
+      comment: 'hashtag tags for node',
+      default: '{}',
+      notNull: true,
+      type: 'text[]',
+    },
   })
 }

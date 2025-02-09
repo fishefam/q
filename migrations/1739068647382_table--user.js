@@ -20,13 +20,13 @@ export function up(pgm) {
   pgm.createTable(table, {
     alias: { type: 'text', unique: true },
     cms_access: { default: true, notNull: true, type: 'boolean' },
-    first_name: { notNull: true, type: 'text' },
+    first_name: { default: '', notNull: true, type: 'text' },
     id: {
       notNull: true,
       primaryKey: true,
       type: 'text',
     },
-    last_name: { notNull: true, type: 'text' },
+    last_name: { default: '', notNull: true, type: 'text' },
     middle_name: { type: 'text' },
     profile_image: { type: 'text' },
     role: { notNull: true, type: 'text' },

@@ -26,7 +26,6 @@ export function up(pgm) {
     created_by: { notNull: true, type: 'text' },
     id: {
       default: pgm.func('nanoid()'),
-      notNull: true,
       onDelete: 'CASCADE',
       primaryKey: true,
       type: 'text',
