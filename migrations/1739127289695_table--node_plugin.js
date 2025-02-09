@@ -1,6 +1,6 @@
 export const shorthands = undefined
 
-const table = 'metadata'
+const table = 'node_plugin'
 
 /**
  * @param pgm {import('node-pg-migrate').MigrationBuilder}
@@ -18,10 +18,13 @@ export function down(pgm) {
  */
 export function up(pgm) {
   pgm.createTable(table, {
-    content: { type: 'text' },
+    cascade_depth: { type: 'int' },
     id: { default: pgm.func('nanoid()'), primaryKey: true, type: 'text' },
     is_active: { default: true, notNull: true, type: 'boolean' },
-    name: { notNull: true, type: 'text', unique: true },
-    page_id: { references: 'page(id)', type: 'text' },
+    keep_on_site: { default: true, notNull: true, type: 'boolean' },
+    node_id: { notNull: true, references: 'node(id)', type: 'text' },
+    order: { notNull: true, type: 'int' },
+    require_auth: { default: false, notNull: true, type: 'boolean' },
+    url: { notNull: true, type: 'text' },
   })
 }
