@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "cleanslate": "git reset --hard && git clean -xf",
+    "cleanslate": "git reset --hard && git clean -xdf",
     "dbgen": "dotenv -- npm run dbgen_",
     "dbgen_": "pg-to-ts generate -c $DATABASE_URL -o database.ts",
     "dev": "rimraf .next && next dev --turbopack",
