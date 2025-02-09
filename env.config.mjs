@@ -8,8 +8,8 @@ const __dirname = dirname(__filename)
 const envPath = join(__dirname, '.env')
 const variableMap = {
   'anon key': 'NEXT_PUBLIC_SUPABASE_ANON_KEY',
+  'API URL': 'NEXT_PUBLIC_SUPABASE_URL',
   'DB URL': 'DATABASE_URL',
-  'NEXT_PUBLIC_SUPABASE_URL': 'NEXT_PUBLIC_SUPABASE_URL',
   'S3 Storage URL': 'BLOB_URL',
   'service_role key': 'BLOB_TOKEN',
 }
