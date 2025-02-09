@@ -14,7 +14,7 @@
     "postmigrate": "npm run dbgen",
     "prepare": "husky",
     "preview": "rimraf .next && next build && next start",
-    "setup-local": "printf \"n\n\" | supabase init --force && supabase start && node env.config.mjs && npm run dbgen",
+    "setup-local": "mkdir .local && cd .local && printf \"n\n\" | supabase init --force && supabase start && node env.config.mjs && npm run dbgen",
     "start": "next start",
     "supabase": "supabase"
   },
