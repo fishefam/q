@@ -13,7 +13,7 @@
       "react-resizable-panels": ["./src/shared/resizable-panels/src"],
       "shadcn-blocks/*": ["./src/shared/shadcn/components/*"],
       "shadcn/*": ["./src/shared/shadcn/components/ui/*"],
-      "@database": ["./database.ts"],
+      "@types/db": ["./db.ts"],
       "@/*": ["./src/*"]
     },
     "plugins": [{ "name": "next" }],
