@@ -37,11 +37,7 @@ export function up(pgm) {
     name: { comment: 'Friendly name to represent page in CMS', type: 'text' },
     path: { type: 'text', unique: true },
     require_auth: { default: false, notNull: true, type: 'boolean' },
-    tags: {
-      comment: 'hashtag tags',
-      default: pgm.func("'[]'::jsonb"),
-      type: 'jsonb',
-    },
+    tags: { comment: 'hashtag tags for page', default: '{}', type: 'text[]' },
     title: { type: 'text' },
   })
 

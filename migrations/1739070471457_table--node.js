@@ -40,6 +40,7 @@ export function up(pgm) {
     page_id: { notNull: true, references: 'page(id)', type: 'text' },
     require_auth: { default: false, notNull: true, type: 'boolean' },
     tag_name: { type: 'text' },
+    tags: { comment: 'hashtag tags for node', default: '{}', type: 'text[]' },
     text: { type: 'text' },
   })
 }
