@@ -1,41 +1,47 @@
-import fs from 'fs'
-import path from 'path'
-import { fileURLToPath } from 'url'
 import { execSync } from 'child_process'
+import { existsSync, readFileSync, writeFileSync } from 'fs'
+import { dirname, join } from 'path'
+import { fileURLToPath } from 'url'
 
 const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
-const envPath = path.join(__dirname, '.env')
-const variables = ['AUTH_PROVIDER', 'BLOB_TOKEN', 'BLOB_URL', 'DATABASE_URL']
+const __dirname = dirname(__filename)
+const envPath = join(__dirname, '.env')
+const variableMap = {
+  'anon key': 'NEXT_PUBLIC_SUPABASE_ANON_KEY',
+  'DB URL': 'DATABASE_URL',
+  'NEXT_PUBLIC_SUPABASE_URL': 'NEXT_PUBLIC_SUPABASE_URL',
+  'S3 Storage URL': 'BLOB_URL',
+  'service_role key': 'BLOB_TOKEN',
+}
 const status = getSupabaseStatus()
 const entries = status
   .split('\n')
   .map((v) => v.split(': ').map((v) => v.trim()))
   .map(([key, value]) => [
-    key === 'DB URL'
-      ? 'DATABASE_URL'
-      : key === 'S3 Storage URL'
-        ? 'BLOB_URL'
-        : key === 'service_role key'
-          ? 'BLOB_TOKEN'
-          : key,
-    key === 'service_role key' ? `Bearer ${value}` : value,
+    variableMap[key],
+    key.includes('service_role') ? `Bearer ${value}` : value,
   ])
-  .filter(([key]) => variables.includes(key))
-const finalEntries = [['AUTH_PROVIDER', 'supabase'], ...entries]
-const content =
-  finalEntries.map(([key, value]) => `${key}="${value}"`).join('\n') + '\n'
+  .filter(([key]) => key)
+const finalEntries = [['AUTH_PROVIDER', 'supabase'], ...entries].sort()
+const content = finalEntries
+  .map(([key, value]) => `${key}="${value}"`)
+  .join('\n')
 
-if (!fs.existsSync(envPath)) {
-  fs.writeFileSync(envPath, content)
+if (!existsSync(envPath)) {
+  writeFileSync(envPath, content)
   process.exit(0)
 }
 
-const existingEnv = fs.readFileSync(envPath, 'utf8')
-const newEntries = variables
+const existingEnv = readFileSync(envPath, 'utf8')
+const newEntries = Object.values(variableMap)
   .filter((v) => !existingEnv.includes(`${v}=`))
-  .map((v) => `${v}="${finalEntries.find(([key]) => key === v)[1]}"`)
-fs.writeFileSync(envPath, `${existingEnv.trim()}\n${newEntries.join('\n')}`)
+  .map((v) => {
+    const value = finalEntries.find(([key]) => key === v)
+    if (value) return `${v}="${value[1]}"`
+  })
+  .filter((value) => value)
+
+writeFileSync(envPath, `${existingEnv.trim()}\n${newEntries.join('\n')}`)
 
 function getSupabaseStatus() {
   try {
