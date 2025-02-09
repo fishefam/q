@@ -1,7 +1,6 @@
 export const shorthands = undefined
 
-const table = 'resizable'
-const referenceConstaint = 'resizable_node_id_version_fk'
+const table = 'node_resizable'
 
 /**
  * @param pgm {import('node-pg-migrate').MigrationBuilder}
@@ -9,7 +8,6 @@ const referenceConstaint = 'resizable_node_id_version_fk'
  * @returns {Promise<void> | void}
  */
 export function down(pgm) {
-  pgm.dropConstraint(table, referenceConstaint)
   pgm.dropTable(table, { cascade: true, ifExists: true })
 }
 
@@ -21,20 +19,9 @@ export function down(pgm) {
 export function up(pgm) {
   pgm.createTable(table, {
     direction: { notNull: true, type: '"Direction"' },
-    id: { primaryKey: true, type: 'text' },
+    id: { default: pgm.func('nanoid()'), primaryKey: true, type: 'text' },
     keep_on_site: { default: false, notNull: true, type: 'boolean' },
-    node_id: { notNull: true, type: 'text' },
-    node_version: { notNull: true, type: 'int' },
-    sizes: { default: pgm.func("'[]'::jsonb"), notNull: true, type: 'jsonb' },
-  })
-
-  pgm.addConstraint(table, referenceConstaint, {
-    foreignKeys: [
-      {
-        columns: ['node_id', 'node_version'],
-        onDelete: 'CASCADE',
-        references: 'node(id, version)',
-      },
-    ],
+    node_id: { notNull: true, references: 'node(id)', type: 'text' },
+    size: { default: '{}', notNull: true, type: 'numeric(15,10)[]' },
   })
 }
