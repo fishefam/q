@@ -28,4 +28,5 @@ export function getAuthActions() {
 
 export function getAuthMiddleware() {
   if (provider) return AUTH[provider].middleware
+  // test
 }
