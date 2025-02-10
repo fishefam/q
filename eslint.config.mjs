@@ -73,6 +73,7 @@ const eslintConfig = [
       'src/shared/shadcn/**/*',
       'src/shared/resizable-panels/**/*',
       'migrations/**/*',
+      'seeds/**/*',
     ],
     rules: { 'unicorn/filename-case': 'off' },
   },
