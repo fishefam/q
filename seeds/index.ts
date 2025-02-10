@@ -1,4 +1,4 @@
-import { pool } from '@/shared/utilities/pg'
+import { pool } from '@/shared/pg'
 import { readdirSync } from 'node:fs'
 
 type Caller = { order: number; seed: () => Promise<void> }

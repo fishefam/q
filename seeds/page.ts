@@ -1,7 +1,7 @@
-import type { Where } from '@/shared/utilities/pg'
+import type { Where } from '@/shared/pg/types'
 
+import { insert, select } from '@/shared/pg'
 import { createArray, lorem } from '@/shared/utilities'
-import { insert, select } from '@/shared/utilities/pg'
 
 export const order = 0
 

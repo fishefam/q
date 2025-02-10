@@ -1,8 +1,8 @@
-import type { Where } from '@/shared/utilities/pg'
+import type { Where } from '@/shared/pg/types'
 import type { NodeInput } from '@db'
 
+import { insert, select } from '@/shared/pg'
 import { createArray } from '@/shared/utilities'
-import { insert, select } from '@/shared/utilities/pg'
 
 export const order = 1
 
