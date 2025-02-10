@@ -21,7 +21,6 @@ export async function seed() {
   const errorMessage = `Error in page table: ${error?.message}`
   const successMessage = 'Succesfully seeded into `page` table'
   console.log(error ? errorMessage : successMessage)
-  return
 }
 
 function getPath() {
