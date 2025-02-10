@@ -43,7 +43,6 @@ export function View({ children }: Properties) {
             {({ window }) => (
               <DndProvider backend={HTML5Backend} context={window}>
                 {children}
-                hello
               </DndProvider>
             )}
           </ViewFrame>
