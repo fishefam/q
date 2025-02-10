@@ -18,10 +18,10 @@ export function down(pgm) {
  */
 export function up(pgm) {
   pgm.createTable(table, {
-    direction: { notNull: true, type: '"Direction"' },
     id: { default: pgm.func('nanoid()'), primaryKey: true, type: 'text' },
     node_id: { notNull: true, references: 'node(id)', type: 'text' },
-    show_on_site: { default: false, notNull: true, type: 'boolean' },
     size: { default: '{}', notNull: true, type: 'numeric(15,10)[]' },
+    direction: { notNull: true, type: '"Direction"' },
+    show_on_site: { default: false, notNull: true, type: 'boolean' },
   })
 }

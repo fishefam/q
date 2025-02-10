@@ -27,9 +27,9 @@ export function down(pgm) {
  */
 export function up(pgm) {
   pgm.createTable(table, {
-    code: { notNull: true, type: 'text', unique: true },
     id: { default: pgm.func('nanoid(10)'), primaryKey: true, type: 'text' },
     is_active: { default: true, notNull: true, type: 'boolean' },
+    code: { notNull: true, type: 'text', unique: true },
     language: { notNull: true, type: 'text', unique: true },
   })
   pgm.sql(`

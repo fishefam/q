@@ -56,6 +56,14 @@ const eslintConfig = [
       'react/self-closing-comp': 'error',
     },
   },
+  {
+    ignores: ['src/**/actions.ts', 'src/**/actions.tsx'],
+    rules: { 'require-await': 'error' },
+  },
+  {
+    files: ['migrations/**/*'],
+    rules: { 'perfectionist/sort-objects': 'off' },
+  },
 ]
 
 export default eslintConfig

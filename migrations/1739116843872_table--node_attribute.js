@@ -19,8 +19,8 @@ export function down(pgm) {
 export function up(pgm) {
   pgm.createTable(table, {
     id: { default: pgm.func('nanoid()'), primaryKey: true, type: 'text' },
-    key: { notNull: true, type: 'text' },
     node_id: { notNull: true, references: 'node(id)', type: 'text' },
+    key: { notNull: true, type: 'text' },
     value: { type: 'text' },
   })
 }

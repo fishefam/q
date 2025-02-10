@@ -18,13 +18,13 @@ export function down(pgm) {
  */
 export function up(pgm) {
   pgm.createTable(table, {
-    cascade_depth: { type: 'int' },
     id: { default: pgm.func('nanoid()'), primaryKey: true, type: 'text' },
-    is_active: { default: true, notNull: true, type: 'boolean' },
     node_id: { notNull: true, references: 'node(id)', type: 'text' },
+    url: { notNull: true, type: 'text' },
     order: { notNull: true, type: 'int' },
+    cascade_depth: { type: 'int' },
+    is_active: { default: true, notNull: true, type: 'boolean' },
     require_auth: { default: false, notNull: true, type: 'boolean' },
     show_on_site: { default: true, notNull: true, type: 'boolean' },
-    url: { notNull: true, type: 'text' },
   })
 }

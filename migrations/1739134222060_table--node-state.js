@@ -21,8 +21,8 @@ export function down(pgm) {
 export function up(pgm) {
   pgm.createTable(table, {
     id: { default: pgm.func('nanoid()'), primaryKey: true, type: 'text' },
-    name: { notNull: true, type: 'text', unique: true },
     node_id: { notNull: true, references: 'node(id)', type: 'text' },
+    name: { notNull: true, type: 'text', unique: true },
     value: { type: 'jsonb' },
   })
   pgm.addConstraint(table, nameConstraint, {

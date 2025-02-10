@@ -13,7 +13,7 @@
       "react-resizable-panels": ["./src/shared/resizable-panels/src"],
       "shadcn-blocks/*": ["./src/shared/shadcn/components/*"],
       "shadcn/*": ["./src/shared/shadcn/components/ui/*"],
-      "@types/db": ["./db.ts"],
+      "@db": ["./db.ts"],
       "@/*": ["./src/*"]
     },
     "plugins": [{ "name": "next" }],
@@ -28,6 +28,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "src/app/(cms)/cms/seed/seed.jsx"
   ]
 }

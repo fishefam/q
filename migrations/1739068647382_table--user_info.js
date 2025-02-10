@@ -1,6 +1,6 @@
 export const shorthands = undefined
 
-const table = 'user'
+const table = 'user_info'
 
 /**
  * @param pgm {import('node-pg-migrate').MigrationBuilder}
@@ -18,17 +18,13 @@ export function down(pgm) {
  */
 export function up(pgm) {
   pgm.createTable(table, {
-    alias: { type: 'text', unique: true },
-    cms_access: { default: true, notNull: true, type: 'boolean' },
+    id: { notNull: true, primaryKey: true, type: 'text' },
     first_name: { default: '', notNull: true, type: 'text' },
-    id: {
-      notNull: true,
-      primaryKey: true,
-      type: 'text',
-    },
-    last_name: { default: '', notNull: true, type: 'text' },
     middle_name: { type: 'text' },
+    last_name: { default: '', notNull: true, type: 'text' },
+    alias: { type: 'text', unique: true },
     profile_image: { type: 'text' },
+    cms_access: { default: true, notNull: true, type: 'boolean' },
     role: { notNull: true, type: 'text' },
   })
 }

@@ -22,23 +22,23 @@ export function up(pgm) {
   const now = pgm.func('CURRENT_TIMESTAMP')
 
   pgm.createTable(table, {
-    created_at: { default: now, notNull: true, type: 'timestamp' },
-    created_by: { notNull: true, type: 'text' },
     id: {
       default: pgm.func('nanoid()'),
       onDelete: 'CASCADE',
       primaryKey: true,
       type: 'text',
     },
-    is_active: { default: true, notNull: true, type: 'boolean' },
-    language: { references: 'language(id)', type: 'text' },
-    modified_at: { default: now, type: 'timestamp' },
-    modified_by: { type: 'text' },
     name: { comment: 'Friendly name to represent page in CMS', type: 'text' },
     path: { type: 'text', unique: true },
+    title: { type: 'text' },
+    language: { references: 'language(id)', type: 'text' },
+    is_active: { default: true, notNull: true, type: 'boolean' },
     require_auth: { default: false, notNull: true, type: 'boolean' },
     tags: { comment: 'hashtag tags for page', default: '{}', type: 'text[]' },
-    title: { type: 'text' },
+    created_at: { default: now, notNull: true, type: 'timestamp' },
+    created_by: { notNull: true, type: 'text' },
+    modified_at: { default: now, type: 'timestamp' },
+    modified_by: { type: 'text' },
   })
 
   pgm.addConstraint(table, pathFormatConstraint, "CHECK (path ~ '^/.*[^/]$')")

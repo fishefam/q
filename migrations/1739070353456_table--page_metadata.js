@@ -18,10 +18,10 @@ export function down(pgm) {
  */
 export function up(pgm) {
   pgm.createTable(table, {
-    content: { default: '', notNull: true, type: 'text' },
     id: { default: pgm.func('nanoid()'), primaryKey: true, type: 'text' },
-    is_active: { default: true, notNull: true, type: 'boolean' },
-    name: { notNull: true, type: 'text', unique: true },
     page_id: { notNull: true, references: 'page(id)', type: 'text' },
+    name: { notNull: true, type: 'text', unique: true },
+    content: { default: '', notNull: true, type: 'text' },
+    is_active: { default: true, notNull: true, type: 'boolean' },
   })
 }
