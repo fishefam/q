@@ -16,7 +16,7 @@
     "postmigrate": "npm run dbgen",
     "prepare": "husky",
     "preview": "rimraf .next && next build && next start",
-    "seed": "bun seeds",
+    "seed": "bun seeds/index.ts",
     "setup-local": "printf \"n\n\" | supabase init --force && supabase start && node env.config.mjs && npm run dbgen",
     "start": "next start",
     "supabase": "supabase"

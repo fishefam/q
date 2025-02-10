@@ -10,15 +10,19 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 const compat = new FlatCompat({ baseDirectory: __dirname })
+const unicornConfig = unicorn.configs['flat/recommended']
 
 /** @type {import('eslint').Linter.Config} */
 const eslintConfig = [
   ...compat.extends('next/core-web-vitals', 'next/typescript'),
   perfectionist.configs['recommended-alphabetical'],
   {
-    ...unicorn.configs['flat/recommended'],
-    ignores: ['src/shared/shadcn/**/*', 'index.d.ts'],
-    rules: { 'unicorn/no-nested-ternary': 'off' },
+    ...unicornConfig,
+    ignores: ['src/shared/shadcn/**/*', 'index.d.ts', 'db.ts'],
+    rules: {
+      ...unicornConfig.rules,
+      'unicorn/no-nested-ternary': 'off',
+    },
   },
   {
     ignores: [
@@ -63,6 +67,10 @@ const eslintConfig = [
   {
     files: ['migrations/**/*'],
     rules: { 'perfectionist/sort-objects': 'off' },
+  },
+  {
+    files: ['migrations/**/*'],
+    rules: { 'unicorn/filename-case': 'off' },
   },
 ]
 

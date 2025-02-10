@@ -43,7 +43,7 @@ export interface Node {
   order: number
   /** Friendly name to represent node in CMS */
   name: string | null
-  language: string
+  language_id: string
   module_url: string | null
   class_name: string | null
   css: string | null
@@ -53,7 +53,7 @@ export interface Node {
   /** hashtag tags for node */
   tags: string[]
   created_at: Date
-  created_by: string
+  created_by: string | null
   modified_at: Date | null
   modified_by: string | null
 }
@@ -64,7 +64,7 @@ export interface NodeInput {
   order?: number
   /** Friendly name to represent node in CMS */
   name?: string | null
-  language: string
+  language_id: string
   module_url?: string | null
   class_name?: string | null
   css?: string | null
@@ -74,7 +74,7 @@ export interface NodeInput {
   /** hashtag tags for node */
   tags?: string[]
   created_at?: Date
-  created_by: string
+  created_by?: string | null
   modified_at?: Date | null
   modified_by?: string | null
 }
@@ -86,7 +86,7 @@ export const node = {
     'mount_id',
     'order',
     'name',
-    'language',
+    'language_id',
     'module_url',
     'class_name',
     'css',
@@ -99,12 +99,12 @@ export const node = {
     'modified_at',
     'modified_by',
   ],
-  requiredForInsert: ['page_id', 'language', 'created_by'],
+  requiredForInsert: ['page_id', 'language_id'],
   primaryKey: 'id',
   foreignKeys: {
     page_id: { table: 'page', column: 'id', $type: null as unknown as Page },
     mount_id: { table: 'node', column: 'id', $type: null as unknown as Node },
-    language: {
+    language_id: {
       table: 'language',
       column: 'id',
       $type: null as unknown as Language,
