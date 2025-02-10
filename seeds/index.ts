@@ -10,4 +10,5 @@ const callers: Caller[] = await Promise.all(imports)
 for (const { seed } of callers.sort((a, b) => a.order - b.order)) await seed()
 
 await pool.end()
+
 console.log('Seeding ended')

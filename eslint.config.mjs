@@ -69,7 +69,11 @@ const eslintConfig = [
     rules: { 'perfectionist/sort-objects': 'off' },
   },
   {
-    files: ['migrations/**/*'],
+    files: [
+      'src/shared/shadcn/**/*',
+      'src/shared/resizable-panels/**/*',
+      'migrations/**/*',
+    ],
     rules: { 'unicorn/filename-case': 'off' },
   },
 ]

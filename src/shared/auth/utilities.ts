@@ -37,13 +37,12 @@ export function getAuthFormData(
   )
     error.password = ErrorMessage.WeakPassword
 
-  if (Object.values(error).some((value) => value)) return [error, undefined]
+  if (Object.values(error).some(Boolean)) return [error, undefined]
 
   return [undefined, data]
 }
 
-export function redirect(redirectTo?: Path) {
-  const path = redirectTo ?? '/cms'
+export function redirect(path = '/cms') {
   revalidatePath(path, 'layout')
   redirect_(path)
 }
