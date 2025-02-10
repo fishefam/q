@@ -337,33 +337,33 @@ export const node_text = {
 // Table page
 export interface Page {
   id: string
+  language_id: string
   /** Friendly name to represent page in CMS */
   name: string | null
-  path: string | null
+  path: string
   title: string | null
-  language: string | null
   is_active: boolean
   require_auth: boolean
   /** hashtag tags for page */
   tags: string[] | null
   created_at: Date
-  created_by: string
+  created_by: string | null
   modified_at: Date | null
   modified_by: string | null
 }
 export interface PageInput {
   id?: string
+  language_id: string
   /** Friendly name to represent page in CMS */
   name?: string | null
-  path?: string | null
+  path: string
   title?: string | null
-  language?: string | null
   is_active?: boolean
   require_auth?: boolean
   /** hashtag tags for page */
   tags?: string[] | null
   created_at?: Date
-  created_by: string
+  created_by?: string | null
   modified_at?: Date | null
   modified_by?: string | null
 }
@@ -371,10 +371,10 @@ export const page = {
   tableName: 'page',
   columns: [
     'id',
+    'language_id',
     'name',
     'path',
     'title',
-    'language',
     'is_active',
     'require_auth',
     'tags',
@@ -383,10 +383,10 @@ export const page = {
     'modified_at',
     'modified_by',
   ],
-  requiredForInsert: ['created_by'],
+  requiredForInsert: ['language_id', 'path'],
   primaryKey: 'id',
   foreignKeys: {
-    language: {
+    language_id: {
       table: 'language',
       column: 'id',
       $type: null as unknown as Language,
@@ -434,7 +434,7 @@ export interface PgmigrationsInput {
   name: string
   run_on: Date
 }
-const pgmigrations = {
+export const pgmigrations = {
   tableName: 'pgmigrations',
   columns: ['id', 'name', 'run_on'],
   requiredForInsert: ['name', 'run_on'],
@@ -543,7 +543,7 @@ export interface TableTypes {
   }
 }
 
-const tables = {
+export const tables = {
   language,
   node,
   node_attribute,
@@ -559,40 +559,3 @@ const tables = {
   pgmigrations,
   user_info,
 }
-
-export const seedColumns = [
-  { field: 'id', type: 'string' },
-  { field: 'is_active', type: 'boolean' },
-  { field: 'code', type: 'string' },
-  { field: 'language', type: 'string' },
-  { field: 'page_id', type: 'string' },
-  { field: 'mount_id', type: 'string' },
-  { field: 'order', type: 'number' },
-  { field: 'name', type: 'string' },
-  { field: 'module_url', type: 'string' },
-  { field: 'class_name', type: 'string' },
-  { field: 'css', type: 'string' },
-  { field: 'require_auth', type: 'boolean' },
-  { field: 'tag_name', type: 'string' },
-  { field: 'created_by', type: 'string' },
-  { field: 'modified_by', type: 'string' },
-  { field: 'node_id', type: 'string' },
-  { field: 'key', type: 'string' },
-  { field: 'value', type: 'string' },
-  { field: 'api', type: 'string' },
-  { field: 'url', type: 'string' },
-  { field: 'cascade_depth', type: 'number' },
-  { field: 'show_on_site', type: 'boolean' },
-  { field: 'text', type: 'string' },
-  { field: 'path', type: 'string' },
-  { field: 'title', type: 'string' },
-  { field: 'content', type: 'string' },
-  { field: 'id', type: 'number' },
-  { field: 'first_name', type: 'string' },
-  { field: 'middle_name', type: 'string' },
-  { field: 'last_name', type: 'string' },
-  { field: 'alias', type: 'string' },
-  { field: 'profile_image', type: 'string' },
-  { field: 'cms_access', type: 'boolean' },
-  { field: 'role', type: 'string' },
-]

@@ -24,11 +24,12 @@
   },
   "exclude": ["node_modules"],
   "include": [
+    "seeds",
     "modules.d.ts",
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/app/(cms)/cms/seed/seed.jsx"
+    "src/features/seed/seed.jsx"
   ]
 }
