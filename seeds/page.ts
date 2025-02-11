@@ -1,5 +1,5 @@
 import type { Where } from '@/shared/pg/types'
-import type { PageInput } from '@db'
+import type { PageInput } from '@database'
 
 import { insert, select } from '@/shared/pg'
 import { createArray, lorem } from '@/shared/utilities'

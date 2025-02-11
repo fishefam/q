@@ -1,5 +1,3 @@
-import type { Where } from '@/shared/pg/types'
-
 import '../globals.css'
 
 import { CMSProvider } from '@/shared/components/contexts/cms'
@@ -9,16 +7,12 @@ import { select } from '@/shared/pg/'
 
 export default async function Layout({ children }: LayoutProperties) {
   const [, pages] = await select('page', '*')
-  const whereNode: Where<'node'>[] = [['page_id', '=', pages?.at(0)?.id]]
-  const [, nodes] = await select('node', '*', { where: whereNode })
-
-  // console.log('sdfasdfsda', pages, r)
 
   return (
     <html lang="en">
       <body>
         <GlobalProvider>
-          <CMSProvider initialNodes={nodes ?? []} initialPages={pages ?? []}>
+          <CMSProvider pages={pages ?? []}>
             <CMSControlProvider>{children}</CMSControlProvider>
           </CMSProvider>
         </GlobalProvider>

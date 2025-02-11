@@ -1,4 +1,4 @@
-import type { UserInfoInput } from '@db'
+import type { UserInfoInput } from '@database'
 
 import { insert } from '@/shared/pg'
 import { nanoid } from 'nanoid'

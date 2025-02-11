@@ -1,7 +1,7 @@
 'use server'
 
 import type { Where } from '@/shared/pg/types'
-import type { Node } from '@db'
+import type { Node } from '@database'
 
 import { select } from '@/shared/pg'
 

@@ -1,4 +1,4 @@
-import type { tables } from '@db'
+import type { tables } from '@database'
 
 export type Column<T extends TableName> = Tables[T]['columns'][number]
 

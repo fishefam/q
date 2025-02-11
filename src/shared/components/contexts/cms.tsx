@@ -1,19 +1,15 @@
 'use client'
 
-import type { Node, Page } from '@db'
+import type { Page } from '@database'
 
 import { createContext, useContext, useState } from 'react'
 
 type Context = {
-  nodes: Map_<Node>
   pages: Page[]
-  setNodes: Set<'nodes'>
   setPages: Set<'pages'>
 }
 
-type Map_<T> = Map<string, T>
-
-type ProviderProperties = { initialNodes: Node[]; initialPages: Page[] }
+type ProviderProperties = { pages: Page[] }
 
 type Set<T extends SetKey> = SetState<Context[T]>
 
@@ -22,14 +18,9 @@ type SetKey = Exclude<keyof Context, `set${string}`>
 const Context = createContext({} as Context)
 
 export function CMSProvider(properties: Properties<ProviderProperties>) {
-  const { initialNodes } = properties
-  const intialNodeEntries = initialNodes.map((node) => [node.id, node])
-  const initialNodeMap = new Map(intialNodeEntries as [string, Node][])
+  const [pages, setPages] = useState<Context['pages']>(properties.pages)
 
-  const [pages, setPages] = useState<Context['pages']>(properties.initialPages)
-  const [nodes, setNodes] = useState<Context['nodes']>(initialNodeMap)
-
-  const value: Context = { nodes, pages, setNodes, setPages }
+  const value: Context = { pages, setPages }
 
   return (
     <Context.Provider value={value}>{properties.children}</Context.Provider>
