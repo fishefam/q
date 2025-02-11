@@ -7,7 +7,7 @@
     "check-updates": "npx npm-check-updates",
     "dev": "rimraf .next && next dev --turbopack",
     "format": "prettier . --write",
-    "gen-db": "dotenv -- bun gen-db_ && node database.config.ts && eslint database.ts --fix",
+    "gen-db": "dotenv -- bun gen-db_ && bun database.config.ts && eslint database.ts --fix",
     "gen-db_": "pg-to-ts generate -c $DATABASE_URL -o database.ts",
     "init-env": "bun init-local && bun reset-db && bun seed",
     "init-local": "printf \"n\n\" | supabase init --force && supabase start && bun environment.config.ts && bun gen-db",
