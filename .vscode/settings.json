@@ -15,7 +15,7 @@
     "**/bun.lock": true,
     "**/CVS": true,
     "**/next-env.d.ts": true,
-    // "**/node_modules": true,
+    "**/node_modules": true,
     "**/package-lock.json": true,
     "**/supabase": true,
     "**/Thumbs.db": true
