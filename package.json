@@ -9,7 +9,7 @@
     "format": "prettier . --write",
     "gen-db": "dotenv -- bun gen-db_ && node database.config.mjs && eslint database.ts --fix",
     "gen-db_": "pg-to-ts generate -c $DATABASE_URL -o database.ts",
-    "init-env": "bun install && bun init-local && bun seed",
+    "init-env": "bun install && bun init-local && bun reset-db && bun seed",
     "init-local": "printf \"n\n\" | supabase init --force && supabase start && node environment.config.mjs && bun gen-db",
     "lint": "next lint --fix",
     "migrate": "node-pg-migrate",
