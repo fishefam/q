@@ -124,6 +124,7 @@
   },
   "engines": {
     "node": "22",
+    "npm": "not allowed",
     "pnpm": "not allowed",
     "yarn": "not allowed"
   },
