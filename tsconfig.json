@@ -11,8 +11,7 @@
     "noEmit": true,
     "paths": {
       "react-resizable-panels": ["./src/shared/resizable-panels/src"],
-      "shadcn-blocks/*": ["./src/shared/shadcn/components/*"],
-      "shadcn/*": ["./src/shared/shadcn/components/ui/*"],
+      "shadcn/*": ["./src/shared/shadcn/components/*"],
       "@database": ["./database.ts"],
       "@/*": ["./src/*"]
     },

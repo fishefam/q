@@ -1,5 +1,4 @@
-import '../globals.css'
-
+import '@/app/globals.css'
 import { CMSProvider } from '@/shared/components/contexts/cms'
 import { CMSControlProvider } from '@/shared/components/contexts/cms-control'
 import { GlobalProvider } from '@/shared/components/contexts/global'

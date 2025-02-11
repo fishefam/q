@@ -4,7 +4,7 @@ import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
-} from 'shadcn-blocks/ui/resizable'
+} from 'shadcn/ui/resizable'
 
 export default function Layout() {
   return (

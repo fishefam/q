@@ -4,14 +4,14 @@ import { FloatingMenu } from '@/features/floating-menu'
 import { View } from '@/features/view'
 import { useCMSContext } from '@/shared/components/contexts/cms'
 import { useCMSControlContext } from '@/shared/components/contexts/cms-control'
-import { AppSidebar } from 'shadcn-blocks/app-sidebar'
+import { AppSidebar } from 'shadcn/app-sidebar'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-} from 'shadcn-blocks/ui/select'
-import { SidebarInset, SidebarProvider } from 'shadcn/sidebar'
+} from 'shadcn/ui/select'
+import { SidebarInset, SidebarProvider } from 'shadcn/ui/sidebar'
 
 export default function Page() {
   const { pages } = useCMSContext()
@@ -20,17 +20,19 @@ export default function Page() {
   return (
     <SidebarProvider onOpenChange={setIsSidebarOpen} open={isSidebarOpen}>
       <Select>
-        <SelectTrigger>Trigger</SelectTrigger>
+        <SelectTrigger className="absolute bottom-0 z-50 w-full bg-black text-white">
+          Trigger
+        </SelectTrigger>
         <SelectContent>
           {pages.map((page) => (
             <SelectItem key={page.id} value={page.id}>
-              {page.path}
+              {page.path} {page.id}
             </SelectItem>
           ))}
         </SelectContent>
       </Select>
       <SidebarInset className="overflow-x-hidden">
-        <View />
+        <View>Hello</View>
         <FloatingMenu />
       </SidebarInset>
       <AppSidebar className="[&>div]:bg-transparent" side="right" />

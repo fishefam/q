@@ -1,7 +1,10 @@
+'use client'
+
 import type { ReactElement } from 'react'
 
 import { useCMSControlContext } from '@/shared/components/contexts/cms-control'
 import { cn } from '@/shared/shadcn/lib/utils'
+import { isClientSide } from '@/shared/utilities'
 import { getStyleSheets } from '@/shared/utilities/dom'
 import has from 'lodash/has'
 import isFunction from 'lodash/isFunction'
@@ -18,9 +21,9 @@ export const ViewFrame = memo(Frame)
 function Frame({ children }: { children: Children }) {
   const { isResponsiveView } = useCMSControlContext()
   const { body, head, reference } = useFrame()
-  const { bodyElements, headElements } = getElements(children)
-  const styleSheets = useStyleSheets()
 
+  const styleSheets = isClientSide() ? getStyleSheets() : []
+  const { bodyElements, headElements } = getElements(children)
   const { contentDocument, contentWindow } = reference.current ?? {}
 
   return (
@@ -79,11 +82,4 @@ function useFrame() {
     setBody(body)
   }, [])
   return { body, head, reference }
-}
-
-function useStyleSheets() {
-  const [styleSheets, setStyleSheets] =
-    useState<{ css: string; href?: string }[]>()
-  useEffect(() => setStyleSheets(getStyleSheets()), [])
-  return styleSheets
 }
