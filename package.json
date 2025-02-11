@@ -11,6 +11,7 @@
     "gen-db_": "pg-to-ts generate -c $DATABASE_URL -o database.ts",
     "init-env": "bun init-local && bun reset-db && bun seed",
     "init-local": "printf \"n\n\" | supabase init --force && supabase start && node environment.config.ts && bun gen-db",
+    "postinstall": "bun prepare",
     "lint": "next lint --fix",
     "migrate": "node-pg-migrate",
     "postmigrate": "bun gen-db",
