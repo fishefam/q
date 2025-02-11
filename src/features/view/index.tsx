@@ -11,10 +11,12 @@ import { HTML5Backend } from 'react-dnd-html5-backend'
 import { type Breakpoint, Breakpoints } from './breakpoints'
 import { ViewFrame } from './frame'
 
-export function View({ children }: Properties) {
+export function View(properties: Properties) {
   const { isResponsiveView } = useCMSControlContext()
   const references = useReferences()
   const { breakpoint, setBreakpoint } = useBreakpoint(references)
+
+  const { children } = properties
 
   const handleResize = () => {
     const resizableElement = references.resizable.current?.resizable

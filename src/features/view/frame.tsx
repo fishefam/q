@@ -15,16 +15,26 @@ type Children = ContextReactNode | ContextReactNode[] | ReactNode
 type ContextReactNode =
   | ((parameters: { document: Document; window: Window }) => ReactNode)
   | ReactNode
+type Elements = ReturnType<typeof getElements>
+type FrameProperties = { children: Children }
 
 export const ViewFrame = memo(Frame)
 
-function Frame({ children }: { children: Children }) {
+function Frame(properties: FrameProperties) {
   const { isResponsiveView } = useCMSControlContext()
   const { body, head, reference } = useFrame()
+  const [elements, setElements] = useState<Elements>()
 
+  const { children } = properties
+  const { bodyElements, headElements } = elements ?? {}
   const styleSheets = isClientSide() ? getStyleSheets() : []
-  const { bodyElements, headElements } = getElements(children)
   const { contentDocument, contentWindow } = reference.current ?? {}
+
+  const handleLoadedStyle = (index: number) => {
+    if (index === styleSheets.length - 1) {
+      setElements(getElements(children))
+    }
+  }
 
   return (
     <iframe
@@ -32,15 +42,23 @@ function Frame({ children }: { children: Children }) {
         'relative z-[1] size-full h-full',
         isResponsiveView && 'rounded-lg border',
       )}
+      onLoad={() => console.log('loaded')}
       ref={reference}
     >
       {head && styleSheets?.length
         ? styleSheets.map(({ css, href }, index) =>
             createPortal(
               href ? (
-                <link href={href} key={index} rel="stylesheet" />
+                <link
+                  href={href}
+                  key={index}
+                  onLoad={() => handleLoadedStyle(index)}
+                  rel="stylesheet"
+                />
               ) : (
-                <style key={index}>{css}</style>
+                <style key={index} onLoad={() => handleLoadedStyle(index)}>
+                  {css}
+                </style>
               ),
               head,
             ),
@@ -48,7 +66,7 @@ function Frame({ children }: { children: Children }) {
         : undefined}
       {head ? createPortal(headElements, head) : undefined}
       {body
-        ? bodyElements.map((element) =>
+        ? bodyElements?.map((element) =>
             createPortal(
               isFunction(element)
                 ? element({ document: contentDocument, window: contentWindow })

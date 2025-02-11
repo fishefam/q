@@ -5,7 +5,9 @@ import type { Page } from '@database'
 import { createContext, useContext, useState } from 'react'
 
 type Context = {
+  page: Page | undefined
   pages: Page[]
+  setPage: Set<'page'>
   setPages: Set<'pages'>
 }
 
@@ -18,13 +20,13 @@ type SetKey = Exclude<keyof Context, `set${string}`>
 const Context = createContext({} as Context)
 
 export function CMSProvider(properties: Properties<ProviderProperties>) {
-  const [pages, setPages] = useState<Context['pages']>(properties.pages)
+  const [pages, setPages] = useState(properties.pages)
+  const [page, setPage] = useState(pages.at(0))
 
-  const value: Context = { pages, setPages }
+  const { children } = properties
+  const value: Context = { page, pages, setPage, setPages }
 
-  return (
-    <Context.Provider value={value}>{properties.children}</Context.Provider>
-  )
+  return <Context.Provider value={value}>{children}</Context.Provider>
 }
 
 export function useCMSContext() {

@@ -20,7 +20,7 @@ const entries = status
   .split('\n')
   .map((v) => v.split(': ').map((v) => v.trim()))
   .map(([key, value]) => [
-    variableMap[key],
+    variableMap[key as never],
     key.includes('service_role') ? `Bearer ${value}` : value,
   ])
   .filter(([key]) => key)

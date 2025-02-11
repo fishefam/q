@@ -15,11 +15,12 @@ type Set<T extends ContextKey<Context>> = SetState<Context[T]>
 
 const Context = createContext({} as Context)
 
-export function CMSControlProvider({ children }: Properties) {
+export function CMSControlProvider(properties: Properties) {
   const [isBoxView, setIsBoxView] = useState(false)
   const [isResponsiveView, setIsResponsiveView] = useState(true)
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
 
+  const { children } = properties
   const value: Context = {
     isBoxView,
     isResponsiveView,

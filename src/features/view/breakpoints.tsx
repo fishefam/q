@@ -1,5 +1,3 @@
-'use client'
-
 import {
   Select,
   SelectContent,
@@ -10,9 +8,10 @@ import {
 import { useResizeObserver } from '@/shared/utilities/hooks'
 import { Triangle } from 'lucide-react'
 
-export type Breakpoint = {
-  name: string
-  value: number
+export type Breakpoint = { name: string; value: number }
+type BreakpointsProperties = {
+  breakpoint: Breakpoint | undefined
+  setBreakpoint: SetState<Breakpoint | undefined>
 }
 
 const breakpoints: Breakpoint[] = [
@@ -21,14 +20,11 @@ const breakpoints: Breakpoint[] = [
   { name: 'Desktop', value: 1366 },
 ]
 
-export function Breakpoints({
-  breakpoint,
-  setBreakpoint,
-}: {
-  breakpoint: Breakpoint | undefined
-  setBreakpoint: SetState<Breakpoint | undefined>
-}) {
+export function Breakpoints(properties: BreakpointsProperties) {
   const { rect, reference } = useResizeObserver({ wait: 0 })
+
+  const { breakpoint, setBreakpoint } = properties
+
   const changeBreakpoint = (value: string) =>
     setBreakpoint(breakpoints.find((bp) => bp.value.toString() === value))
 

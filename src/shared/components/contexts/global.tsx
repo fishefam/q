@@ -6,7 +6,8 @@ type Context = UnknownRecord
 
 const Context = createContext({} as Context)
 
-export function GlobalProvider({ children }: Properties) {
+export function GlobalProvider(properties: Properties) {
+  const { children } = properties
   return <Context.Provider value={{}}>{children}</Context.Provider>
 }
 
