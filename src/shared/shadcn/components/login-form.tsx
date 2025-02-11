@@ -1,47 +1,28 @@
 import { Button } from '@/shared/shadcn/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/shared/shadcn/components/ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/shadcn/components/ui/card'
 import { Input } from '@/shared/shadcn/components/ui/input'
 import { Label } from '@/shared/shadcn/components/ui/label'
 import { cn } from '@/shared/shadcn/lib/utils'
 
-export function LoginForm({
-  className,
-  ...props
-}: React.ComponentProps<'div'>) {
+export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
       <Card>
         <CardHeader>
           <CardTitle>Login to your account</CardTitle>
-          <CardDescription>
-            Enter your email below to login to your account
-          </CardDescription>
+          <CardDescription>Enter your email below to login to your account</CardDescription>
         </CardHeader>
         <CardContent>
           <form>
             <div className="flex flex-col gap-6">
               <div className="grid gap-3">
                 <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  placeholder="m@example.com"
-                  required
-                  type="email"
-                />
+                <Input id="email" placeholder="m@example.com" required type="email" />
               </div>
               <div className="grid gap-3">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
-                  <a
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                    href="#"
-                  >
+                  <a className="ml-auto inline-block text-sm underline-offset-4 hover:underline" href="#">
                     Forgot your password?
                   </a>
                 </div>

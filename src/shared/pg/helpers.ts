@@ -1,8 +1,6 @@
 import type { TableName, Where } from './types'
 
-export function validateWhere<T extends TableName>(
-  input: undefined | Where<T>[],
-) {
+export function validateWhere<T extends TableName>(input: undefined | Where<T>[]) {
   const where = input ?? []
   const last = where?.at(-1)
   const isLastUndefined = !last

@@ -92,10 +92,7 @@ export function registerResizeHandle(
   }
 }
 
-export function reportConstraintsViolation(
-  resizeHandleId: string,
-  flag: number,
-) {
+export function reportConstraintsViolation(resizeHandleId: string, flag: number) {
   panelConstraintFlags.set(resizeHandleId, flag)
 }
 
@@ -164,15 +161,7 @@ function handlePointerUp(event: ResizeEvent) {
   updateListeners()
 }
 
-function recalculateIntersectingHandles({
-  target,
-  x,
-  y,
-}: {
-  target: EventTarget | undefined
-  x: number
-  y: number
-}) {
+function recalculateIntersectingHandles({ target, x, y }: { target: EventTarget | undefined; x: number; y: number }) {
   intersectingHandles.splice(0)
 
   let targetElement: HTMLElement | SVGElement | undefined
@@ -188,11 +177,7 @@ function recalculateIntersectingHandles({
 
     const margin = isCoarsePointer ? hitAreaMargins.coarse : hitAreaMargins.fine
 
-    const eventIntersects =
-      x >= left - margin &&
-      x <= right + margin &&
-      y >= top - margin &&
-      y <= bottom + margin
+    const eventIntersects = x >= left - margin && x <= right + margin && y >= top - margin && y <= bottom + margin
 
     if (eventIntersects) {
       // TRICKY
@@ -223,13 +208,7 @@ function recalculateIntersectingHandles({
         while (currentElement) {
           if (currentElement.contains(dragHandleElement)) {
             break
-          } else if (
-            intersects(
-              currentElement.getBoundingClientRect(),
-              dragHandleRect,
-              true,
-            )
-          ) {
+          } else if (intersects(currentElement.getBoundingClientRect(), dragHandleRect, true)) {
             didIntersect = true
             break
           }
@@ -322,10 +301,7 @@ function updateListeners() {
   }
 }
 
-function updateResizeHandlerStates(
-  action: ResizeHandlerAction,
-  event: ResizeEvent,
-) {
+function updateResizeHandlerStates(action: ResizeHandlerAction, event: ResizeEvent) {
   for (const data of registeredResizeHandlers) {
     const { setResizeHandlerState } = data
 

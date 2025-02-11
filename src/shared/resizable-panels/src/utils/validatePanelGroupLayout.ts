@@ -15,22 +15,14 @@ export function validatePanelGroupLayout({
   panelConstraints: PanelConstraints[]
 }): number[] {
   const nextLayout = [...previousLayout]
-  const nextLayoutTotalSize = nextLayout.reduce(
-    (accumulated, current) => accumulated + current,
-    0,
-  )
+  const nextLayoutTotalSize = nextLayout.reduce((accumulated, current) => accumulated + current, 0)
 
   // Validate layout expectations
   if (nextLayout.length !== panelConstraints.length) {
     throw new Error(
-      `Invalid ${panelConstraints.length} panel layout: ${nextLayout
-        .map((size) => `${size}%`)
-        .join(', ')}`,
+      `Invalid ${panelConstraints.length} panel layout: ${nextLayout.map((size) => `${size}%`).join(', ')}`,
     )
-  } else if (
-    !fuzzyNumbersEqual(nextLayoutTotalSize, 100) &&
-    nextLayout.length > 0
-  ) {
+  } else if (!fuzzyNumbersEqual(nextLayoutTotalSize, 100) && nextLayout.length > 0) {
     // This is not ideal so we should warn about it, but it may be recoverable in some cases
     // (especially if the amount is small)
     if (isDevelopment) {
@@ -73,10 +65,7 @@ export function validatePanelGroupLayout({
   if (!fuzzyNumbersEqual(remainingSize, 0)) {
     for (let index = 0; index < panelConstraints.length; index++) {
       const previousSize = nextLayout[index]
-      assert(
-        previousSize != undefined,
-        `No layout data found for index ${index}`,
-      )
+      assert(previousSize != undefined, `No layout data found for index ${index}`)
       const unsafeSize = previousSize + remainingSize
       const safeSize = resizePanel({
         panelConstraints,

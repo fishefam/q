@@ -25,10 +25,7 @@ export function useResizeObserver<T extends HTMLElement = HTMLDivElement>({
 }) {
   const [rect, setRect] = useState<DOMRect>()
   const reference = useRef<null | T>(null)
-  const throttledSetRect = useCallback(
-    () => throttle(setRect, wait, { trailing: false }),
-    [wait],
-  )
+  const throttledSetRect = useCallback(() => throttle(setRect, wait, { trailing: false }), [wait])
 
   useEffect(() => {
     const element = reference.current

@@ -1,10 +1,4 @@
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-} from '@/shared/shadcn/components/ui/select'
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger } from '@/shared/shadcn/components/ui/select'
 import { useResizeObserver } from '@/shared/utilities/hooks'
 import { Triangle } from 'lucide-react'
 
@@ -25,18 +19,11 @@ export function Breakpoints(properties: BreakpointsProperties) {
 
   const { breakpoint, setBreakpoint } = properties
 
-  const changeBreakpoint = (value: string) =>
-    setBreakpoint(breakpoints.find((bp) => bp.value.toString() === value))
+  const changeBreakpoint = (value: string) => setBreakpoint(breakpoints.find((bp) => bp.value.toString() === value))
 
   return (
-    <div
-      className="absolute mx-auto h-px w-full max-w-full -translate-y-2 bg-gray-400/50 px-px"
-      ref={reference}
-    >
-      <Select
-        onValueChange={changeBreakpoint}
-        value={breakpoint?.value.toString()}
-      >
+    <div className="absolute mx-auto h-px w-full max-w-full -translate-y-2 bg-gray-400/50 px-px" ref={reference}>
+      <Select onValueChange={changeBreakpoint} value={breakpoint?.value.toString()}>
         <SelectTrigger className="absolute left-1/2 size-fit min-w-16 -translate-x-1/2 -translate-y-1/2 justify-center gap-1 rounded-sm border-none bg-white px-2 py-0 text-xs text-gray-500 shadow-none focus:ring-0">
           {breakpoint?.value ?? rect?.width ?? 0}
           px
@@ -44,11 +31,7 @@ export function Breakpoints(properties: BreakpointsProperties) {
         <SelectContent align="center">
           <SelectGroup>
             {breakpoints.map(({ name, value }) => (
-              <SelectItem
-                className="flex w-full flex-nowrap"
-                key={value}
-                value={value.toString()}
-              >
+              <SelectItem className="flex w-full flex-nowrap" key={value} value={value.toString()}>
                 {name} {value}px
               </SelectItem>
             ))}

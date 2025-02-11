@@ -2,9 +2,7 @@ import type { HTMLAttributes, SVGAttributes } from 'react'
 
 export function createElement<
   T extends keyof HTMLElementTagNameMap | keyof SVGElementTagNameMap,
-  U extends T extends keyof SVGElementTagNameMap
-    ? SVGAttributes<SVGElement>
-    : HTMLAttributes<HTMLElement>,
+  U extends T extends keyof SVGElementTagNameMap ? SVGAttributes<SVGElement> : HTMLAttributes<HTMLElement>,
 >(
   tag: T,
   options?: {
@@ -15,12 +13,10 @@ export function createElement<
   } & Partial<Record<'className' | 'id', string>>,
 ) {
   const element = document.createElement(tag)
-  const { attributes, className, id, innerHTML, parent, textContent } =
-    options ?? {}
+  const { attributes, className, id, innerHTML, parent, textContent } = options ?? {}
   if (attributes)
     for (const [key, value] of Object.entries(attributes))
-      if (['number', 'string'].includes(typeof value) || key.startsWith('on'))
-        element.setAttribute(key, value)
+      if (['number', 'string'].includes(typeof value) || key.startsWith('on')) element.setAttribute(key, value)
   if (id) element.id = id
   if (className) element.className = className
   if (textContent) element.textContent = textContent

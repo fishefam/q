@@ -27,14 +27,9 @@ export function getAuthFormData(
   }
   const error: AuthError = {}
 
-  if (data.email && !isEmail(data.email))
-    error.email = ErrorMessage.InvalidEmail
+  if (data.email && !isEmail(data.email)) error.email = ErrorMessage.InvalidEmail
 
-  if (
-    options?.checkPassword &&
-    data.password &&
-    !isStrongPassword(data.password)
-  )
+  if (options?.checkPassword && data.password && !isStrongPassword(data.password))
     error.password = ErrorMessage.WeakPassword
 
   if (Object.values(error).some(Boolean)) return [error, undefined]
@@ -47,11 +42,6 @@ export function redirect(path = '/cms') {
   redirect_(path)
 }
 
-function getFormData<T extends 'redirectTo' | string>(
-  formData: FormData,
-  key: T,
-) {
-  return formData.get(key)?.toString() as
-    | (T extends 'redirectTo' ? Path : string)
-    | undefined
+function getFormData<T extends 'redirectTo' | string>(formData: FormData, key: T) {
+  return formData.get(key)?.toString() as (T extends 'redirectTo' ? Path : string) | undefined
 }

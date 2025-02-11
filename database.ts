@@ -6,538 +6,520 @@
  *
  */
 
-export type Direction = "horizontal" | "vertical";
-export type Json = unknown;
+export type Direction = 'horizontal' | 'vertical'
+export type Json = unknown
 
 // Table language
 export interface Language {
-  code: string;
-  id: string;
-  is_active: boolean;
-  language: string;
+  code: string
+  id: string
+  is_active: boolean
+  language: string
 }
 export interface LanguageInput {
-  code: string;
-  id?: string;
-  is_active?: boolean;
-  language: string;
+  code: string
+  id?: string
+  is_active?: boolean
+  language: string
 }
 export const language = {
   $input: null as unknown as LanguageInput,
   $type: null as unknown as Language,
-  columns: ["id", "is_active", "code", "language"],
+  columns: ['id', 'is_active', 'code', 'language'],
   foreignKeys: {},
-  primaryKey: "id",
-  requiredForInsert: ["code", "language"],
-  tableName: "language",
-} as const;
+  primaryKey: 'id',
+  requiredForInsert: ['code', 'language'],
+  tableName: 'language',
+} as const
 
 // Table node
 export interface Node {
-  class_name: null | string;
-  created_at: Date;
-  created_by: null | string;
-  css: null | string;
-  id: string;
-  is_active: boolean;
-  language_id: string;
-  modified_at: Date | null;
-  modified_by: null | string;
-  module_url: null | string;
-  mount_id: null | string;
+  class_name: null | string
+  created_at: Date
+  created_by: null | string
+  css: null | string
+  id: string
+  is_active: boolean
+  language_id: string
+  modified_at: Date | null
+  modified_by: null | string
+  module_url: null | string
+  mount_id: null | string
   /** Friendly name to represent node in CMS */
-  name: null | string;
-  order: number;
-  page_id: string;
-  require_auth: boolean;
-  tag_name: string;
+  name: null | string
+  order: number
+  page_id: string
+  require_auth: boolean
+  tag_name: string
   /** hashtag tags for node */
-  tags: string[];
+  tags: string[]
 }
 export interface NodeInput {
-  class_name?: null | string;
-  created_at?: Date;
-  created_by?: null | string;
-  css?: null | string;
-  id?: string;
-  is_active?: boolean;
-  language_id: string;
-  modified_at?: Date | null;
-  modified_by?: null | string;
-  module_url?: null | string;
-  mount_id?: null | string;
+  class_name?: null | string
+  created_at?: Date
+  created_by?: null | string
+  css?: null | string
+  id?: string
+  is_active?: boolean
+  language_id: string
+  modified_at?: Date | null
+  modified_by?: null | string
+  module_url?: null | string
+  mount_id?: null | string
   /** Friendly name to represent node in CMS */
-  name?: null | string;
-  order?: number;
-  page_id: string;
-  require_auth?: boolean;
-  tag_name?: string;
+  name?: null | string
+  order?: number
+  page_id: string
+  require_auth?: boolean
+  tag_name?: string
   /** hashtag tags for node */
-  tags?: string[];
+  tags?: string[]
 }
 export const node = {
   $input: null as unknown as NodeInput,
   $type: null as unknown as Node,
   columns: [
-    "id",
-    "page_id",
-    "mount_id",
-    "order",
-    "name",
-    "language_id",
-    "module_url",
-    "class_name",
-    "css",
-    "is_active",
-    "require_auth",
-    "tag_name",
-    "tags",
-    "created_at",
-    "created_by",
-    "modified_at",
-    "modified_by",
+    'id',
+    'page_id',
+    'mount_id',
+    'order',
+    'name',
+    'language_id',
+    'module_url',
+    'class_name',
+    'css',
+    'is_active',
+    'require_auth',
+    'tag_name',
+    'tags',
+    'created_at',
+    'created_by',
+    'modified_at',
+    'modified_by',
   ],
   foreignKeys: {
     language_id: {
       $type: null as unknown as Language,
-      column: "id",
-      table: "language",
+      column: 'id',
+      table: 'language',
     },
-    mount_id: { $type: null as unknown as Node, column: "id", table: "node" },
-    page_id: { $type: null as unknown as Page, column: "id", table: "page" },
+    mount_id: { $type: null as unknown as Node, column: 'id', table: 'node' },
+    page_id: { $type: null as unknown as Page, column: 'id', table: 'page' },
   },
-  primaryKey: "id",
-  requiredForInsert: ["page_id", "language_id"],
-  tableName: "node",
-} as const;
+  primaryKey: 'id',
+  requiredForInsert: ['page_id', 'language_id'],
+  tableName: 'node',
+} as const
 
 // Table node_attribute
 export interface NodeAttribute {
-  id: string;
-  key: string;
-  node_id: string;
-  value: null | string;
+  id: string
+  key: string
+  node_id: string
+  value: null | string
 }
 export interface NodeAttributeInput {
-  id?: string;
-  key: string;
-  node_id: string;
-  value?: null | string;
+  id?: string
+  key: string
+  node_id: string
+  value?: null | string
 }
 export const node_attribute = {
   $input: null as unknown as NodeAttributeInput,
   $type: null as unknown as NodeAttribute,
-  columns: ["id", "node_id", "key", "value"],
+  columns: ['id', 'node_id', 'key', 'value'],
   foreignKeys: {
-    node_id: { $type: null as unknown as Node, column: "id", table: "node" },
+    node_id: { $type: null as unknown as Node, column: 'id', table: 'node' },
   },
-  primaryKey: "id",
-  requiredForInsert: ["node_id", "key"],
-  tableName: "node_attribute",
-} as const;
+  primaryKey: 'id',
+  requiredForInsert: ['node_id', 'key'],
+  tableName: 'node_attribute',
+} as const
 
 // Table node_data_api
 export interface NodeDataApi {
-  api: string;
-  id: string;
-  node_id: string;
+  api: string
+  id: string
+  node_id: string
 }
 export interface NodeDataApiInput {
-  api: string;
-  id?: string;
-  node_id: string;
+  api: string
+  id?: string
+  node_id: string
 }
 export const node_data_api = {
   $input: null as unknown as NodeDataApiInput,
   $type: null as unknown as NodeDataApi,
-  columns: ["id", "node_id", "api"],
+  columns: ['id', 'node_id', 'api'],
   foreignKeys: {
-    node_id: { $type: null as unknown as Node, column: "id", table: "node" },
+    node_id: { $type: null as unknown as Node, column: 'id', table: 'node' },
   },
-  primaryKey: "id",
-  requiredForInsert: ["node_id", "api"],
-  tableName: "node_data_api",
-} as const;
+  primaryKey: 'id',
+  requiredForInsert: ['node_id', 'api'],
+  tableName: 'node_data_api',
+} as const
 
 // Table node_data_binding
 export interface NodeDataBinding {
-  id: string;
-  key: string;
-  node_id: string;
+  id: string
+  key: string
+  node_id: string
 }
 export interface NodeDataBindingInput {
-  id?: string;
-  key: string;
-  node_id: string;
+  id?: string
+  key: string
+  node_id: string
 }
 export const node_data_binding = {
   $input: null as unknown as NodeDataBindingInput,
   $type: null as unknown as NodeDataBinding,
-  columns: ["id", "node_id", "key"],
+  columns: ['id', 'node_id', 'key'],
   foreignKeys: {
-    node_id: { $type: null as unknown as Node, column: "id", table: "node" },
+    node_id: { $type: null as unknown as Node, column: 'id', table: 'node' },
   },
-  primaryKey: "id",
-  requiredForInsert: ["node_id", "key"],
-  tableName: "node_data_binding",
-} as const;
+  primaryKey: 'id',
+  requiredForInsert: ['node_id', 'key'],
+  tableName: 'node_data_binding',
+} as const
 
 // Table node_plugin
 export interface NodePlugin {
-  cascade_depth: null | number;
-  id: string;
-  is_active: boolean;
-  node_id: string;
-  order: number;
-  require_auth: boolean;
-  show_on_site: boolean;
-  url: string;
+  cascade_depth: null | number
+  id: string
+  is_active: boolean
+  node_id: string
+  order: number
+  require_auth: boolean
+  show_on_site: boolean
+  url: string
 }
 export interface NodePluginInput {
-  cascade_depth?: null | number;
-  id?: string;
-  is_active?: boolean;
-  node_id: string;
-  order: number;
-  require_auth?: boolean;
-  show_on_site?: boolean;
-  url: string;
+  cascade_depth?: null | number
+  id?: string
+  is_active?: boolean
+  node_id: string
+  order: number
+  require_auth?: boolean
+  show_on_site?: boolean
+  url: string
 }
 export const node_plugin = {
   $input: null as unknown as NodePluginInput,
   $type: null as unknown as NodePlugin,
-  columns: [
-    "id",
-    "node_id",
-    "url",
-    "order",
-    "cascade_depth",
-    "is_active",
-    "require_auth",
-    "show_on_site",
-  ],
+  columns: ['id', 'node_id', 'url', 'order', 'cascade_depth', 'is_active', 'require_auth', 'show_on_site'],
   foreignKeys: {
-    node_id: { $type: null as unknown as Node, column: "id", table: "node" },
+    node_id: { $type: null as unknown as Node, column: 'id', table: 'node' },
   },
-  primaryKey: "id",
-  requiredForInsert: ["node_id", "url", "order"],
-  tableName: "node_plugin",
-} as const;
+  primaryKey: 'id',
+  requiredForInsert: ['node_id', 'url', 'order'],
+  tableName: 'node_plugin',
+} as const
 
 // Table node_resizable
 export interface NodeResizable {
-  direction: Direction;
-  id: string;
-  node_id: string;
-  show_on_site: boolean;
-  size: number[];
+  direction: Direction
+  id: string
+  node_id: string
+  show_on_site: boolean
+  size: number[]
 }
 export interface NodeResizableInput {
-  direction: Direction;
-  id?: string;
-  node_id: string;
-  show_on_site?: boolean;
-  size?: number[];
+  direction: Direction
+  id?: string
+  node_id: string
+  show_on_site?: boolean
+  size?: number[]
 }
 export const node_resizable = {
   $input: null as unknown as NodeResizableInput,
   $type: null as unknown as NodeResizable,
-  columns: ["id", "node_id", "size", "direction", "show_on_site"],
+  columns: ['id', 'node_id', 'size', 'direction', 'show_on_site'],
   foreignKeys: {
-    node_id: { $type: null as unknown as Node, column: "id", table: "node" },
+    node_id: { $type: null as unknown as Node, column: 'id', table: 'node' },
   },
-  primaryKey: "id",
-  requiredForInsert: ["node_id", "direction"],
-  tableName: "node_resizable",
-} as const;
+  primaryKey: 'id',
+  requiredForInsert: ['node_id', 'direction'],
+  tableName: 'node_resizable',
+} as const
 
 // Table node_state
 export interface NodeState {
-  id: string;
-  name: string;
-  node_id: string;
-  value: Json | null;
+  id: string
+  name: string
+  node_id: string
+  value: Json | null
 }
 export interface NodeStateInput {
-  id?: string;
-  name: string;
-  node_id: string;
-  value?: Json | null;
+  id?: string
+  name: string
+  node_id: string
+  value?: Json | null
 }
 export const node_state = {
   $input: null as unknown as NodeStateInput,
   $type: null as unknown as NodeState,
-  columns: ["id", "node_id", "name", "value"],
+  columns: ['id', 'node_id', 'name', 'value'],
   foreignKeys: {
-    node_id: { $type: null as unknown as Node, column: "id", table: "node" },
+    node_id: { $type: null as unknown as Node, column: 'id', table: 'node' },
   },
-  primaryKey: "id",
-  requiredForInsert: ["node_id", "name"],
-  tableName: "node_state",
-} as const;
+  primaryKey: 'id',
+  requiredForInsert: ['node_id', 'name'],
+  tableName: 'node_state',
+} as const
 
 // Table node_style
 export interface NodeStyle {
-  id: string;
-  key: string;
-  node_id: string;
-  value: null | string;
+  id: string
+  key: string
+  node_id: string
+  value: null | string
 }
 export interface NodeStyleInput {
-  id?: string;
-  key: string;
-  node_id: string;
-  value?: null | string;
+  id?: string
+  key: string
+  node_id: string
+  value?: null | string
 }
 export const node_style = {
   $input: null as unknown as NodeStyleInput,
   $type: null as unknown as NodeStyle,
-  columns: ["id", "node_id", "key", "value"],
+  columns: ['id', 'node_id', 'key', 'value'],
   foreignKeys: {
-    node_id: { $type: null as unknown as Node, column: "id", table: "node" },
+    node_id: { $type: null as unknown as Node, column: 'id', table: 'node' },
   },
-  primaryKey: "id",
-  requiredForInsert: ["node_id", "key"],
-  tableName: "node_style",
-} as const;
+  primaryKey: 'id',
+  requiredForInsert: ['node_id', 'key'],
+  tableName: 'node_style',
+} as const
 
 // Table node_text
 export interface NodeText {
-  id: string;
-  language: string;
-  node_id: string;
-  text: string;
+  id: string
+  language: string
+  node_id: string
+  text: string
 }
 export interface NodeTextInput {
-  id?: string;
-  language: string;
-  node_id: string;
-  text: string;
+  id?: string
+  language: string
+  node_id: string
+  text: string
 }
 export const node_text = {
   $input: null as unknown as NodeTextInput,
   $type: null as unknown as NodeText,
-  columns: ["id", "language", "node_id", "text"],
+  columns: ['id', 'language', 'node_id', 'text'],
   foreignKeys: {
     language: {
       $type: null as unknown as Language,
-      column: "id",
-      table: "language",
+      column: 'id',
+      table: 'language',
     },
-    node_id: { $type: null as unknown as Node, column: "id", table: "node" },
+    node_id: { $type: null as unknown as Node, column: 'id', table: 'node' },
   },
-  primaryKey: "id",
-  requiredForInsert: ["language", "node_id", "text"],
-  tableName: "node_text",
-} as const;
+  primaryKey: 'id',
+  requiredForInsert: ['language', 'node_id', 'text'],
+  tableName: 'node_text',
+} as const
 
 // Table page
 export interface Page {
-  created_at: Date;
-  created_by: null | string;
-  id: string;
-  is_active: boolean;
-  language_id: string;
-  modified_at: Date | null;
-  modified_by: null | string;
+  created_at: Date
+  created_by: null | string
+  id: string
+  is_active: boolean
+  language_id: string
+  modified_at: Date | null
+  modified_by: null | string
   /** Friendly name to represent page in CMS */
-  name: null | string;
-  path: string;
-  require_auth: boolean;
+  name: null | string
+  path: string
+  require_auth: boolean
   /** hashtag tags for page */
-  tags: null | string[];
-  title: null | string;
+  tags: null | string[]
+  title: null | string
 }
 export interface PageInput {
-  created_at?: Date;
-  created_by?: null | string;
-  id?: string;
-  is_active?: boolean;
-  language_id: string;
-  modified_at?: Date | null;
-  modified_by?: null | string;
+  created_at?: Date
+  created_by?: null | string
+  id?: string
+  is_active?: boolean
+  language_id: string
+  modified_at?: Date | null
+  modified_by?: null | string
   /** Friendly name to represent page in CMS */
-  name?: null | string;
-  path: string;
-  require_auth?: boolean;
+  name?: null | string
+  path: string
+  require_auth?: boolean
   /** hashtag tags for page */
-  tags?: null | string[];
-  title?: null | string;
+  tags?: null | string[]
+  title?: null | string
 }
 export const page = {
   $input: null as unknown as PageInput,
   $type: null as unknown as Page,
   columns: [
-    "id",
-    "language_id",
-    "name",
-    "path",
-    "title",
-    "is_active",
-    "require_auth",
-    "tags",
-    "created_at",
-    "created_by",
-    "modified_at",
-    "modified_by",
+    'id',
+    'language_id',
+    'name',
+    'path',
+    'title',
+    'is_active',
+    'require_auth',
+    'tags',
+    'created_at',
+    'created_by',
+    'modified_at',
+    'modified_by',
   ],
   foreignKeys: {
     language_id: {
       $type: null as unknown as Language,
-      column: "id",
-      table: "language",
+      column: 'id',
+      table: 'language',
     },
   },
-  primaryKey: "id",
-  requiredForInsert: ["language_id", "path"],
-  tableName: "page",
-} as const;
+  primaryKey: 'id',
+  requiredForInsert: ['language_id', 'path'],
+  tableName: 'page',
+} as const
 
 // Table page_metadata
 export interface PageMetadata {
-  content: string;
-  id: string;
-  is_active: boolean;
-  name: string;
-  page_id: string;
+  content: string
+  id: string
+  is_active: boolean
+  name: string
+  page_id: string
 }
 export interface PageMetadataInput {
-  content?: string;
-  id?: string;
-  is_active?: boolean;
-  name: string;
-  page_id: string;
+  content?: string
+  id?: string
+  is_active?: boolean
+  name: string
+  page_id: string
 }
 export const page_metadata = {
   $input: null as unknown as PageMetadataInput,
   $type: null as unknown as PageMetadata,
-  columns: ["id", "page_id", "name", "content", "is_active"],
+  columns: ['id', 'page_id', 'name', 'content', 'is_active'],
   foreignKeys: {
-    page_id: { $type: null as unknown as Page, column: "id", table: "page" },
+    page_id: { $type: null as unknown as Page, column: 'id', table: 'page' },
   },
-  primaryKey: "id",
-  requiredForInsert: ["page_id", "name"],
-  tableName: "page_metadata",
-} as const;
+  primaryKey: 'id',
+  requiredForInsert: ['page_id', 'name'],
+  tableName: 'page_metadata',
+} as const
 
 // Table pgmigrations
 export interface Pgmigrations {
-  id: number;
-  name: string;
-  run_on: Date;
+  id: number
+  name: string
+  run_on: Date
 }
 export interface PgmigrationsInput {
-  id?: number;
-  name: string;
-  run_on: Date;
+  id?: number
+  name: string
+  run_on: Date
 }
 export const pgmigrations = {
   $input: null as unknown as PgmigrationsInput,
   $type: null as unknown as Pgmigrations,
-  columns: ["id", "name", "run_on"],
+  columns: ['id', 'name', 'run_on'],
   foreignKeys: {},
-  primaryKey: "id",
-  requiredForInsert: ["name", "run_on"],
-  tableName: "pgmigrations",
-} as const;
+  primaryKey: 'id',
+  requiredForInsert: ['name', 'run_on'],
+  tableName: 'pgmigrations',
+} as const
 
 // Table user_info
 export interface UserInfo {
-  alias: null | string;
-  cms_access: boolean;
-  first_name: string;
-  id: string;
-  last_name: string;
-  middle_name: null | string;
-  profile_image: null | string;
-  role: string;
+  alias: null | string
+  cms_access: boolean
+  first_name: string
+  id: string
+  last_name: string
+  middle_name: null | string
+  profile_image: null | string
+  role: string
 }
 export interface UserInfoInput {
-  alias?: null | string;
-  cms_access?: boolean;
-  first_name?: string;
-  id: string;
-  last_name?: string;
-  middle_name?: null | string;
-  profile_image?: null | string;
-  role: string;
+  alias?: null | string
+  cms_access?: boolean
+  first_name?: string
+  id: string
+  last_name?: string
+  middle_name?: null | string
+  profile_image?: null | string
+  role: string
 }
 export const user_info = {
   $input: null as unknown as UserInfoInput,
   $type: null as unknown as UserInfo,
-  columns: [
-    "id",
-    "first_name",
-    "middle_name",
-    "last_name",
-    "alias",
-    "profile_image",
-    "cms_access",
-    "role",
-  ],
+  columns: ['id', 'first_name', 'middle_name', 'last_name', 'alias', 'profile_image', 'cms_access', 'role'],
   foreignKeys: {},
-  primaryKey: "id",
-  requiredForInsert: ["id", "role"],
-  tableName: "user_info",
-} as const;
+  primaryKey: 'id',
+  requiredForInsert: ['id', 'role'],
+  tableName: 'user_info',
+} as const
 
 export interface TableTypes {
   language: {
-    input: LanguageInput;
-    select: Language;
-  };
+    input: LanguageInput
+    select: Language
+  }
   node: {
-    input: NodeInput;
-    select: Node;
-  };
+    input: NodeInput
+    select: Node
+  }
   node_attribute: {
-    input: NodeAttributeInput;
-    select: NodeAttribute;
-  };
+    input: NodeAttributeInput
+    select: NodeAttribute
+  }
   node_data_api: {
-    input: NodeDataApiInput;
-    select: NodeDataApi;
-  };
+    input: NodeDataApiInput
+    select: NodeDataApi
+  }
   node_data_binding: {
-    input: NodeDataBindingInput;
-    select: NodeDataBinding;
-  };
+    input: NodeDataBindingInput
+    select: NodeDataBinding
+  }
   node_plugin: {
-    input: NodePluginInput;
-    select: NodePlugin;
-  };
+    input: NodePluginInput
+    select: NodePlugin
+  }
   node_resizable: {
-    input: NodeResizableInput;
-    select: NodeResizable;
-  };
+    input: NodeResizableInput
+    select: NodeResizable
+  }
   node_state: {
-    input: NodeStateInput;
-    select: NodeState;
-  };
+    input: NodeStateInput
+    select: NodeState
+  }
   node_style: {
-    input: NodeStyleInput;
-    select: NodeStyle;
-  };
+    input: NodeStyleInput
+    select: NodeStyle
+  }
   node_text: {
-    input: NodeTextInput;
-    select: NodeText;
-  };
+    input: NodeTextInput
+    select: NodeText
+  }
   page: {
-    input: PageInput;
-    select: Page;
-  };
+    input: PageInput
+    select: Page
+  }
   page_metadata: {
-    input: PageMetadataInput;
-    select: PageMetadata;
-  };
+    input: PageMetadataInput
+    select: PageMetadata
+  }
   pgmigrations: {
-    input: PgmigrationsInput;
-    select: Pgmigrations;
-  };
+    input: PgmigrationsInput
+    select: Pgmigrations
+  }
   user_info: {
-    input: UserInfoInput;
-    select: UserInfo;
-  };
+    input: UserInfoInput
+    select: UserInfo
+  }
 }
 
 export const tables = {
@@ -555,4 +537,4 @@ export const tables = {
   page_metadata,
   pgmigrations,
   user_info,
-};
+}

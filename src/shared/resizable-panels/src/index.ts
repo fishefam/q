@@ -21,10 +21,7 @@ export {
 export { type PointerHitAreaMargins } from './PanelResizeHandleRegistry'
 export { assert } from './utils/assert'
 export { setNonce } from './utils/csp'
-export {
-  disableGlobalCursorStyles,
-  enableGlobalCursorStyles,
-} from './utils/cursor'
+export { disableGlobalCursorStyles, enableGlobalCursorStyles } from './utils/cursor'
 export { getPanelElement } from './utils/dom/getPanelElement'
 
 export { getPanelElementsForGroup } from './utils/dom/getPanelElementsForGroup'

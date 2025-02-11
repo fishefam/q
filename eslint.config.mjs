@@ -21,6 +21,7 @@ const eslintConfig = [
     ignores: ['src/shared/shadcn/**/*', 'index.d.ts'],
     rules: {
       ...unicornConfig.rules,
+      'unicorn/no-array-callback-reference': 'off',
       'unicorn/no-nested-ternary': 'off',
     },
   },
@@ -69,12 +70,7 @@ const eslintConfig = [
     rules: { 'perfectionist/sort-objects': 'off' },
   },
   {
-    files: [
-      'src/shared/shadcn/**/*',
-      'src/shared/resizable-panels/**/*',
-      'migrations/**/*',
-      'seeds/**/*',
-    ],
+    files: ['src/shared/shadcn/**/*', 'src/shared/resizable-panels/**/*', 'migrations/**/*', 'seeds/**/*'],
     rules: { 'unicorn/filename-case': 'off' },
   },
   {

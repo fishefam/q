@@ -16,10 +16,7 @@ export function calculateDragOffsetPercentage(
   const isHorizontal = direction === 'horizontal'
 
   const handleElement = getResizeHandleElement(dragHandleId, panelGroupElement)
-  assert(
-    handleElement,
-    `No resize handle element found for id "${dragHandleId}"`,
-  )
+  assert(handleElement, `No resize handle element found for id "${dragHandleId}"`)
 
   const groupId = handleElement.dataset.panelGroupId
   assert(groupId, `Resize handle element has no group id attribute`)

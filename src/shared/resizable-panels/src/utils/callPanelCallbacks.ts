@@ -29,8 +29,7 @@ export function callPanelCallbacks(
       if (collapsible && (onCollapse || onExpand)) {
         if (
           onExpand &&
-          (lastNotifiedSize == undefined ||
-            fuzzyNumbersEqual(lastNotifiedSize, collapsedSize)) &&
+          (lastNotifiedSize == undefined || fuzzyNumbersEqual(lastNotifiedSize, collapsedSize)) &&
           !fuzzyNumbersEqual(size, collapsedSize)
         ) {
           onExpand()
@@ -38,8 +37,7 @@ export function callPanelCallbacks(
 
         if (
           onCollapse &&
-          (lastNotifiedSize == undefined ||
-            !fuzzyNumbersEqual(lastNotifiedSize, collapsedSize)) &&
+          (lastNotifiedSize == undefined || !fuzzyNumbersEqual(lastNotifiedSize, collapsedSize)) &&
           fuzzyNumbersEqual(size, collapsedSize)
         ) {
           onCollapse()

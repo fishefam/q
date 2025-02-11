@@ -2,16 +2,10 @@ import type { PanelData } from '../Panel'
 
 import { assert } from './assert'
 
-export function calculateUnsafeDefaultLayout({
-  panelDataArray,
-}: {
-  panelDataArray: PanelData[]
-}): number[] {
+export function calculateUnsafeDefaultLayout({ panelDataArray }: { panelDataArray: PanelData[] }): number[] {
   const layout = Array.from({ length: panelDataArray.length }) as number[]
 
-  const panelConstraintsArray = panelDataArray.map(
-    (panelData) => panelData.constraints,
-  )
+  const panelConstraintsArray = panelDataArray.map((panelData) => panelData.constraints)
 
   let numberPanelsWithSizes = 0
   let remainingSize = 100

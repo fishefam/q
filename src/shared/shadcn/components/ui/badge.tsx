@@ -11,14 +11,11 @@ const badgeVariants = cva(
     },
     variants: {
       variant: {
-        default:
-          'border-transparent bg-primary text-primary-foreground shadow-sm [a&]:hover:bg-primary/90',
+        default: 'border-transparent bg-primary text-primary-foreground shadow-sm [a&]:hover:bg-primary/90',
         destructive:
           'border-transparent bg-destructive text-destructive-foreground shadow-sm [a&]:hover:bg-destructive/90',
-        outline:
-          'text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground',
-        secondary:
-          'border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90',
+        outline: 'text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground',
+        secondary: 'border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90',
       },
     },
   },
@@ -29,17 +26,10 @@ function Badge({
   className,
   variant,
   ...props
-}: { asChild?: boolean } & React.ComponentProps<'span'> &
-  VariantProps<typeof badgeVariants>) {
+}: { asChild?: boolean } & React.ComponentProps<'span'> & VariantProps<typeof badgeVariants>) {
   const Comp = asChild ? Slot : 'span'
 
-  return (
-    <Comp
-      className={cn(badgeVariants({ variant }), className)}
-      data-slot="badge"
-      {...props}
-    />
-  )
+  return <Comp className={cn(badgeVariants({ variant }), className)} data-slot="badge" {...props} />
 }
 
 export { Badge, badgeVariants }

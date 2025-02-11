@@ -6,21 +6,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/shared/shadcn/components/ui/dropdown-menu'
-import {
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from '@/shared/shadcn/components/ui/sidebar'
+import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/shared/shadcn/components/ui/sidebar'
 import { Check, ChevronsUpDown, GalleryVerticalEnd } from 'lucide-react'
 import * as React from 'react'
 
-export function VersionSwitcher({
-  defaultVersion,
-  versions,
-}: {
-  defaultVersion: string
-  versions: string[]
-}) {
+export function VersionSwitcher({ defaultVersion, versions }: { defaultVersion: string; versions: string[] }) {
   const [selectedVersion, setSelectedVersion] = React.useState(defaultVersion)
 
   return (
@@ -42,17 +32,10 @@ export function VersionSwitcher({
               <ChevronsUpDown className="ml-auto" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
-          <DropdownMenuContent
-            align="start"
-            className="w-(--radix-dropdown-menu-trigger-width)"
-          >
+          <DropdownMenuContent align="start" className="w-(--radix-dropdown-menu-trigger-width)">
             {versions.map((version) => (
-              <DropdownMenuItem
-                key={version}
-                onSelect={() => setSelectedVersion(version)}
-              >
-                v{version}{' '}
-                {version === selectedVersion && <Check className="ml-auto" />}
+              <DropdownMenuItem key={version} onSelect={() => setSelectedVersion(version)}>
+                v{version} {version === selectedVersion && <Check className="ml-auto" />}
               </DropdownMenuItem>
             ))}
           </DropdownMenuContent>

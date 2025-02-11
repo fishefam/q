@@ -64,24 +64,14 @@ export const Container: FC = () => {
 
     const renderCard = useCallback(
       (card: { id: number; text: string }, index: number) => {
-        return (
-          <Card
-            id={card.id}
-            index={index}
-            key={card.id}
-            moveCard={moveCard}
-            text={card.text}
-          />
-        )
+        return <Card id={card.id} index={index} key={card.id} moveCard={moveCard} text={card.text} />
       },
       [moveCard],
     )
 
     return (
       <>
-        <div style={style}>
-          {cards.map((card, index) => renderCard(card, index))}
-        </div>
+        <div style={style}>{cards.map((card, index) => renderCard(card, index))}</div>
       </>
     )
   }

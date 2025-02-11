@@ -8,16 +8,10 @@ export const shorthands = undefined
  * @returns {Promise<void> | void}
  */
 export function down(pgm) {
-  pgm.dropFunction(
-    'nanoid_optimized',
-    [{ type: 'int4' }, { type: 'text' }, { type: 'int4' }, { type: 'int4' }],
-    { ifExists: true },
-  )
-  pgm.dropFunction(
-    'nanoid',
-    [{ type: 'int4' }, { type: 'text' }, { type: 'float8' }],
-    { ifExists: true },
-  )
+  pgm.dropFunction('nanoid_optimized', [{ type: 'int4' }, { type: 'text' }, { type: 'int4' }, { type: 'int4' }], {
+    ifExists: true,
+  })
+  pgm.dropFunction('nanoid', [{ type: 'int4' }, { type: 'text' }, { type: 'float8' }], { ifExists: true })
 }
 
 /**

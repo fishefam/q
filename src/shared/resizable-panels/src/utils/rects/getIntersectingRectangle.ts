@@ -2,11 +2,7 @@ import type { Rectangle } from './types'
 
 import { intersects } from './intersects'
 
-export function getIntersectingRectangle(
-  rectOne: Rectangle,
-  rectTwo: Rectangle,
-  strict: boolean,
-): Rectangle {
+export function getIntersectingRectangle(rectOne: Rectangle, rectTwo: Rectangle, strict: boolean): Rectangle {
   if (!intersects(rectOne, rectTwo, strict)) {
     return {
       height: 0,
@@ -17,12 +13,8 @@ export function getIntersectingRectangle(
   }
 
   return {
-    height:
-      Math.min(rectOne.y + rectOne.height, rectTwo.y + rectTwo.height) -
-      Math.max(rectOne.y, rectTwo.y),
-    width:
-      Math.min(rectOne.x + rectOne.width, rectTwo.x + rectTwo.width) -
-      Math.max(rectOne.x, rectTwo.x),
+    height: Math.min(rectOne.y + rectOne.height, rectTwo.y + rectTwo.height) - Math.max(rectOne.y, rectTwo.y),
+    width: Math.min(rectOne.x + rectOne.width, rectTwo.x + rectTwo.width) - Math.max(rectOne.x, rectTwo.x),
     x: Math.max(rectOne.x, rectTwo.x),
     y: Math.max(rectOne.y, rectTwo.y),
   }

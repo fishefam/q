@@ -1,93 +1,164 @@
 'use client'
 
-import type { ReactElement } from 'react'
+import type { CSSProperties, ReactElement, RefObject } from 'react'
 
+import { useCMSContext } from '@/shared/components/contexts/cms'
 import { useCMSControlContext } from '@/shared/components/contexts/cms-control'
 import { cn } from '@/shared/shadcn/lib/utils'
 import { isClientSide } from '@/shared/utilities'
+import { Render } from '@/shared/utilities/components'
 import { getStyleSheets } from '@/shared/utilities/dom'
 import has from 'lodash/has'
 import isFunction from 'lodash/isFunction'
-import { memo, useEffect, useRef, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 
 type Children = ContextReactNode | ContextReactNode[] | ReactNode
-type ContextReactNode =
-  | ((parameters: { document: Document; window: Window }) => ReactNode)
-  | ReactNode
+type ContextReactNode = ((parameters: { document: Document; window: Window }) => ReactNode) | ReactNode
 type Elements = ReturnType<typeof getElements>
 type FrameProperties = { children: Children }
+type RenderBodyProperties = {
+  body: HTMLElement | undefined
+  bodyElements: ReactElement[] | undefined
+  isLoading: boolean
+  reference: RefObject<HTMLIFrameElement | null>
+}
+type RenderHeadProperties = {
+  children: Children
+  head: HTMLHeadElement | undefined
+  headElements: ReactElement[] | undefined
+  setElements: SetState<Elements | undefined>
+}
 
-export const ViewFrame = memo(Frame)
-
-function Frame(properties: FrameProperties) {
+export function ViewFrame(properties: FrameProperties) {
+  console.log('view frame')
   const { isResponsiveView } = useCMSControlContext()
+  const { isLoading, setIsLoading } = useLoading()
   const { body, head, reference } = useFrame()
   const [elements, setElements] = useState<Elements>()
 
   const { children } = properties
   const { bodyElements, headElements } = elements ?? {}
-  const styleSheets = isClientSide() ? getStyleSheets() : []
-  const { contentDocument, contentWindow } = reference.current ?? {}
-
-  const handleLoadedStyle = (index: number) => {
-    if (index === styleSheets.length - 1) {
-      setElements(getElements(children))
-    }
-  }
+  const headProperties = { children, head, headElements, setElements }
+  const bodyProperties = { body, bodyElements, isLoading, reference }
+  const handleFrameLoaded = () => setIsLoading(false)
+  const baseFrameCN = 'relative z-[1] size-full h-full'
 
   return (
     <iframe
-      className={cn(
-        'relative z-[1] size-full h-full',
-        isResponsiveView && 'rounded-lg border',
-      )}
-      onLoad={() => console.log('loaded')}
+      className={cn(baseFrameCN, isResponsiveView && 'rounded-lg border')}
+      onLoad={handleFrameLoaded}
       ref={reference}
     >
-      {head && styleSheets?.length
-        ? styleSheets.map(({ css, href }, index) =>
-            createPortal(
-              href ? (
-                <link
-                  href={href}
-                  key={index}
-                  onLoad={() => handleLoadedStyle(index)}
-                  rel="stylesheet"
-                />
-              ) : (
-                <style key={index} onLoad={() => handleLoadedStyle(index)}>
-                  {css}
-                </style>
-              ),
-              head,
-            ),
-          )
-        : undefined}
-      {head ? createPortal(headElements, head) : undefined}
-      {body
-        ? bodyElements?.map((element) =>
-            createPortal(
-              isFunction(element)
-                ? element({ document: contentDocument, window: contentWindow })
-                : element,
-              body,
-            ),
-          )
-        : undefined}
+      <RenderHead {...headProperties} />
+      <RenderBody {...bodyProperties} />
     </iframe>
+  )
+}
+
+function FrameLoader() {
+  return (
+    <>
+      <style>
+        {`
+          .loader-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+          }
+
+          .loader {
+            width: 50px;
+            height: 50px;
+            border: 5px solid transparent;
+            border-top: 5px solid #333;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+          }
+
+          .dark .loader {
+            border-top-color: #fff;
+          }
+
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        `}
+      </style>
+      <div className="loader-container">
+        <div className="loader" />
+      </div>
+    </>
   )
 }
 
 function getElements(children: Children) {
   const elements = [children].flat() as ReactElement[]
-  const headElements = elements.filter((element) =>
-    has(element?.props, 'data-head'),
-  )
-  const bodyElements = elements.filter(
-    (element) => !has(element?.props, 'data-head'),
-  )
+  const predicate = (item: ReactElement) => has(item.props, 'data-head')
+  const negatedPredicate = (item: ReactElement) => !has(item.props, 'data-head')
+  const filter = (type: string) => elements.filter(type === 'head' ? predicate : negatedPredicate)
+  const [headElements, bodyElements] = ['head', 'body'].map(filter)
   return { bodyElements, headElements }
+}
+
+function RenderBody(properties: RenderBodyProperties) {
+  const { body, bodyElements, isLoading, reference } = properties
+  const { contentDocument, contentWindow } = reference.current ?? {}
+  const rootProperties: { style?: CSSProperties } = isLoading ? { style: { display: 'none' } } : {}
+
+  if (body)
+    return createPortal(
+      <>
+        <Render if={isLoading}>
+          <FrameLoader />
+        </Render>
+        <div id="root" {...rootProperties}>
+          {bodyElements?.map((element, index) => (
+            <Fragment key={index}>
+              {isFunction(element) ? element({ document: contentDocument, window: contentWindow }) : element}
+            </Fragment>
+          ))}
+        </div>
+      </>,
+      body,
+    )
+}
+
+function RenderHead(properties: RenderHeadProperties) {
+  const { children, head, headElements, setElements } = properties
+  const styleSheets = isClientSide() ? getStyleSheets() : []
+  const handleStyleLoaded = (index: number) => {
+    if (index === styleSheets.length - 1) {
+      setElements(getElements(children))
+    }
+  }
+
+  if (head)
+    return (
+      <>
+        {createPortal(headElements, head)}
+        {styleSheets?.map(({ css, href }, index) =>
+          createPortal(
+            href ? (
+              <link href={href} key={index} onLoad={() => handleStyleLoaded(index)} rel="stylesheet" />
+            ) : (
+              <style key={index} onLoad={() => handleStyleLoaded(index)}>
+                {css}
+              </style>
+            ),
+            head,
+          ),
+        )}
+      </>
+    )
 }
 
 function useFrame() {
@@ -100,4 +171,11 @@ function useFrame() {
     setBody(body)
   }, [])
   return { body, head, reference }
+}
+
+function useLoading() {
+  const { page } = useCMSContext()
+  const [isLoading, setIsLoading] = useState(true)
+  useEffect(() => setIsLoading(true), [page])
+  return { isLoading, setIsLoading }
 }

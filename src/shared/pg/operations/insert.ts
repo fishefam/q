@@ -5,11 +5,7 @@ import type { Column, TableName, Tables } from '../types'
 
 import { basePgQuery } from '../base-query'
 
-export function insert<T extends TableName>(
-  table: T,
-  data: Tables[T]['$input'][],
-  options?: { closePool?: boolean },
-) {
+export function insert<T extends TableName>(table: T, data: Tables[T]['$input'][], options?: { closePool?: boolean }) {
   if (data.length === 0) return [{ message: 'Empty Data' }, undefined]
 
   const columns = Object.keys(data[0] ?? '{}') as Column<T>[]

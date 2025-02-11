@@ -19,15 +19,10 @@ const status = getSupabaseStatus()
 const entries = status
   .split('\n')
   .map((v) => v.split(': ').map((v) => v.trim()))
-  .map(([key, value]) => [
-    variableMap[key as never],
-    key.includes('service_role') ? `Bearer ${value}` : value,
-  ])
+  .map(([key, value]) => [variableMap[key as never], key.includes('service_role') ? `Bearer ${value}` : value])
   .filter(([key]) => key)
 const finalEntries = [['AUTH_PROVIDER', 'supabase'], ...entries].sort()
-const content = finalEntries
-  .map(([key, value]) => `${key}="${value}"`)
-  .join('\n')
+const content = finalEntries.map(([key, value]) => `${key}="${value}"`).join('\n')
 
 if (!existsSync(environmentPath)) {
   writeFileSync(environmentPath, content)
@@ -43,10 +38,7 @@ const newEntries = Object.values(variableMap)
   })
   .filter(Boolean)
 
-writeFileSync(
-  environmentPath,
-  `${existingEnvironment.trim()}\n${newEntries.join('\n')}`,
-)
+writeFileSync(environmentPath, `${existingEnvironment.trim()}\n${newEntries.join('\n')}`)
 
 function getSupabaseStatus() {
   try {

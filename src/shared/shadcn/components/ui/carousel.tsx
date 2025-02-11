@@ -2,9 +2,7 @@
 
 import { Button } from '@/shared/shadcn/components/ui/button'
 import { cn } from '@/shared/shadcn/lib/utils'
-import useEmblaCarousel, {
-  type UseEmblaCarouselType,
-} from 'embla-carousel-react'
+import useEmblaCarousel, { type UseEmblaCarouselType } from 'embla-carousel-react'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import * as React from 'react'
 
@@ -101,8 +99,7 @@ function Carousel({
         canScrollPrev,
         carouselRef,
         opts,
-        orientation:
-          orientation || (opts?.axis === 'y' ? 'vertical' : 'horizontal'),
+        orientation: orientation || (opts?.axis === 'y' ? 'vertical' : 'horizontal'),
         scrollNext,
         scrollPrev,
       }}
@@ -125,19 +122,8 @@ function CarouselContent({ className, ...props }: React.ComponentProps<'div'>) {
   const { carouselRef, orientation } = useCarousel()
 
   return (
-    <div
-      className="overflow-hidden"
-      data-slot="carousel-content"
-      ref={carouselRef}
-    >
-      <div
-        className={cn(
-          'flex',
-          orientation === 'horizontal' ? '-ml-4' : '-mt-4 flex-col',
-          className,
-        )}
-        {...props}
-      />
+    <div className="overflow-hidden" data-slot="carousel-content" ref={carouselRef}>
+      <div className={cn('flex', orientation === 'horizontal' ? '-ml-4' : '-mt-4 flex-col', className)} {...props} />
     </div>
   )
 }
@@ -148,11 +134,7 @@ function CarouselItem({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
       aria-roledescription="slide"
-      className={cn(
-        'min-w-0 shrink-0 grow-0 basis-full',
-        orientation === 'horizontal' ? 'pl-4' : 'pt-4',
-        className,
-      )}
+      className={cn('min-w-0 shrink-0 grow-0 basis-full', orientation === 'horizontal' ? 'pl-4' : 'pt-4', className)}
       data-slot="carousel-item"
       role="group"
       {...props}
@@ -230,11 +212,4 @@ function useCarousel() {
   return context
 }
 
-export {
-  Carousel,
-  type CarouselApi,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-}
+export { Carousel, type CarouselApi, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious }

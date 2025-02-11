@@ -20,10 +20,7 @@ export function enableGlobalCursorStyles() {
   enabled = true
 }
 
-export function getCursorStyle(
-  state: CursorState,
-  constraintFlags: number,
-): string {
+export function getCursorStyle(state: CursorState, constraintFlags: number): string {
   if (constraintFlags) {
     const horizontalMin = (constraintFlags & EXCEEDED_HORIZONTAL_MIN) !== 0
     const horizontalMax = (constraintFlags & EXCEEDED_HORIZONTAL_MAX) !== 0
@@ -75,10 +72,7 @@ export function resetGlobalCursorStyle() {
   }
 }
 
-export function setGlobalCursorStyle(
-  state: CursorState,
-  constraintFlags: number,
-) {
+export function setGlobalCursorStyle(state: CursorState, constraintFlags: number) {
   if (!enabled) {
     return
   }

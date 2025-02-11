@@ -1,20 +1,13 @@
 import { GlobalProvider } from '@/shared/components/contexts/global'
 import '@/app/globals.css'
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from 'shadcn/ui/resizable'
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from 'shadcn/ui/resizable'
 
 export default function Layout() {
   return (
     <html lang="en">
       <body>
         <GlobalProvider>
-          <ResizablePanelGroup
-            className="max-w-md rounded-lg border md:min-w-[450px]"
-            direction="horizontal"
-          >
+          <ResizablePanelGroup className="max-w-md rounded-lg border md:min-w-[450px]" direction="horizontal">
             <ResizablePanel defaultSize={50}>
               <div className="flex h-[200px] items-center justify-center p-6">
                 <span className="font-semibold">One</span>

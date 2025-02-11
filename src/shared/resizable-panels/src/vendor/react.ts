@@ -22,9 +22,7 @@ const {
 } = React
 
 // `Math.random()` and `.slice(0, 5)` prevents bundlers from trying to `import { useId } from 'react'`
-const useId = (React as never)[
-  `useId${Math.random()}`.slice(0, 5)
-] as () => string
+const useId = (React as never)[`useId${Math.random()}`.slice(0, 5)] as () => string
 
 const useLayoutEffect_do_not_use_directly = useLayoutEffect
 

@@ -7,10 +7,7 @@ function Breadcrumb({ ...props }: React.ComponentProps<'nav'>) {
   return <nav aria-label="breadcrumb" data-slot="breadcrumb" {...props} />
 }
 
-function BreadcrumbEllipsis({
-  className,
-  ...props
-}: React.ComponentProps<'span'>) {
+function BreadcrumbEllipsis({ className, ...props }: React.ComponentProps<'span'>) {
   return (
     <span
       aria-hidden="true"
@@ -26,13 +23,7 @@ function BreadcrumbEllipsis({
 }
 
 function BreadcrumbItem({ className, ...props }: React.ComponentProps<'li'>) {
-  return (
-    <li
-      className={cn('inline-flex items-center gap-1.5', className)}
-      data-slot="breadcrumb-item"
-      {...props}
-    />
-  )
+  return <li className={cn('inline-flex items-center gap-1.5', className)} data-slot="breadcrumb-item" {...props} />
 }
 
 function BreadcrumbLink({
@@ -45,11 +36,7 @@ function BreadcrumbLink({
   const Comp = asChild ? Slot : 'a'
 
   return (
-    <Comp
-      className={cn('transition-colors hover:text-foreground', className)}
-      data-slot="breadcrumb-link"
-      {...props}
-    />
+    <Comp className={cn('transition-colors hover:text-foreground', className)} data-slot="breadcrumb-link" {...props} />
   )
 }
 
@@ -79,11 +66,7 @@ function BreadcrumbPage({ className, ...props }: React.ComponentProps<'span'>) {
   )
 }
 
-function BreadcrumbSeparator({
-  children,
-  className,
-  ...props
-}: React.ComponentProps<'li'>) {
+function BreadcrumbSeparator({ children, className, ...props }: React.ComponentProps<'li'>) {
   return (
     <li
       aria-hidden="true"

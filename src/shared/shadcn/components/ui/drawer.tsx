@@ -4,23 +4,15 @@ import { cn } from '@/shared/shadcn/lib/utils'
 import * as React from 'react'
 import { Drawer as DrawerPrimitive } from 'vaul'
 
-function Drawer({
-  ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Root>) {
+function Drawer({ ...props }: React.ComponentProps<typeof DrawerPrimitive.Root>) {
   return <DrawerPrimitive.Root data-slot="drawer" {...props} />
 }
 
-function DrawerClose({
-  ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Close>) {
+function DrawerClose({ ...props }: React.ComponentProps<typeof DrawerPrimitive.Close>) {
   return <DrawerPrimitive.Close data-slot="drawer-close" {...props} />
 }
 
-function DrawerContent({
-  children,
-  className,
-  ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Content>) {
+function DrawerContent({ children, className, ...props }: React.ComponentProps<typeof DrawerPrimitive.Content>) {
   return (
     <DrawerPortal data-slot="drawer-portal">
       <DrawerOverlay />
@@ -43,10 +35,7 @@ function DrawerContent({
   )
 }
 
-function DrawerDescription({
-  className,
-  ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Description>) {
+function DrawerDescription({ className, ...props }: React.ComponentProps<typeof DrawerPrimitive.Description>) {
   return (
     <DrawerPrimitive.Description
       className={cn('text-sm text-muted-foreground', className)}
@@ -57,29 +46,14 @@ function DrawerDescription({
 }
 
 function DrawerFooter({ className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div
-      className={cn('mt-auto flex flex-col gap-2 p-4', className)}
-      data-slot="drawer-footer"
-      {...props}
-    />
-  )
+  return <div className={cn('mt-auto flex flex-col gap-2 p-4', className)} data-slot="drawer-footer" {...props} />
 }
 
 function DrawerHeader({ className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div
-      className={cn('flex flex-col gap-1.5 p-4', className)}
-      data-slot="drawer-header"
-      {...props}
-    />
-  )
+  return <div className={cn('flex flex-col gap-1.5 p-4', className)} data-slot="drawer-header" {...props} />
 }
 
-function DrawerOverlay({
-  className,
-  ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Overlay>) {
+function DrawerOverlay({ className, ...props }: React.ComponentProps<typeof DrawerPrimitive.Overlay>) {
   return (
     <DrawerPrimitive.Overlay
       className={cn(
@@ -92,16 +66,11 @@ function DrawerOverlay({
   )
 }
 
-function DrawerPortal({
-  ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Portal>) {
+function DrawerPortal({ ...props }: React.ComponentProps<typeof DrawerPrimitive.Portal>) {
   return <DrawerPrimitive.Portal data-slot="drawer-portal" {...props} />
 }
 
-function DrawerTitle({
-  className,
-  ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Title>) {
+function DrawerTitle({ className, ...props }: React.ComponentProps<typeof DrawerPrimitive.Title>) {
   return (
     <DrawerPrimitive.Title
       className={cn('font-semibold tracking-tight text-foreground', className)}
@@ -111,9 +80,7 @@ function DrawerTitle({
   )
 }
 
-function DrawerTrigger({
-  ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Trigger>) {
+function DrawerTrigger({ ...props }: React.ComponentProps<typeof DrawerPrimitive.Trigger>) {
   return <DrawerPrimitive.Trigger data-slot="drawer-trigger" {...props} />
 }
 

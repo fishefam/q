@@ -18,23 +18,11 @@ import { Toggle } from '@/shared/shadcn/components/ui/toggle'
 import { MonitorSmartphone, Sidebar } from 'lucide-react'
 
 export function FloatingMenu() {
-  const {
-    isResponsiveView,
-    isSidebarOpen,
-    setIsResponsiveView,
-    setIsSidebarOpen,
-  } = useCMSControlContext()
+  const { isResponsiveView, isSidebarOpen, setIsResponsiveView, setIsSidebarOpen } = useCMSControlContext()
 
   return (
-    <Menubar
-      className="absolute bottom-5 left-1/2 z-10 min-h-12 w-fit -translate-x-1/2 select-none"
-      draggable={false}
-    >
-      <Toggle
-        aria-label="Toggle responsive view"
-        onPressedChange={setIsResponsiveView}
-        pressed={isResponsiveView}
-      >
+    <Menubar className="absolute bottom-5 left-1/2 z-10 min-h-12 w-fit -translate-x-1/2 select-none" draggable={false}>
+      <Toggle aria-label="Toggle responsive view" onPressedChange={setIsResponsiveView} pressed={isResponsiveView}>
         <MonitorSmartphone />
       </Toggle>
 
@@ -68,9 +56,7 @@ export function FloatingMenu() {
         <MenubarTrigger>View</MenubarTrigger>
         <MenubarContent>
           <MenubarCheckboxItem>Always Show Bookmarks Bar</MenubarCheckboxItem>
-          <MenubarCheckboxItem checked>
-            Always Show Full URLs
-          </MenubarCheckboxItem>
+          <MenubarCheckboxItem checked>Always Show Full URLs</MenubarCheckboxItem>
           <MenubarSeparator />
           <MenubarItem inset>
             Reload <MenubarShortcut>⌘R</MenubarShortcut>
@@ -99,11 +85,7 @@ export function FloatingMenu() {
         </MenubarContent>
       </MenubarMenu>
 
-      <Toggle
-        aria-label="Toggle side bar"
-        onPressedChange={setIsSidebarOpen}
-        pressed={isSidebarOpen}
-      >
+      <Toggle aria-label="Toggle side bar" onPressedChange={setIsSidebarOpen} pressed={isSidebarOpen}>
         <Sidebar />
       </Toggle>
     </Menubar>

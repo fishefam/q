@@ -11,28 +11,15 @@ export function Portal({
   children,
   container,
 }: Properties<{
-  container:
-    | DocumentFragment
-    | Element
-    | null
-    | RefObject<Element | null>
-    | string
-    | undefined
+  container: DocumentFragment | Element | null | RefObject<Element | null> | string | undefined
 }>) {
   const target =
-    typeof container === 'string'
-      ? select(container)
-      : isReferenceObject(container)
-        ? container.current
-        : container
+    typeof container === 'string' ? select(container) : isReferenceObject(container) ? container.current : container
   if (target && isElement(target)) return createPortal(children, target)
   return children
 }
 
-export function PropertyInjector<T extends UnknownRecord>({
-  children,
-  ...properties
-}: Properties<T>) {
+export function PropertyInjector<T extends UnknownRecord>({ children, ...properties }: Properties<T>) {
   if (isValidElement(children))
     return cloneElement(children, {
       ...(children.props instanceof Object ? children.props : {}),

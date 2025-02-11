@@ -24,8 +24,6 @@
     "**/Thumbs.db": true,
     "**/yarn.lock": true
   },
-  "typescript.preferences.autoImportFileExcludePatterns": [
-    "@radix-ui"
-  ],
+  "typescript.preferences.autoImportFileExcludePatterns": ["@radix-ui"],
   "typescript.tsdk": "node_modules/typescript/lib"
 }

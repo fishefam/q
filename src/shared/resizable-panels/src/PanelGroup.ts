@@ -2,11 +2,7 @@ import { isDevelopment } from '#is-development'
 import { useRef } from 'react'
 
 import type { PanelConstraints, PanelData } from './Panel'
-import type {
-  DragState,
-  ResizeEvent,
-  TPanelGroupContext,
-} from './PanelGroupContext'
+import type { DragState, ResizeEvent, TPanelGroupContext } from './PanelGroupContext'
 import type { Direction } from './types'
 import type {
   CSSProperties,
@@ -42,10 +38,7 @@ import { getResizeHandleElement } from './utils/dom/getResizeHandleElement'
 import { isKeyDown, isMouseEvent, isPointerEvent } from './utils/events'
 import { getResizeEventCursorPosition } from './utils/events/getResizeEventCursorPosition'
 import { initializeDefaultStorage } from './utils/initializeDefaultStorage'
-import {
-  fuzzyCompareNumbers,
-  fuzzyNumbersEqual,
-} from './utils/numbers/fuzzyCompareNumbers'
+import { fuzzyCompareNumbers, fuzzyNumbersEqual } from './utils/numbers/fuzzyCompareNumbers'
 import { loadPanelGroupState, savePanelGroupState } from './utils/serialization'
 import { validatePanelConstraints } from './utils/validatePanelConstraints'
 import { validatePanelGroupLayout } from './utils/validatePanelGroupLayout'
@@ -86,10 +79,7 @@ const defaultStorage: PanelGroupStorage = {
   },
 }
 
-export type PanelGroupProperties = Omit<
-  HTMLAttributes<keyof HTMLElementTagNameMap>,
-  'id'
-> &
+export type PanelGroupProperties = Omit<HTMLAttributes<keyof HTMLElementTagNameMap>, 'id'> &
   PropertiesWithChildren<{
     autoSaveId?: string | undefined
     className?: string
@@ -126,19 +116,13 @@ function PanelGroupWithForwardedReference({
   forwardedRef: ForwardedReference<ImperativePanelGroupHandle>
 } & PanelGroupProperties): ReactElement {
   const groupId = useUniqueId(idFromProperties)
-  const panelGroupElementReference = useRef<HTMLDivElement | undefined>(
-    undefined,
-  )
+  const panelGroupElementReference = useRef<HTMLDivElement | undefined>(undefined)
   const [dragState, setDragState] = useState<DragState | undefined>()
   const [layout, setLayout] = useState<number[]>([])
   const forceUpdate = useForceUpdate()
 
-  const panelIdToLastNotifiedSizeMapReference = useReference<
-    Record<string, number>
-  >({})
-  const panelSizeBeforeCollapseReference = useReference<Map<string, number>>(
-    new Map(),
-  )
+  const panelIdToLastNotifiedSizeMapReference = useReference<Record<string, number>>({})
+  const panelSizeBeforeCollapseReference = useReference<Map<string, number>>(new Map())
   const previousDeltaReference = useReference<number>(0)
 
   const committedValuesReference = useReference<{
@@ -190,14 +174,11 @@ function PanelGroupWithForwardedReference({
       },
       setLayout: (unsafeLayout: number[]) => {
         const { onLayout } = committedValuesReference.current
-        const { layout: previousLayout, panelDataArray } =
-          eagerValuesReference.current
+        const { layout: previousLayout, panelDataArray } = eagerValuesReference.current
 
         const safeLayout = validatePanelGroupLayout({
           layout: unsafeLayout,
-          panelConstraints: panelDataArray.map(
-            (panelData) => panelData.constraints,
-          ),
+          panelConstraints: panelDataArray.map((panelData) => panelData.constraints),
         })
 
         if (!areEqual(previousLayout, safeLayout)) {
@@ -209,19 +190,11 @@ function PanelGroupWithForwardedReference({
             onLayout(safeLayout)
           }
 
-          callPanelCallbacks(
-            panelDataArray,
-            safeLayout,
-            panelIdToLastNotifiedSizeMapReference.current,
-          )
+          callPanelCallbacks(panelDataArray, safeLayout, panelIdToLastNotifiedSizeMapReference.current)
         }
       },
     }),
-    [
-      committedValuesReference,
-      eagerValuesReference,
-      panelIdToLastNotifiedSizeMapReference,
-    ],
+    [committedValuesReference, eagerValuesReference, panelIdToLastNotifiedSizeMapReference],
   )
 
   useIsomorphicLayoutEffect(() => {
@@ -256,10 +229,7 @@ function PanelGroupWithForwardedReference({
 
       // Limit the frequency of localStorage updates.
       if (debouncedSave == undefined) {
-        debouncedSave = debounce(
-          savePanelGroupState,
-          LOCAL_STORAGE_DEBOUNCE_INTERVAL,
-        )
+        debouncedSave = debounce(savePanelGroupState, LOCAL_STORAGE_DEBOUNCE_INTERVAL)
 
         debounceMap[autoSaveId] = debouncedSave
       }
@@ -267,67 +237,39 @@ function PanelGroupWithForwardedReference({
       // Clone mutable data before passing to the debounced function,
       // else we run the risk of saving an incorrect combination of mutable and immutable values to state.
       const clonedPanelDataArray = [...panelDataArray]
-      const clonedPanelSizesBeforeCollapse = new Map(
-        panelSizeBeforeCollapseReference.current,
-      )
-      debouncedSave(
-        autoSaveId,
-        clonedPanelDataArray,
-        clonedPanelSizesBeforeCollapse,
-        layout,
-        storage,
-      )
+      const clonedPanelSizesBeforeCollapse = new Map(panelSizeBeforeCollapseReference.current)
+      debouncedSave(autoSaveId, clonedPanelDataArray, clonedPanelSizesBeforeCollapse, layout, storage)
     }
-  }, [
-    autoSaveId,
-    eagerValuesReference,
-    layout,
-    panelSizeBeforeCollapseReference,
-    storage,
-  ])
+  }, [autoSaveId, eagerValuesReference, layout, panelSizeBeforeCollapseReference, storage])
 
   // DEV warnings
   useEffect(() => {
     if (isDevelopment) {
       const { panelDataArray } = eagerValuesReference.current
 
-      const {
-        didLogIdAndOrderWarning,
-        didLogPanelConstraintsWarning,
-        prevPanelIds,
-      } = developmentWarningsReference.current
+      const { didLogIdAndOrderWarning, didLogPanelConstraintsWarning, prevPanelIds } =
+        developmentWarningsReference.current
 
       if (!didLogIdAndOrderWarning) {
         const panelIds = panelDataArray.map(({ id }) => id)
 
         developmentWarningsReference.current.prevPanelIds = panelIds
 
-        const panelsHaveChanged =
-          prevPanelIds.length > 0 && !areEqual(prevPanelIds, panelIds)
+        const panelsHaveChanged = prevPanelIds.length > 0 && !areEqual(prevPanelIds, panelIds)
         if (
           panelsHaveChanged &&
-          panelDataArray.some(
-            ({ idIsFromProps, order }) => !idIsFromProps || order == undefined,
-          )
+          panelDataArray.some(({ idIsFromProps, order }) => !idIsFromProps || order == undefined)
         ) {
           developmentWarningsReference.current.didLogIdAndOrderWarning = true
 
-          console.warn(
-            `WARNING: Panel id and order props recommended when panels are dynamically rendered`,
-          )
+          console.warn(`WARNING: Panel id and order props recommended when panels are dynamically rendered`)
         }
       }
 
       if (!didLogPanelConstraintsWarning) {
-        const panelConstraints = panelDataArray.map(
-          (panelData) => panelData.constraints,
-        )
+        const panelConstraints = panelDataArray.map((panelData) => panelData.constraints)
 
-        for (
-          let panelIndex = 0;
-          panelIndex < panelConstraints.length;
-          panelIndex++
-        ) {
+        for (let panelIndex = 0; panelIndex < panelConstraints.length; panelIndex++) {
           const panelData = panelDataArray[panelIndex]
           assert(panelData, `Panel data not found for index ${panelIndex}`)
 
@@ -338,8 +280,7 @@ function PanelGroupWithForwardedReference({
           })
 
           if (!isValid) {
-            developmentWarningsReference.current.didLogPanelConstraintsWarning =
-              true
+            developmentWarningsReference.current.didLogPanelConstraintsWarning = true
 
             break
           }
@@ -352,13 +293,10 @@ function PanelGroupWithForwardedReference({
   const collapsePanel = useCallback(
     (panelData: PanelData) => {
       const { onLayout } = committedValuesReference.current
-      const { layout: previousLayout, panelDataArray } =
-        eagerValuesReference.current
+      const { layout: previousLayout, panelDataArray } = eagerValuesReference.current
 
       if (panelData.constraints.collapsible) {
-        const panelConstraintsArray = panelDataArray.map(
-          (panelData) => panelData.constraints,
-        )
+        const panelConstraintsArray = panelDataArray.map((panelData) => panelData.constraints)
 
         const {
           collapsedSize = 0,
@@ -366,22 +304,15 @@ function PanelGroupWithForwardedReference({
           pivotIndices,
         } = panelDataHelper(panelDataArray, panelData, previousLayout)
 
-        assert(
-          panelSize != undefined,
-          `Panel size not found for panel "${panelData.id}"`,
-        )
+        assert(panelSize != undefined, `Panel size not found for panel "${panelData.id}"`)
 
         if (!fuzzyNumbersEqual(panelSize, collapsedSize)) {
           // Store size before collapse;
           // This is the size that gets restored if the expand() API is used.
           panelSizeBeforeCollapseReference.current.set(panelData.id, panelSize)
 
-          const isLastPanel =
-            findPanelDataIndex(panelDataArray, panelData) ===
-            panelDataArray.length - 1
-          const delta = isLastPanel
-            ? panelSize - collapsedSize
-            : collapsedSize - panelSize
+          const isLastPanel = findPanelDataIndex(panelDataArray, panelData) === panelDataArray.length - 1
+          const delta = isLastPanel ? panelSize - collapsedSize : collapsedSize - panelSize
 
           const nextLayout = adjustLayoutByDelta({
             delta,
@@ -401,11 +332,7 @@ function PanelGroupWithForwardedReference({
               onLayout(nextLayout)
             }
 
-            callPanelCallbacks(
-              panelDataArray,
-              nextLayout,
-              panelIdToLastNotifiedSizeMapReference.current,
-            )
+            callPanelCallbacks(panelDataArray, nextLayout, panelIdToLastNotifiedSizeMapReference.current)
           }
         }
       }
@@ -422,13 +349,10 @@ function PanelGroupWithForwardedReference({
   const expandPanel = useCallback(
     (panelData: PanelData, minSizeOverride?: number) => {
       const { onLayout } = committedValuesReference.current
-      const { layout: previousLayout, panelDataArray } =
-        eagerValuesReference.current
+      const { layout: previousLayout, panelDataArray } = eagerValuesReference.current
 
       if (panelData.constraints.collapsible) {
-        const panelConstraintsArray = panelDataArray.map(
-          (panelData) => panelData.constraints,
-        )
+        const panelConstraintsArray = panelDataArray.map((panelData) => panelData.constraints)
 
         const {
           collapsedSize = 0,
@@ -441,20 +365,12 @@ function PanelGroupWithForwardedReference({
 
         if (fuzzyNumbersEqual(panelSize, collapsedSize)) {
           // Restore this panel to the size it was before it was collapsed, if possible.
-          const previousPanelSize =
-            panelSizeBeforeCollapseReference.current.get(panelData.id)
+          const previousPanelSize = panelSizeBeforeCollapseReference.current.get(panelData.id)
 
-          const baseSize =
-            previousPanelSize != undefined && previousPanelSize >= minSize
-              ? previousPanelSize
-              : minSize
+          const baseSize = previousPanelSize != undefined && previousPanelSize >= minSize ? previousPanelSize : minSize
 
-          const isLastPanel =
-            findPanelDataIndex(panelDataArray, panelData) ===
-            panelDataArray.length - 1
-          const delta = isLastPanel
-            ? panelSize - baseSize
-            : baseSize - panelSize
+          const isLastPanel = findPanelDataIndex(panelDataArray, panelData) === panelDataArray.length - 1
+          const delta = isLastPanel ? panelSize - baseSize : baseSize - panelSize
 
           const nextLayout = adjustLayoutByDelta({
             delta,
@@ -474,11 +390,7 @@ function PanelGroupWithForwardedReference({
               onLayout(nextLayout)
             }
 
-            callPanelCallbacks(
-              panelDataArray,
-              nextLayout,
-              panelIdToLastNotifiedSizeMapReference.current,
-            )
+            callPanelCallbacks(panelDataArray, nextLayout, panelIdToLastNotifiedSizeMapReference.current)
           }
         }
       }
@@ -498,10 +410,7 @@ function PanelGroupWithForwardedReference({
 
       const { panelSize } = panelDataHelper(panelDataArray, panelData, layout)
 
-      assert(
-        panelSize != undefined,
-        `Panel size not found for panel "${panelData.id}"`,
-      )
+      assert(panelSize != undefined, `Panel size not found for panel "${panelData.id}"`)
 
       return panelSize
     },
@@ -531,16 +440,9 @@ function PanelGroupWithForwardedReference({
     (panelData: PanelData) => {
       const { layout, panelDataArray } = eagerValuesReference.current
 
-      const {
-        collapsedSize = 0,
-        collapsible,
-        panelSize,
-      } = panelDataHelper(panelDataArray, panelData, layout)
+      const { collapsedSize = 0, collapsible, panelSize } = panelDataHelper(panelDataArray, panelData, layout)
 
-      assert(
-        panelSize != undefined,
-        `Panel size not found for panel "${panelData.id}"`,
-      )
+      assert(panelSize != undefined, `Panel size not found for panel "${panelData.id}"`)
 
       return collapsible === true && fuzzyNumbersEqual(panelSize, collapsedSize)
     },
@@ -552,16 +454,9 @@ function PanelGroupWithForwardedReference({
     (panelData: PanelData) => {
       const { layout, panelDataArray } = eagerValuesReference.current
 
-      const {
-        collapsedSize = 0,
-        collapsible,
-        panelSize,
-      } = panelDataHelper(panelDataArray, panelData, layout)
+      const { collapsedSize = 0, collapsible, panelSize } = panelDataHelper(panelDataArray, panelData, layout)
 
-      assert(
-        panelSize != undefined,
-        `Panel size not found for panel "${panelData.id}"`,
-      )
+      assert(panelSize != undefined, `Panel size not found for panel "${panelData.id}"`)
 
       return !collapsible || fuzzyCompareNumbers(panelSize, collapsedSize) > 0
     },
@@ -601,8 +496,7 @@ function PanelGroupWithForwardedReference({
       eagerValuesReference.current.panelDataArrayChanged = false
 
       const { autoSaveId, onLayout, storage } = committedValuesReference.current
-      const { layout: previousLayout, panelDataArray } =
-        eagerValuesReference.current
+      const { layout: previousLayout, panelDataArray } = eagerValuesReference.current
 
       // If this panel has been configured to persist sizing information,
       // default size should be restored from local storage if possible.
@@ -610,9 +504,7 @@ function PanelGroupWithForwardedReference({
       if (autoSaveId) {
         const state = loadPanelGroupState(autoSaveId, panelDataArray, storage)
         if (state) {
-          panelSizeBeforeCollapseReference.current = new Map(
-            Object.entries(state.expandToSizes),
-          )
+          panelSizeBeforeCollapseReference.current = new Map(Object.entries(state.expandToSizes))
           unsafeLayout = state.layout
         }
       }
@@ -627,9 +519,7 @@ function PanelGroupWithForwardedReference({
       // e.g. for pixel groups, this could be the size of the window
       const nextLayout = validatePanelGroupLayout({
         layout: unsafeLayout,
-        panelConstraints: panelDataArray.map(
-          (panelData) => panelData.constraints,
-        ),
+        panelConstraints: panelDataArray.map((panelData) => panelData.constraints),
       })
 
       if (!areEqual(previousLayout, nextLayout)) {
@@ -641,11 +531,7 @@ function PanelGroupWithForwardedReference({
           onLayout(nextLayout)
         }
 
-        callPanelCallbacks(
-          panelDataArray,
-          nextLayout,
-          panelIdToLastNotifiedSizeMapReference.current,
-        )
+        callPanelCallbacks(panelDataArray, nextLayout, panelIdToLastNotifiedSizeMapReference.current)
       }
     }
   })
@@ -678,23 +564,12 @@ function PanelGroupWithForwardedReference({
           return () => {}
         }
 
-        const {
-          direction,
-          dragState,
-          id: groupId,
-          keyboardResizeBy,
-          onLayout,
-        } = committedValuesReference.current
-        const { layout: previousLayout, panelDataArray } =
-          eagerValuesReference.current
+        const { direction, dragState, id: groupId, keyboardResizeBy, onLayout } = committedValuesReference.current
+        const { layout: previousLayout, panelDataArray } = eagerValuesReference.current
 
         const { initialLayout } = dragState ?? {}
 
-        const pivotIndices = determinePivotIndices(
-          groupId,
-          dragHandleId,
-          panelGroupElement,
-        )
+        const pivotIndices = determinePivotIndices(groupId, dragHandleId, panelGroupElement)
 
         let delta = calculateDeltaPercentage(
           event,
@@ -711,9 +586,7 @@ function PanelGroupWithForwardedReference({
           delta = -delta
         }
 
-        const panelConstraints = panelDataArray.map(
-          (panelData) => panelData.constraints,
-        )
+        const panelConstraints = panelDataArray.map((panelData) => panelData.constraints)
 
         const nextLayout = adjustLayoutByDelta({
           delta,
@@ -740,15 +613,9 @@ function PanelGroupWithForwardedReference({
             // If the pointer has moved too far to resize the panel any further, note this so we can update the cursor.
             // This mimics VS Code behavior.
             if (isHorizontal) {
-              reportConstraintsViolation(
-                dragHandleId,
-                delta < 0 ? EXCEEDED_HORIZONTAL_MIN : EXCEEDED_HORIZONTAL_MAX,
-              )
+              reportConstraintsViolation(dragHandleId, delta < 0 ? EXCEEDED_HORIZONTAL_MIN : EXCEEDED_HORIZONTAL_MAX)
             } else {
-              reportConstraintsViolation(
-                dragHandleId,
-                delta < 0 ? EXCEEDED_VERTICAL_MIN : EXCEEDED_VERTICAL_MAX,
-              )
+              reportConstraintsViolation(dragHandleId, delta < 0 ? EXCEEDED_VERTICAL_MIN : EXCEEDED_VERTICAL_MAX)
             }
           } else {
             reportConstraintsViolation(dragHandleId, 0)
@@ -764,11 +631,7 @@ function PanelGroupWithForwardedReference({
             onLayout(nextLayout)
           }
 
-          callPanelCallbacks(
-            panelDataArray,
-            nextLayout,
-            panelIdToLastNotifiedSizeMapReference.current,
-          )
+          callPanelCallbacks(panelDataArray, nextLayout, panelIdToLastNotifiedSizeMapReference.current)
         }
       }
     },
@@ -786,30 +649,16 @@ function PanelGroupWithForwardedReference({
     (panelData: PanelData, unsafePanelSize: number) => {
       const { onLayout } = committedValuesReference.current
 
-      const { layout: previousLayout, panelDataArray } =
-        eagerValuesReference.current
+      const { layout: previousLayout, panelDataArray } = eagerValuesReference.current
 
-      const panelConstraintsArray = panelDataArray.map(
-        (panelData) => panelData.constraints,
-      )
+      const panelConstraintsArray = panelDataArray.map((panelData) => panelData.constraints)
 
-      const { panelSize, pivotIndices } = panelDataHelper(
-        panelDataArray,
-        panelData,
-        previousLayout,
-      )
+      const { panelSize, pivotIndices } = panelDataHelper(panelDataArray, panelData, previousLayout)
 
-      assert(
-        panelSize != undefined,
-        `Panel size not found for panel "${panelData.id}"`,
-      )
+      assert(panelSize != undefined, `Panel size not found for panel "${panelData.id}"`)
 
-      const isLastPanel =
-        findPanelDataIndex(panelDataArray, panelData) ===
-        panelDataArray.length - 1
-      const delta = isLastPanel
-        ? panelSize - unsafePanelSize
-        : unsafePanelSize - panelSize
+      const isLastPanel = findPanelDataIndex(panelDataArray, panelData) === panelDataArray.length - 1
+      const delta = isLastPanel ? panelSize - unsafePanelSize : unsafePanelSize - panelSize
 
       const nextLayout = adjustLayoutByDelta({
         delta,
@@ -829,28 +678,17 @@ function PanelGroupWithForwardedReference({
           onLayout(nextLayout)
         }
 
-        callPanelCallbacks(
-          panelDataArray,
-          nextLayout,
-          panelIdToLastNotifiedSizeMapReference.current,
-        )
+        callPanelCallbacks(panelDataArray, nextLayout, panelIdToLastNotifiedSizeMapReference.current)
       }
     },
-    [
-      committedValuesReference,
-      eagerValuesReference,
-      panelIdToLastNotifiedSizeMapReference,
-    ],
+    [committedValuesReference, eagerValuesReference, panelIdToLastNotifiedSizeMapReference],
   )
 
   const reevaluatePanelConstraints = useCallback(
     (panelData: PanelData, previousConstraints: PanelConstraints) => {
       const { layout, panelDataArray } = eagerValuesReference.current
 
-      const {
-        collapsedSize: previousCollapsedSize = 0,
-        collapsible: previousCollapsible,
-      } = previousConstraints
+      const { collapsedSize: previousCollapsedSize = 0, collapsible: previousCollapsible } = previousConstraints
 
       const {
         collapsedSize: nextCollapsedSize = 0,
@@ -859,21 +697,13 @@ function PanelGroupWithForwardedReference({
         minSize: nextMinSize = 0,
       } = panelData.constraints
 
-      const { panelSize: previousPanelSize } = panelDataHelper(
-        panelDataArray,
-        panelData,
-        layout,
-      )
+      const { panelSize: previousPanelSize } = panelDataHelper(panelDataArray, panelData, layout)
       if (previousPanelSize == undefined) {
         // It's possible that the panels in this group have changed since the last render
         return
       }
 
-      if (
-        previousCollapsible &&
-        nextCollapsible &&
-        fuzzyNumbersEqual(previousPanelSize, previousCollapsedSize)
-      ) {
+      if (previousCollapsible && nextCollapsible && fuzzyNumbersEqual(previousPanelSize, previousCollapsedSize)) {
         if (fuzzyNumbersEqual(previousCollapsedSize, nextCollapsedSize)) {
           // Stay collapsed
         } else {
@@ -896,19 +726,10 @@ function PanelGroupWithForwardedReference({
       if (!panelGroupElementReference.current) {
         return
       }
-      const handleElement = getResizeHandleElement(
-        dragHandleId,
-        panelGroupElementReference.current,
-      )
-      assert(
-        handleElement,
-        `Drag handle element not found for id "${dragHandleId}"`,
-      )
+      const handleElement = getResizeHandleElement(dragHandleId, panelGroupElementReference.current)
+      assert(handleElement, `Drag handle element not found for id "${dragHandleId}"`)
 
-      const initialCursorPosition = getResizeEventCursorPosition(
-        direction,
-        event,
-      )
+      const initialCursorPosition = getResizeEventCursorPosition(direction, event)
 
       setDragState({
         dragHandleId,
@@ -917,11 +738,7 @@ function PanelGroupWithForwardedReference({
         initialLayout: layout,
       })
     },
-    [
-      committedValuesReference,
-      eagerValuesReference,
-      panelGroupElementReference,
-    ],
+    [committedValuesReference, eagerValuesReference, panelGroupElementReference],
   )
 
   const stopDragging = useCallback(() => {
@@ -1023,14 +840,8 @@ function PanelGroupWithForwardedReference({
   )
 }
 
-export const PanelGroup = forwardReference<
-  ImperativePanelGroupHandle,
-  PanelGroupProperties
->(
-  (
-    properties: PanelGroupProperties,
-    reference: ForwardedReference<ImperativePanelGroupHandle>,
-  ) =>
+export const PanelGroup = forwardReference<ImperativePanelGroupHandle, PanelGroupProperties>(
+  (properties: PanelGroupProperties, reference: ForwardedReference<ImperativePanelGroupHandle>) =>
     createElement(PanelGroupWithForwardedReference, {
       ...properties,
       forwardedRef: reference,
@@ -1042,22 +853,15 @@ PanelGroup.displayName = 'forwardRef(PanelGroup)'
 
 function findPanelDataIndex(panelDataArray: PanelData[], panelData: PanelData) {
   return panelDataArray.findIndex(
-    (previousPanelData) =>
-      previousPanelData === panelData || previousPanelData.id === panelData.id,
+    (previousPanelData) => previousPanelData === panelData || previousPanelData.id === panelData.id,
   )
 }
 
-function panelDataHelper(
-  panelDataArray: PanelData[],
-  panelData: PanelData,
-  layout: number[],
-) {
+function panelDataHelper(panelDataArray: PanelData[], panelData: PanelData, layout: number[]) {
   const panelIndex = findPanelDataIndex(panelDataArray, panelData)
 
   const isLastPanel = panelIndex === panelDataArray.length - 1
-  const pivotIndices = isLastPanel
-    ? [panelIndex - 1, panelIndex]
-    : [panelIndex, panelIndex + 1]
+  const pivotIndices = isLastPanel ? [panelIndex - 1, panelIndex] : [panelIndex, panelIndex + 1]
 
   const panelSize = layout[panelIndex]
 

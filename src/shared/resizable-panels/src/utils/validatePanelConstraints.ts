@@ -17,32 +17,18 @@ export function validatePanelConstraints({
     const warnings = []
 
     const panelConstraints = panelConstraintsArray[panelIndex]
-    assert(
-      panelConstraints,
-      `No panel constraints found for index ${panelIndex}`,
-    )
+    assert(panelConstraints, `No panel constraints found for index ${panelIndex}`)
 
-    const {
-      collapsedSize = 0,
-      collapsible = false,
-      defaultSize,
-      maxSize = 100,
-      minSize = 0,
-    } = panelConstraints
+    const { collapsedSize = 0, collapsible = false, defaultSize, maxSize = 100, minSize = 0 } = panelConstraints
 
     if (minSize > maxSize) {
-      warnings.push(
-        `min size (${minSize}%) should not be greater than max size (${maxSize}%)`,
-      )
+      warnings.push(`min size (${minSize}%) should not be greater than max size (${maxSize}%)`)
     }
 
     if (defaultSize != undefined) {
       if (defaultSize < 0) {
         warnings.push('default size should not be less than 0')
-      } else if (
-        defaultSize < minSize &&
-        (!collapsible || defaultSize !== collapsedSize)
-      ) {
+      } else if (defaultSize < minSize && (!collapsible || defaultSize !== collapsedSize)) {
         warnings.push('default size should not be less than min size')
       }
 
@@ -59,9 +45,7 @@ export function validatePanelConstraints({
 
     if (warnings.length > 0) {
       const name = panelId == undefined ? 'Panel' : `Panel "${panelId}"`
-      console.warn(
-        `${name} has an invalid configuration:\n\n${warnings.join('\n')}`,
-      )
+      console.warn(`${name} has an invalid configuration:\n\n${warnings.join('\n')}`)
 
       return false
     }

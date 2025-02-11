@@ -10,10 +10,7 @@ import { assert } from '..'
  * @param {HTMLElement | SVGElement} a
  * @param {HTMLElement | SVGElement} b
  */
-export function compare(
-  a: HTMLElement | SVGElement,
-  b: HTMLElement | SVGElement,
-): number {
+export function compare(a: HTMLElement | SVGElement, b: HTMLElement | SVGElement): number {
   if (a === b) throw new Error('Cannot compare node with itself')
 
   const ancestors = {
@@ -31,10 +28,7 @@ export function compare(
     common_ancestor = a
   }
 
-  assert(
-    common_ancestor,
-    'Stacking order can only be calculated for elements with a common ancestor',
-  )
+  assert(common_ancestor, 'Stacking order can only be calculated for elements with a common ancestor')
 
   const z_indexes = {
     a: get_z_index(find_stacking_context(ancestors.a)),
@@ -74,15 +68,10 @@ function creates_stacking_context(node: HTMLElement | SVGElement) {
   //   (style.zIndex !== "auto" && style.position !== "static") ||
   //   is_flex_item(node)
   // )
-  if (
-    style.zIndex !== 'auto' &&
-    (style.position !== 'static' || is_flex_item(node))
-  )
-    return true
+  if (style.zIndex !== 'auto' && (style.position !== 'static' || is_flex_item(node))) return true
   if (+style.opacity < 1) return true
   if ('transform' in style && style.transform !== 'none') return true
-  if ('webkitTransform' in style && style.webkitTransform !== 'none')
-    return true
+  if ('webkitTransform' in style && style.webkitTransform !== 'none') return true
   if ('mixBlendMode' in style && style.mixBlendMode !== 'normal') return true
   if ('filter' in style && style.filter !== 'none') return true
   if ('webkitFilter' in style && style.webkitFilter !== 'none') return true

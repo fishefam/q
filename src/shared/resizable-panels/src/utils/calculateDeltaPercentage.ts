@@ -59,12 +59,6 @@ export function calculateDeltaPercentage(
       return 0
     }
 
-    return calculateDragOffsetPercentage(
-      event,
-      dragHandleId,
-      direction,
-      initialDragState,
-      panelGroupElement,
-    )
+    return calculateDragOffsetPercentage(event, dragHandleId, direction, initialDragState, panelGroupElement)
   }
 }

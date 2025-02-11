@@ -1,10 +1,7 @@
 import { useRef } from 'react'
 
 import type { ResizeEvent, ResizeHandler } from './PanelGroupContext'
-import type {
-  PointerHitAreaMargins,
-  ResizeHandlerAction,
-} from './PanelResizeHandleRegistry'
+import type { PointerHitAreaMargins, ResizeHandlerAction } from './PanelResizeHandleRegistry'
 import type {
   CSSProperties,
   HTMLAttributes,
@@ -18,13 +15,7 @@ import { useWindowSplitterResizeHandlerBehavior } from './hooks/useWindowSplitte
 import { PanelGroupContext } from './PanelGroupContext'
 import { registerResizeHandle } from './PanelResizeHandleRegistry'
 import { assert } from './utils/assert'
-import {
-  createElement,
-  useContext,
-  useEffect,
-  useRef as useReference,
-  useState,
-} from './vendor/react'
+import { createElement, useContext, useEffect, useRef as useReference, useState } from './vendor/react'
 
 export type PanelResizeHandleOnDragging = (isDragging: boolean) => void
 export type PanelResizeHandleProperties = Omit<
@@ -72,9 +63,7 @@ export function PanelResizeHandle({
 
   const panelGroupContext = useContext(PanelGroupContext)
   if (panelGroupContext === undefined) {
-    throw new Error(
-      `PanelResizeHandle components must be rendered within a PanelGroup container`,
-    )
+    throw new Error(`PanelResizeHandle components must be rendered within a PanelGroup container`)
   }
 
   const {
@@ -92,9 +81,7 @@ export function PanelResizeHandle({
 
   const [isFocused, setIsFocused] = useState(false)
 
-  const [resizeHandler, setResizeHandler] = useState<
-    ResizeHandler | undefined
-  >()
+  const [resizeHandler, setResizeHandler] = useState<ResizeHandler | undefined>()
 
   const committedValuesReference = useReference<{
     state: ResizeHandlerState
@@ -128,11 +115,7 @@ export function PanelResizeHandle({
     const element = elementReference.current
     assert(element, 'Element ref not attached')
 
-    const setResizeHandlerState = (
-      action: ResizeHandlerAction,
-      isActive: boolean,
-      event: ResizeEvent | undefined,
-    ) => {
+    const setResizeHandlerState = (action: ResizeHandlerAction, isActive: boolean, event: ResizeEvent | undefined) => {
       if (isActive) {
         switch (action) {
           case 'down': {
@@ -225,8 +208,7 @@ export function PanelResizeHandle({
     'data-panel-resize-handle-enabled': !disabled,
     'data-panel-resize-handle-id': resizeHandleId,
     'data-resize-handle': '',
-    'data-resize-handle-active':
-      state === 'drag' ? 'pointer' : isFocused ? 'keyboard' : undefined,
+    'data-resize-handle-active': state === 'drag' ? 'pointer' : isFocused ? 'keyboard' : undefined,
     'data-resize-handle-state': state,
 
     'id': idFromProperties,

@@ -145,16 +145,11 @@ const data = {
   versions: ['1.0.1', '1.1.0-alpha', '2.0.0-beta1'],
 }
 
-export function AppSidebar({
-  ...properties
-}: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({ ...properties }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar {...properties}>
       <SidebarHeader>
-        <VersionSwitcher
-          defaultVersion={data.versions[0]}
-          versions={data.versions}
-        />
+        <VersionSwitcher defaultVersion={data.versions[0]} versions={data.versions} />
         <SearchForm />
       </SidebarHeader>
       <SidebarContent>

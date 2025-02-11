@@ -53,14 +53,12 @@ export type PanelOnCollapse = () => void
 
 export type PanelOnExpand = () => void
 
-export type PanelOnResize = (
-  size: number,
-  previousSize: number | undefined,
-) => void
+export type PanelOnResize = (size: number, previousSize: number | undefined) => void
 
-export type PanelProperties<
-  T extends keyof HTMLElementTagNameMap = keyof HTMLElementTagNameMap,
-> = Omit<HTMLAttributes<HTMLElementTagNameMap[T]>, 'id' | 'onResize'> &
+export type PanelProperties<T extends keyof HTMLElementTagNameMap = keyof HTMLElementTagNameMap> = Omit<
+  HTMLAttributes<HTMLElementTagNameMap[T]>,
+  'id' | 'onResize'
+> &
   PropertiesWithChildren<{
     className?: string
     collapsedSize?: number | undefined
@@ -99,9 +97,7 @@ export function PanelWithForwardedReference({
 } & PanelProperties): ReactElement {
   const context = useContext(PanelGroupContext)
   if (context === undefined) {
-    throw new Error(
-      `Panel components must be rendered within a PanelGroup container`,
-    )
+    throw new Error(`Panel components must be rendered within a PanelGroup container`)
   }
 
   const {
@@ -152,9 +148,7 @@ export function PanelWithForwardedReference({
     defaultSize == undefined
   ) {
     developmentWarningsReference.current.didLogMissingDefaultSizeWarning = true
-    console.warn(
-      `WARNING: Panel defaultSize prop recommended to avoid layout shift after server rendering`,
-    )
+    console.warn(`WARNING: Panel defaultSize prop recommended to avoid layout shift after server rendering`)
   }
 
   useIsomorphicLayoutEffect(() => {
@@ -184,10 +178,7 @@ export function PanelWithForwardedReference({
       previousConstraints.maxSize !== constraints.maxSize ||
       previousConstraints.minSize !== constraints.minSize
     ) {
-      reevaluatePanelConstraints(
-        panelDataReference.current,
-        previousConstraints,
-      )
+      reevaluatePanelConstraints(panelDataReference.current, previousConstraints)
     }
   })
 
@@ -226,15 +217,7 @@ export function PanelWithForwardedReference({
         resizePanel(panelDataReference.current, size)
       },
     }),
-    [
-      collapsePanel,
-      expandPanel,
-      getPanelSize,
-      isPanelCollapsed,
-      panelDataReference,
-      panelId,
-      resizePanel,
-    ],
+    [collapsePanel, expandPanel, getPanelSize, isPanelCollapsed, panelDataReference, panelId, resizePanel],
   )
 
   const style = getPanelStyle(panelDataReference.current, defaultSize)
@@ -260,10 +243,7 @@ export function PanelWithForwardedReference({
 }
 
 export const Panel = forwardReference<ImperativePanelHandle, PanelProperties>(
-  (
-    properties: PanelProperties,
-    reference: ForwardedReference<ImperativePanelHandle>,
-  ) =>
+  (properties: PanelProperties, reference: ForwardedReference<ImperativePanelHandle>) =>
     createElement(PanelWithForwardedReference, {
       ...properties,
       forwardedRef: reference,

@@ -59,9 +59,7 @@ function getPanelKey(panels: PanelData[]): string {
       if (idIsFromProps) {
         return id
       } else {
-        return order
-          ? `${order}:${JSON.stringify(constraints)}`
-          : JSON.stringify(constraints)
+        return order ? `${order}:${JSON.stringify(constraints)}` : JSON.stringify(constraints)
       }
     })
     .sort((a, b) => a.localeCompare(b))

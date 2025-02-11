@@ -26,8 +26,7 @@ export function computePanelFlexBoxStyle({
   if (size == undefined) {
     // Initial render (before panels have registered themselves)
     // In order to support server rendering, fall back to default size if provided
-    flexGrow =
-      defaultSize == undefined ? '1' : defaultSize.toPrecision(precision)
+    flexGrow = defaultSize == undefined ? '1' : defaultSize.toPrecision(precision)
   } else if (panelData.length === 1) {
     // Special case: Single panel group should always fill full width/height
     flexGrow = '1'

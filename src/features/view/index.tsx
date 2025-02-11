@@ -56,9 +56,7 @@ export function View(properties: Properties) {
 
 function ResizeHandle() {
   return (
-    <div
-      className={`h-full w-2 translate-x-2 cursor-col-resize bg-gray-200 transition-all duration-150 ease-in-out hover:w-2 hover:bg-blue-500`}
-    >
+    <div className="h-full w-2 translate-x-2 cursor-col-resize bg-gray-200 transition-all duration-150 ease-in-out hover:w-2 hover:bg-blue-500">
       <div className="flex size-full items-center justify-center">
         <div className="h-1/6 w-0.5 rounded-full bg-gray-400" />
       </div>
@@ -72,8 +70,7 @@ function useBreakpoint(references: ReturnType<typeof useReferences>) {
     const contentElement = references.content.current
     const resizable = references.resizable.current
     const resizableElement = resizable?.resizable
-    const canUpdateSize =
-      contentElement && resizable && resizableElement && breakpoint
+    const canUpdateSize = contentElement && resizable && resizableElement && breakpoint
 
     if (!canUpdateSize) return
 
@@ -84,10 +81,7 @@ function useBreakpoint(references: ReturnType<typeof useReferences>) {
   return { breakpoint, setBreakpoint }
 }
 
-function useReferences<
-  T extends HTMLElement = HTMLDivElement,
-  U extends HTMLElement = HTMLDivElement,
->() {
+function useReferences<T extends HTMLElement = HTMLDivElement, U extends HTMLElement = HTMLDivElement>() {
   const { isResponsiveView } = useCMSControlContext()
   const wrapper = useRef<T>(null)
   const content = useRef<U>(null)

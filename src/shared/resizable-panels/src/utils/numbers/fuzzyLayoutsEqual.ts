@@ -1,10 +1,6 @@
 import { fuzzyNumbersEqual } from './fuzzyNumbersEqual'
 
-export function fuzzyLayoutsEqual(
-  actual: number[],
-  expected: number[],
-  fractionDigits?: number,
-): boolean {
+export function fuzzyLayoutsEqual(actual: number[], expected: number[], fractionDigits?: number): boolean {
   if (actual.length !== expected.length) {
     return false
   }

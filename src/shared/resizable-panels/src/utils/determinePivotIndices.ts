@@ -5,11 +5,7 @@ export function determinePivotIndices(
   dragHandleId: string,
   panelGroupElement: ParentNode,
 ): [indexBefore: number, indexAfter: number] {
-  const index = getResizeHandleElementIndex(
-    groupId,
-    dragHandleId,
-    panelGroupElement,
-  )
+  const index = getResizeHandleElementIndex(groupId, dragHandleId, panelGroupElement)
 
   return index == undefined ? [-1, -1] : [index, index + 1]
 }

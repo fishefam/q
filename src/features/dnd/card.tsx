@@ -29,11 +29,7 @@ interface DragItem {
 
 export const Card: FC<CardProperties> = ({ id, index, moveCard, text }) => {
   const reference = useRef<HTMLDivElement>(null)
-  const [{ handlerId }, drop] = useDrop<
-    DragItem,
-    void,
-    { handlerId: Identifier | null }
-  >({
+  const [{ handlerId }, drop] = useDrop<DragItem, void, { handlerId: Identifier | null }>({
     accept: ItemTypes.CARD,
     collect(monitor) {
       return {
@@ -56,8 +52,7 @@ export const Card: FC<CardProperties> = ({ id, index, moveCard, text }) => {
       const hoverBoundingRect = reference.current?.getBoundingClientRect()
 
       // Get vertical middle
-      const hoverMiddleY =
-        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
+      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
 
       // Determine mouse position
       const clientOffset = monitor.getClientOffset()
@@ -104,11 +99,7 @@ export const Card: FC<CardProperties> = ({ id, index, moveCard, text }) => {
   const opacity = isDragging ? 0 : 1
   drag(drop(reference))
   return (
-    <div
-      data-handler-id={handlerId}
-      ref={reference}
-      style={{ ...style, opacity }}
-    >
+    <div data-handler-id={handlerId} ref={reference} style={{ ...style, opacity }}>
       {text}
     </div>
   )

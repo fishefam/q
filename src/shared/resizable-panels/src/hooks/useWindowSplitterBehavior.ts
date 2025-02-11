@@ -20,11 +20,7 @@ export function useWindowSplitterResizeHandlerBehavior({
   resizeHandler: ResizeHandler | undefined
 }): void {
   useEffect(() => {
-    if (
-      disabled ||
-      resizeHandler == undefined ||
-      panelGroupElement == undefined
-    ) {
+    if (disabled || resizeHandler == undefined || panelGroupElement == undefined) {
       return
     }
 
@@ -56,20 +52,10 @@ export function useWindowSplitterResizeHandlerBehavior({
           const groupId = handleElement.dataset.panelGroupId
           assert(groupId, `No group element found for id "${groupId}"`)
 
-          const handles = getResizeHandleElementsForGroup(
-            groupId,
-            panelGroupElement,
-          )
-          const index = getResizeHandleElementIndex(
-            groupId,
-            handleId,
-            panelGroupElement,
-          )
+          const handles = getResizeHandleElementsForGroup(groupId, panelGroupElement)
+          const index = getResizeHandleElementIndex(groupId, handleId, panelGroupElement)
 
-          assert(
-            index !== undefined,
-            `No resize element found for id "${handleId}"`,
-          )
+          assert(index !== undefined, `No resize element found for id "${handleId}"`)
 
           const nextIndex = event.shiftKey
             ? index > 0

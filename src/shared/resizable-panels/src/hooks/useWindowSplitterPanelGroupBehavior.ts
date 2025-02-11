@@ -48,10 +48,7 @@ export function useWindowSplitterPanelGroupBehavior({
     if (!panelGroupElement) {
       return
     }
-    const resizeHandleElements = getResizeHandleElementsForGroup(
-      groupId,
-      panelGroupElement,
-    )
+    const resizeHandleElements = getResizeHandleElementsForGroup(groupId, panelGroupElement)
 
     for (let index = 0; index < panelDataArray.length - 1; index++) {
       const { valueMax, valueMin, valueNow } = calculateAriaValues({
@@ -63,16 +60,12 @@ export function useWindowSplitterPanelGroupBehavior({
       const resizeHandleElement = resizeHandleElements[index]
       if (resizeHandleElement == undefined) {
         if (isDevelopment) {
-          const { didWarnAboutMissingResizeHandle } =
-            developmentWarningsReference.current
+          const { didWarnAboutMissingResizeHandle } = developmentWarningsReference.current
 
           if (!didWarnAboutMissingResizeHandle) {
-            developmentWarningsReference.current.didWarnAboutMissingResizeHandle =
-              true
+            developmentWarningsReference.current.didWarnAboutMissingResizeHandle = true
 
-            console.warn(
-              `WARNING: Missing resize handle for PanelGroup "${groupId}"`,
-            )
+            console.warn(`WARNING: Missing resize handle for PanelGroup "${groupId}"`)
           }
         }
       } else {
@@ -80,26 +73,14 @@ export function useWindowSplitterPanelGroupBehavior({
         assert(panelData, `No panel data found for index "${index}"`)
 
         resizeHandleElement.setAttribute('aria-controls', panelData.id)
-        resizeHandleElement.setAttribute(
-          'aria-valuemax',
-          '' + Math.round(valueMax),
-        )
-        resizeHandleElement.setAttribute(
-          'aria-valuemin',
-          '' + Math.round(valueMin),
-        )
-        resizeHandleElement.setAttribute(
-          'aria-valuenow',
-          valueNow == undefined ? '' : '' + Math.round(valueNow),
-        )
+        resizeHandleElement.setAttribute('aria-valuemax', '' + Math.round(valueMax))
+        resizeHandleElement.setAttribute('aria-valuemin', '' + Math.round(valueMin))
+        resizeHandleElement.setAttribute('aria-valuenow', valueNow == undefined ? '' : '' + Math.round(valueNow))
       }
     }
 
     return () => {
-      for (const [
-        _index,
-        resizeHandleElement,
-      ] of resizeHandleElements.entries()) {
+      for (const [_index, resizeHandleElement] of resizeHandleElements.entries()) {
         resizeHandleElement.removeAttribute('aria-controls')
         resizeHandleElement.removeAttribute('aria-valuemax')
         resizeHandleElement.removeAttribute('aria-valuemin')
@@ -126,12 +107,7 @@ export function useWindowSplitterPanelGroupBehavior({
       const handleId = handle.dataset.panelResizeHandleId
       assert(handleId, `Resize handle element has no handle id attribute`)
 
-      const [idBefore, idAfter] = getResizeHandlePanelIds(
-        groupId,
-        handleId,
-        panelDataArray,
-        panelGroupElement,
-      )
+      const [idBefore, idAfter] = getResizeHandlePanelIds(groupId, handleId, panelDataArray, panelGroupElement)
       if (idBefore == undefined || idAfter == undefined) {
         return () => {}
       }
@@ -145,35 +121,21 @@ export function useWindowSplitterPanelGroupBehavior({
           case 'Enter': {
             event.preventDefault()
 
-            const index = panelDataArray.findIndex(
-              (panelData) => panelData.id === idBefore,
-            )
+            const index = panelDataArray.findIndex((panelData) => panelData.id === idBefore)
             if (index !== -1) {
               const panelData = panelDataArray[index]
               assert(panelData, `No panel data found for index ${index}`)
 
               const size = layout[index]
 
-              const {
-                collapsedSize = 0,
-                collapsible,
-                minSize = 0,
-              } = panelData.constraints
+              const { collapsedSize = 0, collapsible, minSize = 0 } = panelData.constraints
 
               if (size != undefined && collapsible) {
                 const nextLayout = adjustLayoutByDelta({
-                  delta: fuzzyNumbersEqual(size, collapsedSize)
-                    ? minSize - collapsedSize
-                    : collapsedSize - size,
+                  delta: fuzzyNumbersEqual(size, collapsedSize) ? minSize - collapsedSize : collapsedSize - size,
                   initialLayout: layout,
-                  panelConstraints: panelDataArray.map(
-                    (panelData) => panelData.constraints,
-                  ),
-                  pivotIndices: determinePivotIndices(
-                    groupId,
-                    handleId,
-                    panelGroupElement,
-                  ),
+                  panelConstraints: panelDataArray.map((panelData) => panelData.constraints),
+                  pivotIndices: determinePivotIndices(groupId, handleId, panelGroupElement),
                   prevLayout: layout,
                   trigger: 'keyboard',
                 })
@@ -197,13 +159,5 @@ export function useWindowSplitterPanelGroupBehavior({
     return () => {
       for (const cleanupFunction of cleanupFunctions) cleanupFunction()
     }
-  }, [
-    panelGroupElement,
-    committedValuesRef,
-    eagerValuesRef,
-    groupId,
-    layout,
-    panelDataArray,
-    setLayout,
-  ])
+  }, [panelGroupElement, committedValuesRef, eagerValuesRef, groupId, layout, panelDataArray, setLayout])
 }

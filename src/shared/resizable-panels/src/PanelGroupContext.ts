@@ -20,18 +20,12 @@ export type TPanelGroupContext = {
   dragState: DragState | undefined
   expandPanel: (panelData: PanelData, minSizeOverride?: number) => void
   getPanelSize: (panelData: PanelData) => number
-  getPanelStyle: (
-    panelData: PanelData,
-    defaultSize: number | undefined,
-  ) => CSSProperties
+  getPanelStyle: (panelData: PanelData, defaultSize: number | undefined) => CSSProperties
   groupId: string
   isPanelCollapsed: (panelData: PanelData) => boolean
   isPanelExpanded: (panelData: PanelData) => boolean
   panelGroupElement: ParentNode | undefined
-  reevaluatePanelConstraints: (
-    panelData: PanelData,
-    previousConstraints: PanelConstraints,
-  ) => void
+  reevaluatePanelConstraints: (panelData: PanelData, previousConstraints: PanelConstraints) => void
   registerPanel: (panelData: PanelData) => void
   registerResizeHandle: (dragHandleId: string) => ResizeHandler
   resizePanel: (panelData: PanelData, size: number) => void
@@ -39,8 +33,6 @@ export type TPanelGroupContext = {
   stopDragging: () => void
   unregisterPanel: (panelData: PanelData) => void
 }
-export const PanelGroupContext = createContext<TPanelGroupContext | undefined>(
-  undefined,
-)
+export const PanelGroupContext = createContext<TPanelGroupContext | undefined>(undefined)
 
 PanelGroupContext.displayName = 'PanelGroupContext'
