@@ -1,5 +1,5 @@
 import { createArray } from '@/shared/utilities'
-import format from 'pg-format'
+import { format } from 'node-pg-format'
 
 import type { Column, TableName, Tables } from '../types'
 

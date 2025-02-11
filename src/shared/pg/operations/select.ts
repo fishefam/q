@@ -1,4 +1,4 @@
-import format from 'pg-format'
+import { format } from 'node-pg-format'
 
 import type { Column, TableName, Where } from '../types'
 
@@ -12,7 +12,7 @@ export function select<T extends TableName>(
 ) {
   const { limit } = options ?? {}
   const where = validateWhere(options?.where)
-  const rawBaseQuery = `SELECT ${typeof columns === 'string' ? '%I' : columns.map(() => '%I').join(', ')} FROM %I`
+  const rawBaseQuery = `SELECT ${typeof columns === 'string' ? '%s' : columns.map(() => '%I').join(', ')} FROM %I`
   const rawWhereClause = `${where.length > 0 ? ' WHERE ' + where.map(([_, __, ___, next], index) => `%I %s $${index + 1}${next ? ' ' + next : ''}`).join(' ') : ''}`
   const rawLimitClause = `${limit ? ' LIMIT %s' : ''}`
   const rawQuery = rawBaseQuery + rawWhereClause + rawLimitClause
