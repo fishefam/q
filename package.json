@@ -18,11 +18,12 @@
     "purge": "git reset --hard && git clean -xdf",
     "reset-db": "npm run migrate down 9999 && npm run migrate up",
     "seed": "bun seeds/index.ts",
+    "shadcn": "shadcn",
     "start": "next start",
     "supabase": "supabase"
   },
   "resolutions": {
-    "@antfu/ni": "^0.4.1",
+    "@antfu/ni": "^0.23.2",
     "whatwg-url": "^14.1.0"
   },
   "dependencies": {
@@ -115,6 +116,7 @@
     "prettier-plugin-tailwindcss": "^0.6.11",
     "rimraf": "^6.0.1",
     "sass": "^1.84.0",
+    "shadcn": "^2.4.0-canary.2",
     "supabase": "^2.12.0",
     "tailwindcss": "^4.0.6",
     "typescript": "^5.7.3"
