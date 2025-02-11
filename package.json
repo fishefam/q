@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "check-updates": "npx npm-check-updates",
+    "check-updates": "bunx npm-check-updates",
     "dev": "rimraf .next && next dev --turbopack",
     "format": "prettier . --write",
     "gen-db": "dotenv -- bun gen-db_ && bun database.config.ts && eslint database.ts --fix",
