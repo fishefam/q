@@ -126,5 +126,6 @@
     "node": "22",
     "pnpm": "not allowed"
   },
-  "engineStrict": true
+  "engineStrict": true,
+  "packageManager": "yarn@4.6.0"
 }
