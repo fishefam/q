@@ -12,6 +12,8 @@ export default async function Layout({ children }: LayoutProperties) {
   const whereNode: Where<'node'>[] = [['page_id', '=', pages?.at(0)?.id]]
   const [, nodes] = await select('node', '*', { where: whereNode })
 
+  // console.log('sdfasdfsda', pages, r)
+
   return (
     <html lang="en">
       <body>

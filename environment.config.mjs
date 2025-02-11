@@ -1,11 +1,13 @@
-import { execSync } from 'child_process'
-import { existsSync, readFileSync, writeFileSync } from 'fs'
-import { dirname, join } from 'path'
-import { fileURLToPath } from 'url'
+#!/usr/bin/env node
+
+import { execSync } from 'node:child_process'
+import { existsSync, readFileSync, writeFileSync } from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
-const envPath = join(__dirname, '.env')
+const __dirname = path.dirname(__filename)
+const environmentPath = path.join(__dirname, '.env')
 const variableMap = {
   'anon key': 'NEXT_PUBLIC_SUPABASE_ANON_KEY',
   'API URL': 'NEXT_PUBLIC_SUPABASE_URL',
@@ -27,25 +29,28 @@ const content = finalEntries
   .map(([key, value]) => `${key}="${value}"`)
   .join('\n')
 
-if (!existsSync(envPath)) {
-  writeFileSync(envPath, content)
+if (!existsSync(environmentPath)) {
+  writeFileSync(environmentPath, content)
   process.exit(0)
 }
 
-const existingEnv = readFileSync(envPath, 'utf8')
+const existingEnvironment = readFileSync(environmentPath, 'utf8')
 const newEntries = Object.values(variableMap)
-  .filter((v) => !existingEnv.includes(`${v}=`))
+  .filter((v) => !existingEnvironment.includes(`${v}=`))
   .map((v) => {
     const value = finalEntries.find(([key]) => key === v)
     if (value) return `${v}="${value[1]}"`
   })
-  .filter((value) => value)
+  .filter(Boolean)
 
-writeFileSync(envPath, `${existingEnv.trim()}\n${newEntries.join('\n')}`)
+writeFileSync(
+  environmentPath,
+  `${existingEnvironment.trim()}\n${newEntries.join('\n')}`,
+)
 
 function getSupabaseStatus() {
   try {
-    return execSync('npm run supabase status', { encoding: 'utf-8' })
+    return execSync('npm run supabase status', { encoding: 'utf8' })
   } catch {
     return ''
   }
