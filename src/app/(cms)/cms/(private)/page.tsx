@@ -4,8 +4,6 @@ import { FloatingMenu } from '@/features/floating-menu'
 import { View } from '@/features/view'
 import { useCMSContext } from '@/shared/components/contexts/cms'
 import { useCMSControlContext } from '@/shared/components/contexts/cms-control'
-import { useLog } from '@/shared/utilities/hooks'
-import { startTransition, useActionState } from 'react'
 import { AppSidebar } from 'shadcn-blocks/app-sidebar'
 import {
   Select,
@@ -15,24 +13,13 @@ import {
 } from 'shadcn-blocks/ui/select'
 import { SidebarInset, SidebarProvider } from 'shadcn/sidebar'
 
-import { action } from './actions'
-
 export default function Page() {
   const { pages } = useCMSContext()
   const { isSidebarOpen, setIsSidebarOpen } = useCMSControlContext()
-  const [state, dispatch] = useActionState(action, [])
-
-  useLog(state)
 
   return (
     <SidebarProvider onOpenChange={setIsSidebarOpen} open={isSidebarOpen}>
-      <Select
-        onValueChange={(value) => {
-          const formData = new FormData()
-          formData.set('page_id', value)
-          startTransition(() => dispatch(formData))
-        }}
-      >
+      <Select>
         <SelectTrigger>Trigger</SelectTrigger>
         <SelectContent>
           {pages.map((page) => (
