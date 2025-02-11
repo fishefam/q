@@ -41,9 +41,9 @@ yarn-error.log*
 next-env.d.ts
 
 # lock files
-pnpm-lock.*
-yarn.lock
-bun.lock*
+*lock*
+!bun.lock
+!bun.lockb
 
 # supabase
 supabase
