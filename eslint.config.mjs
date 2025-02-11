@@ -18,7 +18,7 @@ const eslintConfig = [
   perfectionist.configs['recommended-alphabetical'],
   {
     ...unicornConfig,
-    ignores: ['src/shared/shadcn/**/*', 'index.d.ts', 'db.ts'],
+    ignores: ['src/shared/shadcn/**/*', 'index.d.ts'],
     rules: {
       ...unicornConfig.rules,
       'unicorn/no-nested-ternary': 'off',
@@ -76,6 +76,10 @@ const eslintConfig = [
       'seeds/**/*',
     ],
     rules: { 'unicorn/filename-case': 'off' },
+  },
+  {
+    files: ['database.ts'],
+    rules: { 'unicorn/no-null': 'off' },
   },
 ]
 

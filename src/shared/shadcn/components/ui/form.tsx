@@ -1,10 +1,7 @@
 'use client'
 
 import type * as LabelPrimitive from '@radix-ui/react-label'
-import type {
-  ControllerProps,
-  FieldPath,
-  FieldValues} from 'react-hook-form';
+import type { ControllerProps, FieldPath, FieldValues } from 'react-hook-form'
 
 import { Label } from '@/shared/shadcn/components/ui/label'
 import { cn } from '@/shared/shadcn/lib/utils'

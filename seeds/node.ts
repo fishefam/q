@@ -1,5 +1,5 @@
 import type { Where } from '@/shared/pg/types'
-import type { NodeInput } from '@db'
+import type { NodeInput } from '@database'
 
 import { insert, select } from '@/shared/pg'
 import { createArray } from '@/shared/utilities'

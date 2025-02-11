@@ -1,6 +1,6 @@
 'use client'
 
-import type { VariantProps} from 'class-variance-authority';
+import type { VariantProps } from 'class-variance-authority'
 
 import { Button } from '@/shared/shadcn/components/ui/button'
 import { Input } from '@/shared/shadcn/components/ui/input'
@@ -579,7 +579,8 @@ function SidebarMenuButton({
   asChild?: boolean
   isActive?: boolean
   tooltip?: React.ComponentProps<typeof TooltipContent> | string
-} & React.ComponentProps<'button'> & VariantProps<typeof sidebarMenuButtonVariants>) {
+} & React.ComponentProps<'button'> &
+  VariantProps<typeof sidebarMenuButtonVariants>) {
   const Comp = asChild ? Slot : 'button'
   const { isMobile, state } = useSidebar()
 

@@ -1,4 +1,4 @@
-import type { Button} from '@/shared/shadcn/components/ui/button';
+import type { Button } from '@/shared/shadcn/components/ui/button'
 
 import { buttonVariants } from '@/shared/shadcn/components/ui/button'
 import { cn } from '@/shared/shadcn/lib/utils'

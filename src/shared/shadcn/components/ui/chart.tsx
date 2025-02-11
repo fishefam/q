@@ -67,7 +67,7 @@ const ChartContainer = React.forwardRef<
 })
 ChartContainer.displayName = 'Chart'
 
-const ChartStyle = ({ config, id }: { config: ChartConfig; id: string; }) => {
+const ChartStyle = ({ config, id }: { config: ChartConfig; id: string }) => {
   const colorConfig = Object.entries(config).filter(
     ([, config]) => config.theme || config.color,
   )
@@ -105,13 +105,13 @@ const ChartTooltip = RechartsPrimitive.Tooltip
 const ChartTooltipContent = React.forwardRef<
   HTMLDivElement,
   {
-      hideIndicator?: boolean
-      hideLabel?: boolean
-      indicator?: 'dashed' | 'dot' | 'line'
-      labelKey?: string
-      nameKey?: string
-    } &
-    React.ComponentProps<'div'> & React.ComponentProps<typeof RechartsPrimitive.Tooltip>
+    hideIndicator?: boolean
+    hideLabel?: boolean
+    indicator?: 'dashed' | 'dot' | 'line'
+    labelKey?: string
+    nameKey?: string
+  } & React.ComponentProps<'div'> &
+    React.ComponentProps<typeof RechartsPrimitive.Tooltip>
 >(
   (
     {
@@ -261,10 +261,10 @@ const ChartLegend = RechartsPrimitive.Legend
 const ChartLegendContent = React.forwardRef<
   HTMLDivElement,
   {
-      hideIcon?: boolean
-      nameKey?: string
-    } &
-    Pick<RechartsPrimitive.LegendProps, 'payload' | 'verticalAlign'> & React.ComponentProps<'div'>
+    hideIcon?: boolean
+    nameKey?: string
+  } & Pick<RechartsPrimitive.LegendProps, 'payload' | 'verticalAlign'> &
+    React.ComponentProps<'div'>
 >(
   (
     { className, hideIcon = false, nameKey, payload, verticalAlign = 'bottom' },
