@@ -1,6 +1,7 @@
 export const shorthands = undefined
 
 const table = 'user_info'
+const aliasConstraint = 'user_info_alias_key'
 
 /**
  * @param pgm {import('node-pg-migrate').MigrationBuilder}
@@ -8,6 +9,7 @@ const table = 'user_info'
  * @returns {Promise<void> | void}
  */
 export function down(pgm) {
+  pgm.dropConstraint(table, aliasConstraint)
   pgm.dropTable(table, { ifExists: true })
 }
 
