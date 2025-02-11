@@ -1,7 +1,5 @@
 import { GlobalProvider } from '@/shared/components/contexts/global'
-
-import '../globals.css'
-
+import '@/app/globals.css'
 import {
   ResizableHandle,
   ResizablePanel,
