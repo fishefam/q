@@ -12,6 +12,8 @@
     "**/.next": true,
     "**/.svn": true,
     "**/.vscode": true,
+    "**/.yarn": true,
+    "**/.yarnrc.yml": true,
     "**/bun.lock": true,
     "**/CVS": true,
     "**/next-env.d.ts": true,
