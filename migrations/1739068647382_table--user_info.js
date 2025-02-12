@@ -26,5 +26,6 @@ export function up(pgm) {
     profile_image: { type: 'text' },
     cms_access: { default: true, notNull: true, type: 'boolean' },
     role: { notNull: true, type: 'text' },
+    last_page_id: { type: 'text' },
   })
 }

@@ -6,12 +6,13 @@ import { select } from '@/shared/pg/'
 
 export default async function Layout({ children }: LayoutProperties) {
   const [, pages] = await select('page', '*')
+  const [, nodes] = await select('node', '*', { where: [['page_id', '=', pages?.at(0)?.id]] })
 
   return (
     <html lang="en">
       <body>
         <GlobalProvider>
-          <CMSProvider pages={pages ?? []}>
+          <CMSProvider nodes={nodes ?? []} pages={pages ?? []}>
             <CMSControlProvider>{children}</CMSControlProvider>
           </CMSProvider>
         </GlobalProvider>

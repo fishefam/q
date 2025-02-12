@@ -1,6 +1,6 @@
 'use client'
 
-import type { CSSProperties, ReactElement, RefObject } from 'react'
+import type { CSSProperties, DependencyList, ReactElement, RefObject } from 'react'
 
 import { useCMSContext } from '@/shared/components/contexts/cms'
 import { useCMSControlContext } from '@/shared/components/contexts/cms-control'
@@ -20,18 +20,19 @@ type FrameProperties = { children: Children }
 type RenderBodyProperties = {
   body: HTMLElement | undefined
   bodyElements: ReactElement[] | undefined
+  dependencyList: DependencyList
   isLoading: boolean
   reference: RefObject<HTMLIFrameElement | null>
 }
 type RenderHeadProperties = {
   children: Children
+  dependencyList: DependencyList
   head: HTMLHeadElement | undefined
   headElements: ReactElement[] | undefined
   setElements: SetState<Elements | undefined>
 }
 
 export function ViewFrame(properties: FrameProperties) {
-  console.log('view frame')
   const { isResponsiveView } = useCMSControlContext()
   const { isLoading, setIsLoading } = useLoading()
   const { body, head, reference } = useFrame()
@@ -39,8 +40,8 @@ export function ViewFrame(properties: FrameProperties) {
 
   const { children } = properties
   const { bodyElements, headElements } = elements ?? {}
-  const headProperties = { children, head, headElements, setElements }
-  const bodyProperties = { body, bodyElements, isLoading, reference }
+  const headProperties = { children, dependencyList: [], head, headElements, setElements }
+  const bodyProperties = { body, bodyElements, dependencyList: [], isLoading, reference }
   const handleFrameLoaded = () => setIsLoading(false)
   const baseFrameCN = 'relative z-[1] size-full h-full'
 

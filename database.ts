@@ -40,7 +40,7 @@ export interface Node {
   css: null | string
   id: string
   is_active: boolean
-  language_id: string
+  language_id: null | string
   modified_at: Date | null
   modified_by: null | string
   module_url: null | string
@@ -61,7 +61,7 @@ export interface NodeInput {
   css?: null | string
   id?: string
   is_active?: boolean
-  language_id: string
+  language_id?: null | string
   modified_at?: Date | null
   modified_by?: null | string
   module_url?: null | string
@@ -107,7 +107,7 @@ export const node = {
     page_id: { $type: null as unknown as Page, column: 'id', table: 'page' },
   },
   primaryKey: 'id',
-  requiredForInsert: ['page_id', 'language_id'],
+  requiredForInsert: ['page_id'],
   tableName: 'node',
 } as const
 
@@ -439,6 +439,7 @@ export interface UserInfo {
   first_name: string
   id: string
   last_name: string
+  last_page_id: null | string
   middle_name: null | string
   profile_image: null | string
   role: string
@@ -449,6 +450,7 @@ export interface UserInfoInput {
   first_name?: string
   id: string
   last_name?: string
+  last_page_id?: null | string
   middle_name?: null | string
   profile_image?: null | string
   role: string
@@ -456,7 +458,17 @@ export interface UserInfoInput {
 export const user_info = {
   $input: null as unknown as UserInfoInput,
   $type: null as unknown as UserInfo,
-  columns: ['id', 'first_name', 'middle_name', 'last_name', 'alias', 'profile_image', 'cms_access', 'role'],
+  columns: [
+    'id',
+    'first_name',
+    'middle_name',
+    'last_name',
+    'alias',
+    'profile_image',
+    'cms_access',
+    'role',
+    'last_page_id',
+  ],
   foreignKeys: {},
   primaryKey: 'id',
   requiredForInsert: ['id', 'role'],

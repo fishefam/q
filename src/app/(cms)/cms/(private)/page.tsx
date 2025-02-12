@@ -1,6 +1,7 @@
 'use client'
 
 import { FloatingMenu } from '@/features/floating-menu'
+import { NodeRender } from '@/features/nodes'
 import { View } from '@/features/view'
 import { useCMSControlContext } from '@/shared/components/contexts/cms-control'
 import { AppSidebar } from 'shadcn/app-sidebar'
@@ -13,8 +14,7 @@ export default function Page() {
     <SidebarProvider onOpenChange={setIsSidebarOpen} open={isSidebarOpen}>
       <SidebarInset className="overflow-x-hidden">
         <View>
-          <div>OK</div>
-          <div>WHAT</div>
+          <NodeRender />
         </View>
         <FloatingMenu />
       </SidebarInset>

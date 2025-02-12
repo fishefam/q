@@ -4,6 +4,7 @@ import type React from 'react'
 declare global {
   type AuthProvider = 'auth0' | 'firebase' | 'supabase'
   type GlobalThis = typeof globalThis
+  type NodeMap<T> = { get: (id: string) => T | undefined } & Omit<Map<string, T>, 'get'>
   type Path = `/${string}`
   type StringRecord = Record<string, string>
   type UnknownRecord = Record<string, unknown>

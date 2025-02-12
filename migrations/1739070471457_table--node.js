@@ -30,7 +30,7 @@ export function up(pgm) {
     mount_id: { references: `${table}(id)`, type: 'text' },
     order: { default: 0, notNull: true, type: 'int' },
     name: { comment: 'Friendly name to represent node in CMS', type: 'text' },
-    language_id: { notNull: true, references: 'language(id)', type: 'text' },
+    language_id: { references: 'language(id)', type: 'text' },
     module_url: { type: 'text' },
     class_name: { type: 'text' },
     css: { type: 'text' },
