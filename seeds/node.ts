@@ -22,7 +22,7 @@ export async function seed() {
   setOrders(data)
 
   const [error] = await insert('node', data)
-  const errorMessage = `Error in page table: ${error?.message}`
+  const errorMessage = `Error in node table: ${error?.message}`
   const successMessage = 'Succesfully seeded into `node` table'
 
   console.log(error ? errorMessage : successMessage)

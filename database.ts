@@ -295,22 +295,22 @@ export const node_style = {
 // Table node_text
 export interface NodeText {
   id: string
-  language: string
+  language_id: string
   node_id: string
   text: string
 }
 export interface NodeTextInput {
   id?: string
-  language: string
+  language_id: string
   node_id: string
   text: string
 }
 export const node_text = {
   $input: null as unknown as NodeTextInput,
   $type: null as unknown as NodeText,
-  columns: ['id', 'language', 'node_id', 'text'],
+  columns: ['id', 'language_id', 'node_id', 'text'],
   foreignKeys: {
-    language: {
+    language_id: {
       $type: null as unknown as Language,
       column: 'id',
       table: 'language',
@@ -318,7 +318,7 @@ export const node_text = {
     node_id: { $type: null as unknown as Node, column: 'id', table: 'node' },
   },
   primaryKey: 'id',
-  requiredForInsert: ['language', 'node_id', 'text'],
+  requiredForInsert: ['language_id', 'node_id', 'text'],
   tableName: 'node_text',
 } as const
 
