@@ -1,3 +1,3 @@
 export { pool } from './base-query'
 export { insert } from './operations/insert'
-export { select } from './operations/select'
+export { select } from './operations/select/index'

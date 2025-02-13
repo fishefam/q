@@ -2,7 +2,21 @@ import type { tables } from '@database'
 
 export type Column<T extends TableName> = Tables[T]['columns'][number]
 
-export type Operator = '<' | '<=' | '<>' | '=' | '>' | '>=' | 'BETWEEN' | 'IN' | 'LIKE'
+export type Operator =
+  | '<'
+  | '<='
+  | '<>'
+  | '='
+  | '>'
+  | '>='
+  | 'between'
+  | 'in'
+  | 'is'
+  | 'is distinct from'
+  | 'is not'
+  | 'is not distinct from'
+  | 'like'
+  | 'not between'
 
 export type QueryError = { detail: string | undefined; message: string }
 
