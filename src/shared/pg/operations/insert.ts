@@ -3,9 +3,9 @@ import { format } from 'node-pg-format'
 
 import type { Column, TableName, Tables } from '../types'
 
-import { basePgQuery } from '../base-query'
+import { baseQuery as execute } from '../queries'
 
-export function insert<T extends TableName>(table: T, data: Tables[T]['$input'][], options?: { closePool?: boolean }) {
+export function insert<T extends TableName>(table: T, data: Tables[T]['$input'][]) {
   if (data.length === 0) return [{ message: 'Empty Data' }, undefined]
 
   const columns = Object.keys(data[0] ?? '{}') as Column<T>[]
@@ -21,5 +21,5 @@ export function insert<T extends TableName>(table: T, data: Tables[T]['$input'][
     return `(${offsetString.join(', ')})`
   })
   const query = baseQuery + placeholders + ' RETURNING *;'
-  return basePgQuery<T>(query, values, options)
+  return execute<T, null>(query, values)
 }

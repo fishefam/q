@@ -20,7 +20,7 @@ export type Operator =
 
 export type QueryError = { detail: string | undefined; message: string }
 
-export type Result<T extends TableName> = [QueryError, undefined] | [undefined, Row<T>[]]
+export type Result<T extends TableName, Q> = [QueryError, undefined] | [undefined, (Q extends null ? Row<T> : Q)[]]
 
 export type Row<T extends TableName> = Tables[T]['$type']
 

@@ -2,7 +2,7 @@ import { format } from 'node-pg-format'
 
 import type { Column, Operator, TableName } from '../../types'
 
-import { basePgQuery } from '../../base-query'
+import { baseQuery } from '../../queries'
 
 export type Method =
   | 'groupBy'
@@ -74,7 +74,7 @@ export function buildQuery<T extends TableName, M extends Method>(
   const clearBase = (flag: boolean) => (flag ? base.replace(/( and| or|,)$/i, '') : base)
 
   const toString = () => `${clearBase(true)};`
-  const query = () => basePgQuery<T>(toString(), values)
+  const query = <Q = null>() => baseQuery<T, Q>(toString(), values)
 
   const whereGroupStart = <C = Column<T>>(lhs: C, op: Operator, rhs: unknown, nextOperator: NextOperator = 'and') => {
     const isBaseDirty = shouldClearBase(['where', 'whereGroupEnd'])
@@ -154,21 +154,23 @@ export function buildQuery<T extends TableName, M extends Method>(
     >
   }
 
-  const join = <A extends TableName, B extends TableName, C = Column<A>, D = Column<B>>(
-    target: [A, C, string] | [A, C],
+  const join = <A extends TableName, B extends TableName, C extends string = Column<A>, D extends string = Column<B>>(
+    target: [`${A}.${C}`, string] | `${A}.${C}`,
     op: Operator,
-    source: [B, D],
+    source: `${B}.${D}`,
     nextOperator: NextOperator = 'and',
     type: Join = 'inner',
   ) => {
+    const _target = Array.isArray(target) ? [target[0].split('.'), target[1]] : target.split('.')
+    const _source = source.split('.')
     const isBaseDirty = shouldClearBase(['join'])
     const hasKeyword = / JOIN /.test(base)
-    const raw = `${clearBase(isBaseDirty)} ${type.toUpperCase()}${hasKeyword ? '' : ' JOIN'} %I${target[2] ? ' %I' : ''} ON %I.%I %s %I.%I ${nextOperator.toUpperCase()}`
-    const queryString = target[2]
-      ? format(raw, target[0], target[2], target[0], target[1], op, source[0], source[1], nextOperator)
-      : format(raw, target[0], target[0], target[1], op, source[0], source[1], nextOperator)
+    const raw = `${clearBase(isBaseDirty)}${hasKeyword ? '' : ` ${type.toUpperCase()} JOIN`} %I${_target[2] ? ' %I' : ''} ON %I.%I %s %I.%I ${nextOperator.toUpperCase()}`
+    const queryString = _target[2]
+      ? format(raw, _target[0], _target[2], _target[0], _target[1], op, _source[0], _source[1], nextOperator)
+      : format(raw, _target[0], _target[0], _target[1], op, _source[0], _source[1], nextOperator)
     return buildQuery(queryString, joinIncludes, 'join', [...values]) as unknown as ReturnMethods<
-      'groupBy' | 'join' | 'limit' | 'offset' | 'orderBy' | 'query' | 'toString'
+      'groupBy' | 'join' | 'limit' | 'offset' | 'orderBy' | 'query' | 'toString' | 'where' | 'whereGroupStart'
     >
   }
 
