@@ -27,7 +27,7 @@ export function buildQuery<T extends TableName, M extends Method>(
   lastMethod: Method | undefined,
   values: unknown[],
 ) {
-  type ReturnMethods<T extends keyof typeof methods> = Pick<typeof methods, T>
+  type ReturnMethods<R extends keyof typeof methods> = Pick<typeof methods, R>
 
   const groupByIncludes: Method[] = ['query', 'toString', 'offset', 'orderBy', 'limit', 'having']
   const havingGroupEndIncludes: Method[] = ['query', 'toString', 'havingGroupStart', 'having']

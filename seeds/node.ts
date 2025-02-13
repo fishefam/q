@@ -1,4 +1,3 @@
-import type { Where } from '@/shared/pg/types'
 import type { NodeInput } from '@database'
 
 import { insert, select } from '@/shared/pg'
@@ -8,10 +7,9 @@ import { nanoid } from 'nanoid'
 export const order = 2
 
 export async function seed() {
-  const languageWhere: Where<'language'>[] = [['code', '=', 'en']]
-  const languageQuery = select('language', ['id'], { where: languageWhere })
-  const pageQuery = select('page', ['id'], { limit: 1 })
-  const userInfoQuery = select('user_info', ['id'], { limit: 1 })
+  const languageQuery = select('language', 'id').where('code', '=', 'en').query()
+  const pageQuery = select('page', 'id').limit(1).query()
+  const userInfoQuery = select('user_info', 'id').limit(1).query()
   const results = await Promise.all([languageQuery, pageQuery, userInfoQuery])
   const [, pages] = results[1]
   const [, userInfos] = results[2]
