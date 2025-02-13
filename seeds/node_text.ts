@@ -6,7 +6,7 @@ import { lorem } from '@/shared/utilities'
 export const order = 3
 
 export async function seed() {
-  const languageQuery = database('language').select('id').where('code', '=', 'en').query()
+  const languageQuery = database('language').select('id').where('', '=', 'en').query()
   const nodeQuery = database('node').select('id').query()
   const results = await Promise.all([languageQuery, nodeQuery])
   const [, languages] = results[0]

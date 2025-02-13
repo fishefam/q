@@ -76,7 +76,12 @@ export function buildQuery<T extends TableName, M extends Method>(
   const toString = () => `${clearBase(true)};`
   const query = <Q = null>() => baseQuery<T, Q>(toString(), values)
 
-  const whereGroupStart = <C = Column<T>>(lhs: C, op: Operator, rhs: unknown, nextOperator: NextOperator = 'and') => {
+  const whereGroupStart = <C extends string = Column<T>>(
+    lhs: C | Exclude<`${T}.${C}`, `${T}.`>,
+    op: Operator,
+    rhs: unknown,
+    nextOperator: NextOperator = 'and',
+  ) => {
     const isBaseDirty = shouldClearBase(['where', 'whereGroupEnd'])
     const hasKeyword = / WHERE /.test(base)
     const lastParameterCount = getLastParameterCount(base)
@@ -88,7 +93,12 @@ export function buildQuery<T extends TableName, M extends Method>(
     ]) as unknown as ReturnMethods<'toString' | 'where' | 'whereGroupEnd'>
   }
 
-  const whereGroupEnd = <C = Column<T>>(lhs: C, op: Operator, rhs: unknown, nextOperator: NextOperator = 'and') => {
+  const whereGroupEnd = <C extends string = Column<T>>(
+    lhs: C | Exclude<`${T}.${C}`, `${T}.`>,
+    op: Operator,
+    rhs: unknown,
+    nextOperator: NextOperator = 'and',
+  ) => {
     const isBaseDirty = shouldClearBase(['where', 'whereGroupStart'])
     const hasKeyword = / WHERE /.test(base)
     const lastParameterCount = getLastParameterCount(base)
@@ -100,7 +110,12 @@ export function buildQuery<T extends TableName, M extends Method>(
     ]) as unknown as ReturnMethods<'query' | 'toString' | 'where' | 'whereGroupStart'>
   }
 
-  const where = <C = Column<T>>(lhs: C, op: Operator, rhs: unknown, nextOperator: NextOperator = 'and') => {
+  const where = <C extends string = Column<T>>(
+    lhs: C | Exclude<`${T}.${C}`, `${T}.`>,
+    op: Operator,
+    rhs: unknown,
+    nextOperator: NextOperator = 'and',
+  ) => {
     const isBaseDirty = shouldClearBase(['where', 'whereGroupStart', 'whereGroupEnd'])
     const hasKeyword = / WHERE /.test(base)
     const lastParameterCount = getLastParameterCount(base)
@@ -111,7 +126,7 @@ export function buildQuery<T extends TableName, M extends Method>(
     >
   }
 
-  const groupBy = <C = Column<T>>(...groups: C[]) => {
+  const groupBy = <C extends string = Column<T>>(...groups: C[]) => {
     const raw = `${clearBase(true)}${groups.length > 0 ? ` GROUP BY ${groups.map(() => '%I').join(', ')}` : ''}`
     const queryString = format(raw, ...groups.map((v) => (Array.isArray(v) ? v[0] : v))).replace(/ ,$/, '')
     return buildQuery(queryString, groupByIncludes, 'groupBy', [...values]) as unknown as ReturnMethods<
@@ -119,7 +134,12 @@ export function buildQuery<T extends TableName, M extends Method>(
     >
   }
 
-  const havingGroupStart = <C = Column<T>>(lhs: C, op: Operator, rhs: unknown, nextOperator: NextOperator = 'and') => {
+  const havingGroupStart = <C extends string = Column<T>>(
+    lhs: C | Exclude<`${T}.${C}`, `${T}.`>,
+    op: Operator,
+    rhs: unknown,
+    nextOperator: NextOperator = 'and',
+  ) => {
     const isBaseDirty = shouldClearBase(['having', 'havingGroupEnd'])
     const hasKeyword = / HAVING /.test(base)
     const lastParameterCount = getLastParameterCount(base)
@@ -131,7 +151,12 @@ export function buildQuery<T extends TableName, M extends Method>(
     ]) as unknown as ReturnMethods<'having' | 'toString'>
   }
 
-  const havingGroupEnd = <C = Column<T>>(lhs: C, op: Operator, rhs: unknown, nextOperator: NextOperator = 'and') => {
+  const havingGroupEnd = <C extends string = Column<T>>(
+    lhs: C | Exclude<`${T}.${C}`, `${T}.`>,
+    op: Operator,
+    rhs: unknown,
+    nextOperator: NextOperator = 'and',
+  ) => {
     const isBaseDirty = shouldClearBase(['having', 'havingGroupStart'])
     const hasKeyword = / HAVING /.test(base)
     const lastParameterCount = getLastParameterCount(base)
@@ -143,7 +168,12 @@ export function buildQuery<T extends TableName, M extends Method>(
     ]) as unknown as ReturnMethods<'having' | 'havingGroupStart' | 'query' | 'toString'>
   }
 
-  const having = <C = Column<T>>(lhs: C, op: Operator, rhs: unknown, nextOperator: NextOperator = 'and') => {
+  const having = <C extends string = Column<T>>(
+    lhs: C | Exclude<`${T}.${C}`, `${T}.`>,
+    op: Operator,
+    rhs: unknown,
+    nextOperator: NextOperator = 'and',
+  ) => {
     const isBaseDirty = shouldClearBase(['having', 'havingGroupStart', 'havingGroupEnd'])
     const hasHaving = / HAVING /.test(base)
     const lastParameterCount = getLastParameterCount(base)
@@ -155,9 +185,9 @@ export function buildQuery<T extends TableName, M extends Method>(
   }
 
   const join = <A extends TableName, B extends TableName, C extends string = Column<A>, D extends string = Column<B>>(
-    target: [`${A}.${C}`, string] | `${A}.${C}`,
+    target: [Exclude<`${A}.${C}`, `${A}.`>, string] | Exclude<`${A}.${C}`, `${A}.`>,
     op: Operator,
-    source: `${B}.${D}`,
+    source: Exclude<`${B}.${D}`, `${B}.`>,
     nextOperator: NextOperator = 'and',
     type: Join = 'inner',
   ) => {
@@ -194,7 +224,7 @@ export function buildQuery<T extends TableName, M extends Method>(
     >
   }
 
-  const orderBy = <C = Column<T>>(column: C, direction: 'asc' | 'desc' = 'asc') => {
+  const orderBy = <C extends string = Column<T>>(column: C, direction: 'asc' | 'desc' = 'asc') => {
     const hasKeyword = / ORDER BY /.test(base)
     const raw = `${clearBase(true)}${hasKeyword ? '' : ' ORDER BY'} %I %I,`
     const queryString = format(raw, column, direction.toUpperCase())
