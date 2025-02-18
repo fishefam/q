@@ -10,10 +10,9 @@ export function NodeRender() {
   const { page } = useCMSContext()
   const [nodeList, setNodeList] = useState<Node[]>()
 
-  useEffect(() => {
-    const query = async () => setNodeList(await getNodeList(page?.id))
-    query()
-  }, [page])
+  useEffect(() => void (async () => setNodeList(await getNodeList(page?.id)))(), [page])
+
+  console.log(nodeList)
 
   if (nodeList && nodeList.length > 0) return <Nodes nodeList={nodeList} />
 }

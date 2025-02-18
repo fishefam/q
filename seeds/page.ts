@@ -1,13 +1,13 @@
 import type { PageInput } from '@database'
 
-import { database, insert } from '@/shared/pg'
+import { insert, table } from '@/shared/pg'
 import { createArray, lorem } from '@/shared/utilities'
 
 export const order = 1
 
 export async function seed() {
-  const languageQuery = database('language').select('id').where('code', '=', 'en').query()
-  const userInfoQuery = database('user_info').select('id').limit(1).query()
+  const languageQuery = table('language').select('id').where('code', '=', 'en').execute()
+  const userInfoQuery = table('user_info').select('id').limit(1).execute()
   const queryResults = await Promise.all([languageQuery, userInfoQuery])
   const [, languages] = queryResults[0]
   const [, userInfo] = queryResults[1]

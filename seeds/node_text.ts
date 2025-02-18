@@ -1,13 +1,13 @@
 import type { NodeTextInput } from '@database'
 
-import { database, insert } from '@/shared/pg'
+import { insert, table } from '@/shared/pg'
 import { lorem } from '@/shared/utilities'
 
 export const order = 3
 
 export async function seed() {
-  const languageQuery = database('language').select('id').where('', '=', 'en').query()
-  const nodeQuery = database('node').select('id').query()
+  const languageQuery = table('language').select('id').where('code', '=', 'en').execute()
+  const nodeQuery = table('node').select('id').execute()
   const results = await Promise.all([languageQuery, nodeQuery])
   const [, languages] = results[0]
   const [, nodes] = results[1]

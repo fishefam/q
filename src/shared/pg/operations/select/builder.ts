@@ -1,10 +1,12 @@
 import { format } from 'node-pg-format'
+import { format as sqlPrettier } from 'sql-formatter'
 
 import type { Column, Operator, TableName } from '../../types'
 
 import { baseQuery } from '../../queries'
 
 export type Method =
+  | 'execute'
   | 'groupBy'
   | 'having'
   | 'havingGroupEnd'
@@ -13,13 +15,12 @@ export type Method =
   | 'limit'
   | 'offset'
   | 'orderBy'
-  | 'query'
   | 'toString'
   | 'where'
   | 'whereGroupEnd'
   | 'whereGroupStart'
 type Join = 'full' | 'inner' | 'left' | 'right'
-type NextOperator = 'and' | 'or'
+type NextOperator = 'and' | 'or' | undefined
 
 export function buildQuery<T extends TableName, M extends Method>(
   base: string,
@@ -29,16 +30,16 @@ export function buildQuery<T extends TableName, M extends Method>(
 ) {
   type ReturnMethods<R extends keyof typeof methods> = Pick<typeof methods, R>
 
-  const groupByIncludes: Method[] = ['query', 'toString', 'offset', 'orderBy', 'limit', 'having']
-  const havingGroupEndIncludes: Method[] = ['query', 'toString', 'havingGroupStart', 'having']
+  const groupByIncludes: Method[] = ['execute', 'toString', 'offset', 'orderBy', 'limit', 'having']
+  const havingGroupEndIncludes: Method[] = ['execute', 'toString', 'havingGroupStart', 'having']
   const havingGroupStartIncludes: Method[] = ['toString', 'having']
-  const havingIncludes: Method[] = ['query', 'toString', 'orderBy', 'having', 'havingGroupStart', 'havingGroupEnd']
-  const limitIncludes: Method[] = ['query', 'toString', 'offset']
-  const offsetIncludes: Method[] = ['query', 'toString']
-  const orderByIncludes: Method[] = ['query', 'toString', 'offset', 'limit', 'orderBy']
+  const havingIncludes: Method[] = ['execute', 'toString', 'orderBy', 'having', 'havingGroupStart', 'havingGroupEnd']
+  const limitIncludes: Method[] = ['execute', 'toString', 'offset']
+  const offsetIncludes: Method[] = ['execute', 'toString']
+  const orderByIncludes: Method[] = ['execute', 'toString', 'offset', 'limit', 'orderBy']
   const whereGroupStartIncludes: Method[] = ['where', 'whereGroupEnd', 'toString']
   const joinIncludes: Method[] = [
-    'query',
+    'execute',
     'groupBy',
     'join',
     'limit',
@@ -49,7 +50,7 @@ export function buildQuery<T extends TableName, M extends Method>(
     'whereGroupStart',
   ]
   const whereGroupEndIncludes: Method[] = [
-    'query',
+    'execute',
     'groupBy',
     'limit',
     'offset',
@@ -59,7 +60,7 @@ export function buildQuery<T extends TableName, M extends Method>(
     'whereGroupStart',
   ]
   const whereIncludes: Method[] = [
-    'query',
+    'execute',
     'groupBy',
     'limit',
     'offset',
@@ -73,8 +74,8 @@ export function buildQuery<T extends TableName, M extends Method>(
   const shouldClearBase = (list: Method[]) => !!lastMethod && !list.includes(lastMethod)
   const clearBase = (flag: boolean) => (flag ? base.replace(/( and| or|,)$/i, '') : base)
 
-  const toString = () => `${clearBase(true)};`
-  const query = <Q = null>() => baseQuery<T, Q>(toString(), values)
+  const toString = () => sqlPrettier(`${clearBase(true)};`, { language: 'postgresql' })
+  const execute = <Q = null>() => baseQuery<T, Q>(toString(), values)
 
   const whereGroupStart = <C extends string = Column<T>>(
     lhs: C | Exclude<`${T}.${C}`, `${T}.`>,
@@ -107,11 +108,11 @@ export function buildQuery<T extends TableName, M extends Method>(
     return buildQuery(queryString, whereGroupEndIncludes, 'whereGroupEnd', [
       ...values,
       rhs,
-    ]) as unknown as ReturnMethods<'query' | 'toString' | 'where' | 'whereGroupStart'>
+    ]) as unknown as ReturnMethods<'execute' | 'toString' | 'where' | 'whereGroupStart'>
   }
 
   const where = <C extends string = Column<T>>(
-    lhs: C | Exclude<`${T}.${C}`, `${T}.`>,
+    lhs: C,
     op: Operator,
     rhs: unknown,
     nextOperator: NextOperator = 'and',
@@ -122,15 +123,15 @@ export function buildQuery<T extends TableName, M extends Method>(
     const raw = `${clearBase(isBaseDirty)}${hasKeyword ? '' : ' WHERE'} %I %s $${lastParameterCount + 1} ${nextOperator.toUpperCase()}`
     const queryString = format(raw, lhs, op.toUpperCase(), rhs)
     return buildQuery(queryString, whereIncludes, 'where', [...values, rhs]) as unknown as ReturnMethods<
-      'groupBy' | 'limit' | 'offset' | 'orderBy' | 'query' | 'toString' | 'where' | 'whereGroupStart'
+      'execute' | 'groupBy' | 'limit' | 'offset' | 'orderBy' | 'toString' | 'where' | 'whereGroupStart'
     >
   }
 
-  const groupBy = <C extends string = Column<T>>(...groups: C[]) => {
+  const groupBy = <N extends TableName = T, _ extends string = Column<N>>(...groups: Column<N>[]) => {
     const raw = `${clearBase(true)}${groups.length > 0 ? ` GROUP BY ${groups.map(() => '%I').join(', ')}` : ''}`
     const queryString = format(raw, ...groups.map((v) => (Array.isArray(v) ? v[0] : v))).replace(/ ,$/, '')
     return buildQuery(queryString, groupByIncludes, 'groupBy', [...values]) as unknown as ReturnMethods<
-      'limit' | 'offset' | 'orderBy' | 'query' | 'toString'
+      'execute' | 'limit' | 'offset' | 'orderBy' | 'toString'
     >
   }
 
@@ -165,7 +166,7 @@ export function buildQuery<T extends TableName, M extends Method>(
     return buildQuery(queryString, havingGroupEndIncludes, 'havingGroupEnd', [
       ...values,
       rhs,
-    ]) as unknown as ReturnMethods<'having' | 'havingGroupStart' | 'query' | 'toString'>
+    ]) as unknown as ReturnMethods<'execute' | 'having' | 'havingGroupStart' | 'toString'>
   }
 
   const having = <C extends string = Column<T>>(
@@ -180,27 +181,27 @@ export function buildQuery<T extends TableName, M extends Method>(
     const raw = `${clearBase(isBaseDirty)}${hasHaving ? '' : ' HAVING'} %I %s${op.includes('null') ? '' : ` $${lastParameterCount + 1}`} ${nextOperator.toUpperCase()}`
     const queryString = format(raw, lhs, op.toUpperCase(), rhs)
     return buildQuery(queryString, havingIncludes, 'having', [...values, rhs]) as unknown as ReturnMethods<
-      'having' | 'orderBy' | 'query' | 'toString'
+      'execute' | 'having' | 'orderBy' | 'toString'
     >
   }
 
   const join = <A extends TableName, B extends TableName, C extends string = Column<A>, D extends string = Column<B>>(
-    target: [Exclude<`${A}.${C}`, `${A}.`>, string] | Exclude<`${A}.${C}`, `${A}.`>,
+    target: [C, string] | C,
     op: Operator,
-    source: Exclude<`${B}.${D}`, `${B}.`>,
-    nextOperator: NextOperator = 'and',
+    source: D,
     type: Join = 'inner',
   ) => {
     const _target = Array.isArray(target) ? [target[0].split('.'), target[1]] : target.split('.')
     const _source = source.split('.')
     const isBaseDirty = shouldClearBase(['join'])
-    const hasKeyword = / JOIN /.test(base)
-    const raw = `${clearBase(isBaseDirty)}${hasKeyword ? '' : ` ${type.toUpperCase()} JOIN`} %I${_target[2] ? ' %I' : ''} ON %I.%I %s %I.%I ${nextOperator.toUpperCase()}`
+    const raw = `${clearBase(isBaseDirty)} ${type.toUpperCase()} JOIN %I${_target[2] ? ' %I' : ''} ON %I.%I %s %I.%I`
     const queryString = _target[2]
-      ? format(raw, _target[0], _target[2], _target[0], _target[1], op, _source[0], _source[1], nextOperator)
-      : format(raw, _target[0], _target[0], _target[1], op, _source[0], _source[1], nextOperator)
-    return buildQuery(queryString, joinIncludes, 'join', [...values]) as unknown as ReturnMethods<
-      'groupBy' | 'join' | 'limit' | 'offset' | 'orderBy' | 'query' | 'toString' | 'where' | 'whereGroupStart'
+      ? format(raw, _target[0], _target[2], _target[0], _target[1], op, _source[0], _source[1])
+      : format(raw, _target[0], _target[0], _target[1], op, _source[0], _source[1])
+    return buildQuery(queryString.replaceAll(/""+/g, '"'), joinIncludes, 'join', [
+      ...values,
+    ]) as unknown as ReturnMethods<
+      'execute' | 'groupBy' | 'join' | 'limit' | 'offset' | 'orderBy' | 'toString' | 'where' | 'whereGroupStart'
     >
   }
 
@@ -210,7 +211,7 @@ export function buildQuery<T extends TableName, M extends Method>(
     const raw = `${clearBase(true)}${hasKeyword ? '' : ' OFFSET'} $${lastParameterCount + 1}`
     const queryString = format(raw, value)
     return buildQuery(queryString, offsetIncludes, 'offset', [...values, value]) as unknown as ReturnMethods<
-      'query' | 'toString'
+      'execute' | 'toString'
     >
   }
 
@@ -220,7 +221,7 @@ export function buildQuery<T extends TableName, M extends Method>(
     const raw = `${clearBase(true)}${hasKeyword ? '' : ' LIMIT'} $${lastParameterCount + 1}`
     const queryString = format(raw, value)
     return buildQuery(queryString, limitIncludes, 'limit', [...values, value]) as unknown as ReturnMethods<
-      'offset' | 'query' | 'toString'
+      'execute' | 'offset' | 'toString'
     >
   }
 
@@ -229,11 +230,12 @@ export function buildQuery<T extends TableName, M extends Method>(
     const raw = `${clearBase(true)}${hasKeyword ? '' : ' ORDER BY'} %I %I,`
     const queryString = format(raw, column, direction.toUpperCase())
     return buildQuery(queryString, orderByIncludes, 'orderBy', [...values]) as unknown as ReturnMethods<
-      'limit' | 'offset' | 'orderBy' | 'query' | 'toString'
+      'execute' | 'limit' | 'offset' | 'orderBy' | 'toString'
     >
   }
 
   const methods = {
+    execute,
     groupBy,
     having,
     havingGroupEnd,
@@ -242,7 +244,6 @@ export function buildQuery<T extends TableName, M extends Method>(
     limit,
     offset,
     orderBy,
-    query,
     toString,
     where,
     whereGroupEnd,

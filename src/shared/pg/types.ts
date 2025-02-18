@@ -1,7 +1,6 @@
 import type { tables } from '@database'
 
-export type Column<T extends TableName> = Tables[T]['columns'][number]
-
+export type Column<T extends TableName> = `"${T}"."${BaseColumn<T>}"`
 export type Operator =
   | '<'
   | '<='
@@ -29,3 +28,5 @@ export type TableName = keyof Tables
 export type Tables = typeof tables
 
 export type Where<T extends TableName> = [Column<T>, Operator, unknown, 'AND' | 'OR'] | [Column<T>, Operator, unknown]
+
+type BaseColumn<T extends TableName> = Tables[T]['columns'][number]

@@ -1,15 +1,15 @@
 import type { NodeInput } from '@database'
 
-import { database, insert } from '@/shared/pg'
+import { insert, table } from '@/shared/pg'
 import { createArray } from '@/shared/utilities'
 import { nanoid } from 'nanoid'
 
 export const order = 2
 
 export async function seed() {
-  const languageQuery = database('language').select('id').where('code', '=', 'en').query()
-  const pageQuery = database('page').select('id').limit(1).query()
-  const userInfoQuery = database('user_info').select('id').limit(1).query()
+  const languageQuery = table('language').select('id').where('code', '=', 'en').execute()
+  const pageQuery = table('page').select('id').limit(1).execute()
+  const userInfoQuery = table('user_info').select('id').limit(1).execute()
   const results = await Promise.all([languageQuery, pageQuery, userInfoQuery])
   const [, pages] = results[1]
   const [, userInfos] = results[2]

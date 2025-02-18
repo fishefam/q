@@ -1,3 +1,4 @@
+import type { Expression, SelectExpression } from './operations/select/index'
 import type { Column, TableName } from './types'
 
 import { select } from './operations/select/index'
@@ -5,11 +6,16 @@ import { select } from './operations/select/index'
 export { insert } from './operations/insert'
 export { pool } from './queries'
 
-type Columns<T extends TableName> = ([Column<T>, string] | Column<T>)[] | ([string, string] | string)[] | ['*']
-
-export function database<T extends TableName>(table: T) {
+export function table<T extends TableName>(table: T, options?: { distinct?: boolean }) {
+  const { distinct } = options ?? {}
   return {
-    select: (...columns: Columns<T>) => select(table, false, ...columns),
-    selectDistinct: (...columns: Columns<T>) => select(table, true, ...columns),
+    select<
+      N extends TableName = T,
+      E extends SelectExpression = Expression<N | T>,
+      A extends `"${string}"."${string}"` = Column<N>,
+    >(expression: E, options?: { alias?: Partial<Record<A, string>> | string }) {
+      const { alias } = options ?? {}
+      return select({ alias, base: '', distinct: distinct ?? false, expression, from: table })
+    },
   }
 }
